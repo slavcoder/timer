@@ -2,10 +2,12 @@
   import { secToObj } from './timer.js'
   import { onDestroy } from 'svelte'
   import TimeString from './TimeString.svelte'
+  export let name
   export let uuid
   export let time
   export let timeLeft
   export let removeCounter
+
 
   let timeObj = secToObj(time)
   $: timeLeftObj = secToObj(timeLeft)
@@ -31,11 +33,10 @@
       clearInterval(counting.interval)
       counting.active = false
     },
-    restart: () => {
+    reset: () => {
       counting.stop()
       timeLeft = time
       counting.finished = false
-      // 			counting.start()
     },
   }
 
@@ -43,7 +44,7 @@
 </script>
 
 <div class="counter">
-  <h2>Counter {uuid}</h2>
+  <h2>{name}</h2>
   <button on:click={() => removeCounter(uuid)}>delete</button>
   <h3>time:</h3>
   <TimeString type="time" {timeObj} />
@@ -62,7 +63,7 @@
   {/if}
 
   {#if counting.finished || time > timeLeft}
-    <button on:click={counting.restart}>restart</button>
+    <button on:click={counting.reset}>reset</button>
   {/if}
 </div>
 

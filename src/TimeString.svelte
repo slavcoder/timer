@@ -4,13 +4,13 @@
   let keys = Object.keys(timeObj)
 </script>
 
-<p class={type}>
+<span class={type}>
   {#each keys as key (key)}
     {#if timeObj[key]}
       {timeObj[key]}{key}&nbsp;
     {/if}
   {/each}
-</p>
+</span>
 
 <style>
   .time {
