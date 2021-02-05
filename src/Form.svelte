@@ -1,22 +1,22 @@
 <script>
   import { counters } from './stores/counters.js'
   import { uuid } from './stores/uuid.js'
-  import { stringToSec } from './timer.js'
+  import { stringToSec } from './utilities/timer.js'
   let value = ''
   let name = ''
-  let type = 'counter'
-  // let uuid = 1
   $: valueToSec = stringToSec(value)
+  $: correct = Boolean(valueToSec)
 
   function addNewCounter() {
+
     if (valueToSec) {
       $counters = [
         ...$counters,
         {
           name: name,
           uuid: $uuid++,
-          time: valueToSec,
-          timeLeft: valueToSec,
+          secs: valueToSec,
+          secsLeft: valueToSec,
         },
       ]
 
@@ -27,32 +27,84 @@
 
 </script>
 
-<form on:submit|preventDefault={addNewCounter}>
-  <input type="text" bind:value={name}>
-  <input
-    class:incorrect={value.trim() && !valueToSec}
-    class="input"
-    type="text"
-    bind:value
-  />
-  <select class="select" bind:value={type}>
-    <option value="counter">counter</option>
-    <option value="quick start">quick start</option>
-  </select>
-  <button class:active={valueToSec} class="btn">add</button>
-</form>
+<div class="container">
+  <form class="form" on:submit|preventDefault={addNewCounter}>
+    <input class="name" type="text" bind:value={name} placeholder="name">
+    <input
+      placeholder="1d 2h 3m 4s"
+      class:incorrect={value.trim() && !valueToSec}
+      class="time"
+      type="text"
+      bind:value
+    />
+    <div class="form_box">
+      <button disabled={!correct} class:active={valueToSec} class="save">save</button>
+      <button disabled={!correct} class:active={valueToSec} class="add">start</button>
+    </div>
+  </form>
+</div>
 
 <style>
-  .btn {
-    background-color: white;
-    border: 1px solid grey;
-    opacity: 0.2;
+
+.container {
+    display: flex;
+    justify-content: center;
   }
-  .active {
+  .form {
+    width: 300px;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form * {
+    border: none;
+  }
+  
+  .name, .add, .time, .save {
+    border: none;
+    margin: 5px;
+    text-align: center;
+  }
+  
+  .name:focus, .add:focus, .time:focus {
+    outline: none;
+  }
+
+  .name {
+    background-color: var(--color-primary-2);
+    color: var(--color-primary-9);
+  }
+
+  .form_box {
+    display: flex;
+    justify-content: space-between;
+    align-content: stretch;
+  }
+
+  .add, .save {
+    background-color: var(--color-primary-2);
+    width: calc(50% - 5px);
+    color: var(--color-primary-9);
+    opacity: .5;
+  }
+
+  .add {
+    color: var(--color-success);
+  }
+
+  .save.active, .add.active {
     cursor: pointer;
     opacity: 1;
   }
-  .incorrect {
-    background-color: tomato;
+
+  .time {
+    background-color: var(--color-primary-9);
+    color: var(--color-primary-3);
   }
+
+  .time.incorrect {
+    background-color: var(--color-danger);
+  }
+  
 </style>

@@ -2,6 +2,7 @@
   <ul class="menu">
     <li class="menu_item"><a class="menu_link menu_logo" href="/">timer</a></li>
     <li class="menu_item"><a class="menu_link" href="/">settings</a></li>
+    <li class="menu_item"><a class="menu_link" href="/">history</a></li>
     <li class="menu_item">
       <a class="menu_link" href="https://github.com/slavcoder">author</a>
     </li>
@@ -30,7 +31,7 @@
   }
 
   .menu_link {
-    color: var(--color-light);
+    color: var(--color-primary-9);
     opacity: 0.9;
   }
 

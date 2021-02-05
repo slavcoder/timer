@@ -8,6 +8,6 @@
 
 </script>
 
-{#each $counters as {uuid, timeLeft, ...rest} (uuid)}
-  <Counter {uuid} {...rest} {removeCounter} bind:timeLeft />
+{#each $counters as {uuid, secsLeft, ...rest} (uuid)}
+  <Counter {uuid} {...rest} {removeCounter} bind:secsLeft />
 {/each}

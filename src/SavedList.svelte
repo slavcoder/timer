@@ -1,13 +1,13 @@
 <script>
-  import { quickStarts } from './stores/quickStarts.js'
+  import { saved } from './stores/saved.js'
   import { counters } from './stores/counters.js'
   import { uuid } from './stores/uuid.js'
   import TimeString from './TimeString.svelte'
-  import { secToObj } from './timer.js'
+  import { secToObj } from './utilities/timer.js'
   // import { stringToSec } from './timer.js'
 
-  function removeQuickStart(uuid) {
-    $quickStarts = $quickStarts.filter(el => el.uuid != uuid)
+  function remove(uuid) {
+    $saved = $saved.filter(el => el.uuid != uuid)
   }
 
   function addNewCounter(name,secs) {
@@ -25,7 +25,7 @@
 </script>
 
 <ul>
-  {#each $quickStarts as {name,secs,uuid} (uuid)}
+  {#each $saved as {name,secs,uuid} (uuid)}
     <li>
       <button on:click={() => addNewCounter(name,secs)}>
         <TimeString type="time" timeObj="{secToObj(secs)}" />

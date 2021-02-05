@@ -14,7 +14,7 @@
     width: 200px;
     max-width: 80%;
     text-align: center;
-    border-bottom: 1px solid var(--color-light);
+    border-bottom: 1px solid var(--color-primary-9);
     padding-bottom: .3em;
   }
 </style>
