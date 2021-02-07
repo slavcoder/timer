@@ -1,8 +1,28 @@
+<script>
+  import { settings } from '../stores/settings.js'
+  import { history } from '../stores/history.js'
+
+  function toggleSettings() {
+    $settings.open = !$settings.open
+  }
+  function toggleHistory() {
+    $history.open = !$history.open
+  }
+</script>
+
 <nav class="nav">
   <ul class="menu">
     <li class="menu_item"><a class="menu_link menu_logo" href="/">timer</a></li>
-    <li class="menu_item"><a class="menu_link" href="/">settings</a></li>
-    <li class="menu_item"><a class="menu_link" href="/">history</a></li>
+    <li class="menu_item">
+      <a class="menu_link" on:click|preventDefault={toggleSettings} href="/"
+        >settings</a
+      >
+    </li>
+    <li class="menu_item">
+      <a class="menu_link" on:click|preventDefault={toggleHistory} href="/"
+        >history</a
+      >
+    </li>
     <li class="menu_item">
       <a class="menu_link" href="https://github.com/slavcoder">author</a>
     </li>
