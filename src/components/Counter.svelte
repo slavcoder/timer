@@ -1,7 +1,9 @@
 <script>
+  import {device} from '../stores/device.js'
   import { onDestroy } from 'svelte'
   import { fade, blur, slide, scale, fly } from 'svelte/transition'
   import { secToObj } from '../utilities/timer.js'
+  import Icon from './Icon.svelte'
   import TimeString from './TimeString.svelte'
   export let name
   export let uuid
@@ -47,172 +49,179 @@
       secsLeft = secs
       counting.finished = false
     },
+    toggle: () => {
+      if (counting.active) {
+        counting.stop()
+      } else if (!counting.finished) {
+        counting.start()
+      }
+    },
   }
 
   onDestroy(() => counting.stop())
 </script>
 
 <div
-  transition:fade={{duration:200}}
+  transition:scale={{ duration: 200 }}
   class="counter"
-  class:finished={counting.finished}
-  class:active={counting.active}
-  tabindex="0"
   on:mouseover={showActions}
   on:mouseleave={hideActions}
-  on:focus={showActions}
-  on:blur={hideActions}
 >
-  <div class="time">
-    <TimeString type="time" {timeObj} />
-  </div>
+  <button
+    class="toggle"
+    on:focus={showActions}
+    on:blur={hideActions}
+    on:click={counting.toggle}
+  >
+    <span class="time">
+      <TimeString type="time" {timeObj} />
+    </span>
 
-  {#if counting.finished}
-    <div class="finishedInfo">
-      <p>finished!</p>
-    </div>
-  {:else}
-    <div class="timeLeft">
-      <TimeString type="timeLeft" bind:timeObj={timeLeftObj} />
-    </div>
-  {/if}
+    {#if counting.finished}
+      <span class="finishedInfo">
+        <p>finished!</p>
+      </span>
+    {:else}
+      <span class="timeLeft" class:active={counting.active}>
+        <TimeString type="timeLeft" bind:timeObj={timeLeftObj} />
+      </span>
+    {/if}
 
-  {#if actionsActive}
-    <div transition:fade={{ duration: 200 }} class="actions">
+    <span class="name">
+      <p>{name}</p>
+    </span>
+  </button>
+
+  {#if actionsActive || $device.isMobile}
+    <button
+      transition:fly={{ x: -50, duration: 200 }}
+      class="button delete"
+      on:focus={showActions}
+      on:blur={hideActions}
+      on:click={() => removeCounter(uuid)}
+    >
+      <Icon name="delete" />
+    </button>
+
+    {#if secs > secsLeft || counting.active}
       <button
-        class="button delete"
-        on:focus={showActions}
-        on:blur={hideActions}
-        on:click={() => removeCounter(uuid)}>delete</button
-      >
-      <button
+        transition:fly={{ x: 50, duration: 200 }}
         class="button reset"
         on:focus={showActions}
         on:blur={hideActions}
         disabled={!resetActive}
-        on:click={counting.reset}>reset</button
+        on:click={counting.reset}
       >
+        <Icon name="reset" />
+      </button>
+    {/if}
 
-      {#if !counting.active && !counting.finished}
-        <button
-          class="button start"
-          on:focus={showActions}
-          on:blur={hideActions}
-          on:click={counting.start}>start</button
-        >
-      {:else}
-        <button
-          disabled={counting.finished}
-          class="button stop"
-          on:focus={showActions}
-          on:blur={hideActions}
-          on:click={counting.stop}>stop</button
-        >
-      {/if}
-    </div>
   {/if}
-
-  <div class="name">
-    <p>{name}</p>
-  </div>
 </div>
 
 <style>
   .counter {
     width: 100%;
-    padding: 10px;
-    background-color: var(--color-danger);
+    /* background-color: var(--color-danger); */
+    background-color: var(--color-primary-9);
     color: var(--color-primary-7);
+    position: relative;
+    /* border-left: 10px solid var(--color-danger); */
+  }
+
+  .toggle {
+    cursor: pointer;
     display: flex;
     flex-wrap: wrap;
-    position: relative;
-  }
- 
-  .counter.active {
-    background-color: var(--color-primary-9);
-  }
-  
-  .counter.finished {
-    background-color: var(--color-success);
-  }
-  
-  .time {
-    width: 30%;
-    padding: 10px 0;
-    color: var(--color-primary-14);
-  }
-  
-  .actions {
-    display: flex;
-    top: 0;
-    left: 0;
-    justify-content: space-between;
-    padding: 5px 5%;
-    align-items: center;
-    position: absolute;
+    padding: 5px 10px;
     width: 100%;
-    height: 100%;
-    background-color: var(--color-primary);
-    border: 1px solid var(--color-danger);
-  }
-
-  .counter.active .actions {
-    border-color: var(--color-primary-9);
-  }
-
-  .counter.finished .actions {
-    border-color: var(--color-success);
-  }
-  
-  .actions .button:disabled {
-    cursor: default;
-    opacity: 0.5;
-  }
-  
-  .actions .button {
     margin: 0;
-    width: 100px;
+    background-color: transparent;
+    border: 0;
+  }
+
+  .toggle:hover,
+  .toggle:focus {
+    background-color: var(--color-primary-15);
+  }
+
+  .button {
+    /* z-index: 8; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
-    background-color: var(--color-primary-9);
+    background-color: var(--color-primary-2);
+    color: var(--color-primary-9);
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    top: 0;
     cursor: pointer;
   }
 
-  .actions .delete {
-    background-color: var(--color-danger);
+  .button:hover,
+  .button:focus {
+    opacity: 0.8;
+    color: var(--color-success);
   }
 
-  .actions .button:hover,
-  .actions .button:focus {
-    opacity: 0.5;
+  .button.delete:hover,
+  .button.delete:focus {
+    color: var(--color-danger);
   }
 
-  .timeLeft, 
+  .button.delete {
+    right: 100%;
+  }
+
+  .button.reset {
+    left: 100%;
+  }
+
+
+  .time {
+    opacity: .8;
+    font-size: 1.2em;
+    width: 30%;
+    padding: 5px 0;
+    color: var(--color-primary-14);
+  }
+
+  .timeLeft,
   .finishedInfo {
     width: 70%;
     display: flex;
-    padding: 10px 0;
+    padding: 5px 0;
     justify-content: flex-end;
     text-align: right;
     font-size: 1.5em;
   }
-  
+
   .finishedInfo {
     color: var(--color-primary-2);
   }
-  
+
   .finishedInfo p {
     margin: 0;
     padding: 0;
+    color: var(--color-success-2);
   }
 
   .timeLeft {
+    color: var(--color-danger-2);
+    transition: color .2s;
+  }
+
+  .timeLeft.active {
     color: var(--color-primary-5);
   }
 
   .name {
-    width: 100%;
     color: var(--color-primary-12);
+    width: 100%;
   }
+
   .name p {
     margin: 0;
     text-align: right;

@@ -3,6 +3,8 @@
   import { uuid } from '../stores/uuid.js'
   import { saved } from '../stores/saved.js'
   import { stringToSec } from '../utilities/timer.js'
+  export let open = false
+  // export let modal = false
   let value = ''
   let name = ''
   $: valueToSec = stringToSec(value)
@@ -23,6 +25,7 @@
 
     value = ''
     name = ''
+    open = false
   }
 
   function save() {

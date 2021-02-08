@@ -1,0 +1,143 @@
+<script>
+  import { counters } from '../stores/counters.js'
+  import { uuid } from '../stores/uuid.js'
+  import { saved } from '../stores/saved.js'
+  import { device } from '../stores/device.js'
+  import { fly, scale } from 'svelte/transition'
+  import TimeString from './TimeString.svelte'
+  import Icon from './Icon.svelte'
+  import { secToObj } from '../utilities/timer.js'
+  export let modal
+  export let name
+  export let secs
+  export let savedUuid
+  let deleteActive = false
+
+  function showDelete() {
+    deleteActive = true
+  }
+  function hideDelete() {
+    deleteActive = false
+  }
+
+  function remove(uuid) {
+    $saved = $saved.filter(el => el.uuid != uuid)
+  }
+
+  function addNewCounter(name, secs) {
+    $counters = [
+      ...$counters,
+      {
+        name: name,
+        uuid: $uuid++,
+        secs: secs,
+        secsLeft: secs,
+      },
+    ]
+  }
+</script>
+
+<div class="saved" transition:scale={{ duration: 200 }} class:modal>
+  {#if deleteActive || $device.isMobile}
+    <button
+      class="delete"
+      class:modal
+      on:focus={showDelete}
+      on:blur={hideDelete}
+      on:mouseover={showDelete}
+      on:mouseleave={hideDelete}
+      transition:fly={{ x: -50, duration: 200 }}
+      on:click={() => remove(savedUuid)}
+    >
+      <Icon name="delete" />
+    </button>
+  {/if}
+  <button
+    class="add"
+    class:modal
+    on:focus={showDelete}
+    on:blur={hideDelete}
+    on:mouseover={showDelete}
+    on:mouseleave={hideDelete}
+    on:click={() => addNewCounter(name, secs)}
+  >
+    <span class="time"
+      ><TimeString type="timeSaved" timeObj={secToObj(secs)} /></span
+    >
+    <span class="name">{name}</span>
+  </button>
+</div>
+
+<style>
+  .saved {
+    height: 100%;
+  }
+
+  .saved.modal {
+    display: flex;
+    /* justify-content: center; */
+    align-items: stretch;
+    /* align-content: stretch; */
+  }
+
+  .name {
+    text-align: left;
+    font-size: 0.8em;
+    color: var(--color-primary-10);
+    opacity: 0.5;
+  }
+
+  .delete:hover,
+  .delete:focus {
+    color: var(--color-danger);
+  }
+
+  .delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-primary-2);
+    color: var(--color-primary-9);
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    right: 100%;
+    margin: 0;
+  }
+  
+  .delete.modal {
+    height: auto;
+    position: static;
+  }
+
+  .time {
+    font-size: 1.2em;
+  }
+
+  .add {
+    background-color: var(--color-primary);
+    border: none;
+    cursor: pointer;
+    color: var(--color-primary-9);
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    text-align: left;
+    margin: 0;
+    height: 100%;
+  }
+
+  .add.modal {
+    width: 100%;
+  }
+
+  .add:hover,
+  .add:focus {
+    background-color: var(--color-primary-2);
+  }
+</style>

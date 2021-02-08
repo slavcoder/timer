@@ -38,6 +38,7 @@
       rel="stylesheet"
     />
   {/if}
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </svelte:head>
 
 <style>

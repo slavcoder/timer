@@ -15,19 +15,16 @@
 </span>
 
 <style>
-  
   .letter {
-    font-size: .8em;
-  }
-  .time {
-    opacity: 0.8;
+    font-size: 0.8em;
   }
   .timeLeft {
-    /* font-size: 1.5em; */
     justify-content: flex-end;
   }
 
-  .time, .timeLeft, .timeSaved {
+  .time,
+  .timeLeft,
+  .timeSaved {
     display: flex;
     flex-wrap: wrap;
   }

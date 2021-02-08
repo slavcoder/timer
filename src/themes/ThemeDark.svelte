@@ -18,11 +18,14 @@
     --color-primary-12: var(--color-grey-d-200-t-100);
     --color-primary-13: hsla(0, 0%, 0%, .8);
     --color-primary-14: hsla(0, 0%, 20%, .5);
+    --color-primary-15: hsla(0, 0%, 20%, .1);
 
     /* color success */
     --color-success: #7fe0aa;
+    --color-success-2: hsl(147, 61%, 29%);
 
     /* color danger */
     --color-danger: #dc9696;
+    --color-danger-2: hsl(0, 50%, 63%);
   }
 </style>

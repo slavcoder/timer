@@ -12,7 +12,6 @@
 
 <nav class="nav">
   <ul class="menu">
-    <li class="menu_item"><a class="menu_link menu_logo" href="/">timer</a></li>
     <li class="menu_item">
       <a class="menu_link" on:click|preventDefault={toggleSettings} href="/"
         >settings</a
@@ -59,9 +58,5 @@
   .menu_link:focus {
     text-decoration: underline;
     opacity: 1;
-  }
-
-  .menu_logo {
-    color: var(--color-success);
   }
 </style>

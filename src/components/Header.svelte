@@ -1,5 +1,5 @@
 <header class="header">
-  <h1 class="heading">timer</h1>
+  <h1 class="heading"><a class="link" href="/">timer</a></h1>
 </header>
 
 <style>
@@ -7,6 +7,16 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  .link {
+    transition: color .2s;
+    color: var(--color-primary-9);
+    text-decoration: none;
+  }
+  .link:hover,
+  .link:focus {
+    color: var(--color-success);
   }
 
   .heading {
