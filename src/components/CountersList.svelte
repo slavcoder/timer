@@ -1,23 +1,30 @@
 <script>
   import { counters } from '../stores/counters.js'
   import { flip } from 'svelte/animate'
+  import { storage } from '../utilities/storage.js'
   import Counter from './Counter.svelte'
-  // export let modal = false
 
   function removeCounter(uuid) {
     $counters = $counters.filter(el => el.uuid != uuid)
+    storage.set('counters', $counters)
   }
 
   $: countersReversed = [...$counters].reverse()
-
-  // console.log(countersReversed)
 </script>
 
 <h2 class="heading">counters</h2>
 <ul class="list">
-  {#each countersReversed as {uuid, secsLeft, ...rest} (uuid)}
-    <li class="list_item" animate:flip={{duration:200}}>
-      <Counter {uuid} {...rest} {removeCounter} bind:secsLeft />
+  {#each countersReversed as {timeOnActivate, secsLeftOnActivate, uuid, secsLeft, active, ...rest } (uuid)}
+    <li class="list_item" animate:flip={{ duration: 200 }}>
+      <Counter
+        {uuid}
+        {...rest}
+        {removeCounter}
+        bind:secsLeft
+        bind:active
+        bind:secsLeftOnActivate
+        bind:timeOnActivate
+      />
     </li>
   {/each}
 </ul>
@@ -43,5 +50,4 @@
     max-width: 400px;
     margin-bottom: 10px;
   }
-
 </style>

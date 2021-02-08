@@ -1,7 +1,9 @@
 <script>
   import {device} from './stores/device.js'
+  import {modal} from './stores/modal.js'
   import Settings from './components/Settings.svelte'
   import History from './components/History.svelte'
+  import About from './components/About.svelte'
   import Modal from './components/Modal.svelte'
   import Nav from './components/Nav.svelte'
   import Header from './components/Header.svelte'
@@ -11,24 +13,26 @@
   import Clock from './components/Clock.svelte'
   let innerWidth
   $: $device.innerWidth = innerWidth
-  let open = false
 </script>
 
 <svelte:window bind:innerWidth />
+
 <Settings />
-<History />
+{#if $modal.history} <History /> {/if}
+{#if $modal.about} <About /> {/if}
+
 <Nav />
 <Header />
 
 {#if $device.isMobile || $device.innerWidth < 800}
   <div class="openContainer">
-    <button on:click={() => (open = !open)} class="open">add new</button>
+    <button on:click={() => $modal.addPanel = true} class="openButton">add new</button>
   </div>
-  {#if open}
-    <Modal close={() => (open = false)}>
+  {#if $modal.addPanel}
+    <Modal name="addPanel">
       <div class="modalInnerContainer">
-        <Form modal={true} bind:open />
-        <SavedList modal={true} />
+        <Form />
+        <SavedList inModal={true} />
       </div>
     </Modal>
   {/if}
@@ -60,14 +64,14 @@
     flex-direction: column;
     align-items: center;
   }
-  
-  .open:hover,
-  .open:focus {
+
+  .openButton:hover,
+  .openButton:focus {
     opacity: .8;
     transition: opacity .2s;
   }
 
-  .open {
+  .openButton {
     width: 200px;
     color: var(--color-success);
     background-color: var(--color-primary-2);
@@ -107,8 +111,6 @@
 
   @media (min-width: 800px) {
     .container {
-      display: flex;
-      flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
       flex-direction: row;
@@ -116,7 +118,8 @@
       max-width: 80%;
     }
 
-    .container_saved {
+    .container_saved,
+    .container_clock {
       width: 22.5%;
       min-height: 200px;
       /* background-color: yellow; */
@@ -126,10 +129,8 @@
       min-height: 200px;
       /* background-color: blue; */
     }
-    .container_clock {
-      width: 22.5%;
-      min-height: 200px;
-      /* background-color: purple; */
-    }
+    /* .container_clock {
+      background-color: purple;
+    } */
   }
 </style>

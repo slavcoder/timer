@@ -1,5 +1,6 @@
 <script>
   import { settings } from '../stores/settings.js'
+  import { modal } from '../stores/modal.js'
   import Modal from './Modal.svelte'
   import Colors from '../themes/Colors.svelte'
   import ThemeDark from '../themes/ThemeDark.svelte'
@@ -8,18 +9,18 @@
   $: document.body.className = `theme_${$settings.theme} font_${$settings.font}`
 </script>
 
-{#if $settings.open}
-<Modal close={() => $settings.open = false}>
-  <select bind:value={$settings.theme}>
-    <option value="dark">dark</option>
-    <option value="light">light</option>
-  </select>
-  
-  <select bind:value={$settings.font}>
-    <option value="russo">russo</option>
-    <option value="roboto">roboto</option>
-  </select>
-</Modal>
+{#if $modal.settings}
+  <Modal name="settings">
+    <select bind:value={$settings.theme}>
+      <option value="dark">dark</option>
+      <option value="light">light</option>
+    </select>
+    
+    <select bind:value={$settings.font}>
+      <option value="russo">russo</option>
+      <option value="roboto">roboto</option>
+    </select>
+  </Modal>
 {/if}
 
 <svelte:head>
@@ -55,6 +56,7 @@
     color: var(--color-primary-9);
     padding: 0;
     height: auto;
+    /* font-size: 1.2em; */
   }
 
   :global(*) {

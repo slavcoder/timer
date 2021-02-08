@@ -2,12 +2,13 @@
   import { counters } from '../stores/counters.js'
   import { uuid } from '../stores/uuid.js'
   import { saved } from '../stores/saved.js'
-  import { device } from '../stores/device.js'
+  import { modal } from '../stores/modal.js'
   import { fly, scale } from 'svelte/transition'
+  import { storage } from '../utilities/storage.js'
+  import { secToObj } from '../utilities/timer.js'
   import TimeString from './TimeString.svelte'
   import Icon from './Icon.svelte'
-  import { secToObj } from '../utilities/timer.js'
-  export let modal
+  export let inModal = false
   export let name
   export let secs
   export let savedUuid
@@ -16,12 +17,14 @@
   function showDelete() {
     deleteActive = true
   }
+
   function hideDelete() {
     deleteActive = false
   }
 
   function remove(uuid) {
     $saved = $saved.filter(el => el.uuid != uuid)
+    storage.set('saved', $saved)
   }
 
   function addNewCounter(name, secs) {
@@ -32,16 +35,21 @@
         uuid: $uuid++,
         secs: secs,
         secsLeft: secs,
+        active: false,
       },
     ]
+
+    storage.set('counters', $counters)
+    storage.set('uuid', $uuid)
+    $modal.addPanel = false
   }
 </script>
 
-<div class="saved" transition:scale={{ duration: 200 }} class:modal>
-  {#if deleteActive || $device.isMobile}
+<div class="saved" transition:scale={{ duration: 200 }} class:inModal>
+  {#if deleteActive || inModal}
     <button
       class="delete"
-      class:modal
+      class:inModal
       on:focus={showDelete}
       on:blur={hideDelete}
       on:mouseover={showDelete}
@@ -54,7 +62,7 @@
   {/if}
   <button
     class="add"
-    class:modal
+    class:inModal
     on:focus={showDelete}
     on:blur={hideDelete}
     on:mouseover={showDelete}
@@ -73,11 +81,9 @@
     height: 100%;
   }
 
-  .saved.modal {
+  .saved.inModal {
     display: flex;
-    /* justify-content: center; */
     align-items: stretch;
-    /* align-content: stretch; */
   }
 
   .name {
@@ -108,7 +114,7 @@
     margin: 0;
   }
   
-  .delete.modal {
+  .delete.inModal {
     height: auto;
     position: static;
   }
@@ -132,7 +138,7 @@
     height: 100%;
   }
 
-  .add.modal {
+  .add.inModal {
     width: 100%;
   }
 

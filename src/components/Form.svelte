@@ -2,9 +2,9 @@
   import { counters } from '../stores/counters.js'
   import { uuid } from '../stores/uuid.js'
   import { saved } from '../stores/saved.js'
+  import { modal } from '../stores/modal.js'
+  import { storage } from '../utilities/storage.js'
   import { stringToSec } from '../utilities/timer.js'
-  export let open = false
-  // export let modal = false
   let value = ''
   let name = ''
   $: valueToSec = stringToSec(value)
@@ -20,12 +20,15 @@
         uuid: $uuid++,
         secs: valueToSec,
         secsLeft: valueToSec,
+        active: false,
       },
     ]
 
+    storage.set('counters', $counters)
+    storage.set('uuid', $uuid)
     value = ''
     name = ''
-    open = false
+    $modal.addPanel = false
   }
 
   function save() {
@@ -40,6 +43,8 @@
       },
     ]
 
+    storage.set('saved', $saved)
+    storage.set('uuid', $uuid)
     value = ''
     name = ''
   }

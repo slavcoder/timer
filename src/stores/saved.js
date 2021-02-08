@@ -1,25 +1,10 @@
 import { writable } from 'svelte/store'
+import { storage } from '../utilities/storage.js'
 
-export const saved = writable([
-  {
-    name: 'short',
-    secs: 52,
-    uuid: '2452f23ra'
-  },
-  {
-    name: 'long',
-    secs: 5252,
-    uuid: '245f523ra'
-  },
-  {
-    name: 'very long name',
-    secs: 42552,
-    uuid: '2d45f23ra'
-  }
-])
+export const saved = writable(storage.get('saved',[]))
 
 // {
 //   name: 'lorem',
 //   secs: 552,
-//   uuid: 245f23ra
+//   uuid: 1
 // }

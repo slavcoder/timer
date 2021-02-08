@@ -1,22 +1,45 @@
 <script>
-  import { slide } from 'svelte/transition'
+  import { slide, fade } from 'svelte/transition'
   import { onMount } from 'svelte'
+  import { modal } from '../stores/modal.js'
   import Icon from './Icon.svelte'
-  export let close
-  let modal
+  export let name
+  let container
 
-  onMount(() => modal.focus())
+  function close() {
+    $modal[name] = false
+  }
+
+  function closeOnEsc(e) {
+    if(e.keyCode == 27) close()
+  }
+
+  onMount(() => container.focus())
 </script>
 
-<div class="modal" transition:slide bind:this={modal} tabindex="0">
-  <button  on:click={close} class="close">
+<svelte:body on:keydown={closeOnEsc} />
+
+<div class="cover" transition:fade on:click={close}></div>
+<div class="container" transition:slide bind:this={container} tabindex="0">
+  <button on:click={close} class="close">
     <Icon name="close" />
   </button>
   <slot />
 </div>
 
 <style>
-  .modal {
+  .cover {
+    z-index: 100;
+    background-color: var(--color-primary);
+    opacity: .8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .container {
     width: 500px;
     max-width: 80%;
     padding: 50px 20px;
@@ -28,7 +51,11 @@
     top: 0;
     left: 10%;
     width: 80%;
-    z-index: 100;
+    z-index: 101;
+  }
+
+  .container:focus {
+    outline: none;
   }
 
   .close {

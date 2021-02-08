@@ -3,8 +3,7 @@
 -->
 <style>
   :global(body.theme_dark) {
-    --color-primary: var(--color-grey);
-    /* --color-primary-1: var(--color-grey-d-090); */
+    --color-primary: #333333;
     --color-primary-2: var(--color-grey-d-100);
     --color-primary-3: var(--color-grey-d-100-t-100);
     --color-primary-4: var(--color-grey-d-200);

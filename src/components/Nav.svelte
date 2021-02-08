@@ -1,29 +1,29 @@
 <script>
-  import { settings } from '../stores/settings.js'
-  import { history } from '../stores/history.js'
-
-  function toggleSettings() {
-    $settings.open = !$settings.open
-  }
-  function toggleHistory() {
-    $history.open = !$history.open
-  }
+  import { modal } from '../stores/modal.js'
 </script>
 
 <nav class="nav">
   <ul class="menu">
     <li class="menu_item">
-      <a class="menu_link" on:click|preventDefault={toggleSettings} href="/"
-        >settings</a
+      <a
+        class="menu_link"
+        on:click|preventDefault={() => $modal.settings = true}
+        href="/">settings</a
       >
     </li>
     <li class="menu_item">
-      <a class="menu_link" on:click|preventDefault={toggleHistory} href="/"
-        >history</a
+      <a
+        class="menu_link"
+        on:click|preventDefault={() => $modal.history = true}
+        href="/">history</a
       >
     </li>
     <li class="menu_item">
-      <a class="menu_link" href="https://github.com/slavcoder">author</a>
+      <a
+        class="menu_link"
+        on:click|preventDefault={() => $modal.about = true}
+        href="/">about</a
+      >
     </li>
   </ul>
 </nav>

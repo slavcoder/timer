@@ -1,7 +1,9 @@
 <script>
-  import {device} from '../stores/device.js'
+  import { device } from '../stores/device.js'
   import { onDestroy } from 'svelte'
-  import { fade, blur, slide, scale, fly } from 'svelte/transition'
+  import { scale, fly } from 'svelte/transition'
+  import { counters } from '../stores/counters.js'
+  import { storage } from '../utilities/storage.js'
   import { secToObj } from '../utilities/timer.js'
   import Icon from './Icon.svelte'
   import TimeString from './TimeString.svelte'
@@ -9,6 +11,9 @@
   export let uuid
   export let secs
   export let secsLeft
+  export let active
+  export let secsLeftOnActivate = 0
+  export let timeOnActivate = 0
   export let removeCounter
   let actionsActive = false
 
@@ -25,39 +30,57 @@
   $: resetActive = counting.finished || secs > secsLeft
 
   const counting = {
-    active: false,
     finished: false,
     interval: false,
     count: () => {
       secsLeft--
-      if (!secsLeft) {
-        clearInterval(counting.interval)
-        counting.finished = true
-        counting.active = false
-      }
+      if (secsLeft <= 0) counting.finish()
     },
     start: () => {
-      counting.active = true
+      active = true
+      const now = new Date()
+      secsLeftOnActivate = secsLeft
+      timeOnActivate = Math.floor(now.getTime() / 1000)
       counting.interval = setInterval(counting.count, 1000)
+      storage.set('counters', $counters)
     },
     stop: () => {
       clearInterval(counting.interval)
-      counting.active = false
+      active = false
+      storage.set('counters', $counters)
     },
     reset: () => {
       counting.stop()
       secsLeft = secs
       counting.finished = false
+      storage.set('counters', $counters)
     },
     toggle: () => {
-      if (counting.active) {
+      if (active) {
         counting.stop()
       } else if (!counting.finished) {
         counting.start()
       }
     },
+    finish: () => {
+      counting.finished = true
+      counting.stop()
+    },
   }
 
+  if (active) {
+    const now = new Date()
+    const nowInSecs = Math.floor(now.getTime() / 1000)
+    const secsDiff = nowInSecs - timeOnActivate
+    secsLeft = Math.max(secsLeftOnActivate - secsDiff, 0)
+    if (!secsLeft) {
+      counting.finish()
+    } else {
+      counting.start()
+    }
+  }
+
+  if (!secsLeft) counting.finish()
   onDestroy(() => counting.stop())
 </script>
 
@@ -82,7 +105,7 @@
         <p>finished!</p>
       </span>
     {:else}
-      <span class="timeLeft" class:active={counting.active}>
+      <span class="timeLeft" class:active class:pauzed={!active && secsLeft < secs}>
         <TimeString type="timeLeft" bind:timeObj={timeLeftObj} />
       </span>
     {/if}
@@ -103,7 +126,7 @@
       <Icon name="delete" />
     </button>
 
-    {#if secs > secsLeft || counting.active}
+    {#if secs > secsLeft || active}
       <button
         transition:fly={{ x: 50, duration: 200 }}
         class="button reset"
@@ -115,18 +138,15 @@
         <Icon name="reset" />
       </button>
     {/if}
-
   {/if}
 </div>
 
 <style>
   .counter {
     width: 100%;
-    /* background-color: var(--color-danger); */
     background-color: var(--color-primary-9);
     color: var(--color-primary-7);
     position: relative;
-    /* border-left: 10px solid var(--color-danger); */
   }
 
   .toggle {
@@ -179,9 +199,8 @@
     left: 100%;
   }
 
-
   .time {
-    opacity: .8;
+    opacity: 0.8;
     font-size: 1.2em;
     width: 30%;
     padding: 5px 0;
@@ -209,12 +228,19 @@
   }
 
   .timeLeft {
-    color: var(--color-danger-2);
-    transition: color .2s;
+    opacity: .7;
+    color: var(--color-primary-14);
+    transition: 0.2s;
   }
 
   .timeLeft.active {
+    opacity: 1;
     color: var(--color-primary-5);
+  }
+
+  .timeLeft.pauzed {
+    opacity: 1;
+    color: var(--color-danger-2);
   }
 
   .name {
