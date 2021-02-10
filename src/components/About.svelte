@@ -1,11 +1,13 @@
 <script>
   import Modal from './Modal.svelte'
   import Link from './Link.svelte'
+  import Heading from './Heading.svelte'
 </script>
 
 <Modal name="about">
-  <h2 class="heading">About</h2>
-  <div class="content">
+  <Heading>About</Heading>
+
+  <div class="container">
     <h3>Author</h3>
     <p>
       Hi, the author is me - <Link href="https://github.com/slavcoder"
@@ -27,11 +29,7 @@
 </Modal>
 
 <style>
-  .heading {
-    text-align: center;
-  }
-
-  .content {
+  .container {
     margin: 50px auto;
     width: 100%;
     max-width: 700px;

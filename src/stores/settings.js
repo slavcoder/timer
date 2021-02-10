@@ -1,8 +1,9 @@
 import { writable } from 'svelte/store'
+import {storage} from '../utilities/storage.js'
 
-export const settings = writable({
+const defaultSettings = {
   theme: 'dark',
   font: 'russo',
-  themes: ['dark', 'light'],
-  fonts: ['russo', 'roboto']
-})
+}
+
+export const settings = writable(storage.get('settings', defaultSettings))

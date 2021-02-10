@@ -97,6 +97,7 @@
   }
 
   if (active) {
+    console.log('is active')
     const nowInSecs = Math.floor($now.getTime() / 1000)
     const secsDiff = nowInSecs - timeOnActivate
     secsLeft = Math.max(secsLeftOnActivate - secsDiff, 0)
