@@ -17,7 +17,7 @@
       ...$counters,
       {
         name: name,
-        uuid: $uuid++,
+        id: $uuid++,
         secs: valueToSec,
         secsLeft: valueToSec,
         active: false,
@@ -38,7 +38,7 @@
       ...$saved,
       {
         name: name,
-        uuid: $uuid++,
+        id: $uuid++,
         secs: valueToSec,
       },
     ]
@@ -97,6 +97,7 @@
     border: none;
     margin: 5px;
     text-align: center;
+    transition: .2s;
   }
 
   .name:focus,
@@ -105,9 +106,22 @@
     outline: none;
   }
 
+  .time:hover,
+  .time:focus {
+    background-color: var(--color-primary-8);
+  }
+
+  .name:hover,
+  .name:focus {
+    background-color: var(--color-primary-5);
+    opacity: 1;
+    /* color: var(--color-primary-3); */
+  }
+
   .name {
-    background-color: var(--color-primary-2);
-    color: var(--color-primary-9);
+    opacity: .7;
+    background-color: var(--color-primary-5);
+    color: var(--color-primary-7);
   }
 
   .form_box {
@@ -120,7 +134,7 @@
   .save {
     background-color: var(--color-primary-2);
     width: calc(50% - 5px);
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     opacity: 0.5;
   }
 
@@ -134,8 +148,16 @@
     opacity: 1;
   }
 
+  .save.active:hover,
+  .save.active:focus,
+  .add.active:hover,
+  .add.active:focus {
+    background-color: var(--color-primary-7);
+    color: var(--color-primary-3);
+  }
+
   .time {
-    background-color: var(--color-primary-9);
+    background-color: var(--color-primary-7);
     color: var(--color-primary-3);
   }
 

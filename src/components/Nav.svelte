@@ -50,7 +50,7 @@
   }
 
   .menu_link {
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     opacity: 0.9;
   }
 

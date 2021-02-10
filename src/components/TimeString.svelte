@@ -24,8 +24,10 @@
 
   .time,
   .timeLeft,
-  .timeSaved {
+  .timeSaved,
+  .history {
     display: flex;
     flex-wrap: wrap;
   }
+
 </style>

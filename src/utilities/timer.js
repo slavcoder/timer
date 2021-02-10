@@ -27,7 +27,7 @@ export function stringToSec(str) {
   return flag ? sec : false
 }
 
-export function secToObj(sec) {
+export function secsToObj(sec) {
   const time = {}
   time.d = Math.floor(sec / timeInSec.d)
   sec -= time.d * timeInSec.d

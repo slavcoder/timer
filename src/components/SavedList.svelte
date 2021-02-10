@@ -8,9 +8,9 @@
 <h2>saved</h2>
 
 <ul class="list">
-  {#each $saved as { name, secs, uuid } (uuid)}
+  {#each $saved as { name, secs, id } (id)}
     <li class="list_item" animate:flip={{duration:200}}>
-      <Saved {name} {secs} savedUuid={uuid} {inModal} />
+      <Saved {name} {secs} {id} {inModal} />
     </li>
   {/each}
 </ul>

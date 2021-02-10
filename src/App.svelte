@@ -11,6 +11,7 @@
   import CountersList from './components/CountersList.svelte'
   import SavedList from './components/SavedList.svelte'
   import Clock from './components/Clock.svelte'
+  import CookiesInfo from './components/CookiesInfo.svelte'
   let innerWidth
   $: $device.innerWidth = innerWidth
 </script>
@@ -54,6 +55,10 @@
       <Clock />
     </div>
   </div>
+{/if}
+
+{#if $modal.cookiesInfo}
+  <CookiesInfo />
 {/if}
 
 <style>

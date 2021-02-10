@@ -11,7 +11,7 @@
 
   .link {
     transition: color .2s;
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     text-decoration: none;
   }
   .link:hover,
@@ -24,7 +24,7 @@
     width: 200px;
     max-width: 80%;
     text-align: center;
-    border-bottom: 1px solid var(--color-primary-9);
+    border-bottom: 1px solid var(--color-primary-7);
     padding-bottom: .3em;
   }
 </style>

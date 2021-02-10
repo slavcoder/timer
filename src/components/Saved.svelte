@@ -5,13 +5,13 @@
   import { modal } from '../stores/modal.js'
   import { fly, scale } from 'svelte/transition'
   import { storage } from '../utilities/storage.js'
-  import { secToObj } from '../utilities/timer.js'
+  import { secsToObj } from '../utilities/timer.js'
   import TimeString from './TimeString.svelte'
   import Icon from './Icon.svelte'
   export let inModal = false
   export let name
   export let secs
-  export let savedUuid
+  export let id
   let deleteActive = false
 
   function showDelete() {
@@ -22,8 +22,8 @@
     deleteActive = false
   }
 
-  function remove(uuid) {
-    $saved = $saved.filter(el => el.uuid != uuid)
+  function remove() {
+    $saved = $saved.filter(el => el.id != id)
     storage.set('saved', $saved)
   }
 
@@ -32,7 +32,7 @@
       ...$counters,
       {
         name: name,
-        uuid: $uuid++,
+        id: $uuid++,
         secs: secs,
         secsLeft: secs,
         active: false,
@@ -42,10 +42,11 @@
     storage.set('counters', $counters)
     storage.set('uuid', $uuid)
     $modal.addPanel = false
+    // console.log($modal)
   }
 </script>
 
-<div class="saved" transition:scale={{ duration: 200 }} class:inModal>
+<div class="saved" transition:scale|local={{ duration: 200 }} class:inModal>
   {#if deleteActive || inModal}
     <button
       class="delete"
@@ -54,8 +55,8 @@
       on:blur={hideDelete}
       on:mouseover={showDelete}
       on:mouseleave={hideDelete}
-      transition:fly={{ x: -50, duration: 200 }}
-      on:click={() => remove(savedUuid)}
+      transition:fly|local={{ x: -50, duration: 200 }}
+      on:click={() => remove()}
     >
       <Icon name="delete" />
     </button>
@@ -70,7 +71,7 @@
     on:click={() => addNewCounter(name, secs)}
   >
     <span class="time"
-      ><TimeString type="timeSaved" timeObj={secToObj(secs)} /></span
+      ><TimeString type="timeSaved" timeObj={secsToObj(secs)} /></span
     >
     <span class="name">{name}</span>
   </button>
@@ -89,7 +90,7 @@
   .name {
     text-align: left;
     font-size: 0.8em;
-    color: var(--color-primary-10);
+    color: var(--color-primary-8);
     opacity: 0.5;
   }
 
@@ -103,7 +104,7 @@
     justify-content: center;
     align-items: center;
     background-color: var(--color-primary-2);
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     border: none;
     cursor: pointer;
     position: absolute;
@@ -127,7 +128,7 @@
     background-color: var(--color-primary);
     border: none;
     cursor: pointer;
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     max-width: 100%;
     display: flex;
     flex-direction: column;

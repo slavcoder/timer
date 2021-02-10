@@ -1,21 +1,29 @@
 <script>
   import { device } from '../stores/device.js'
+  import { history } from '../stores/history.js'
+  import { uuid } from '../stores/uuid.js'
+  import { now } from '../stores/time.js'
   import { onDestroy } from 'svelte'
   import { scale, fly } from 'svelte/transition'
   import { counters } from '../stores/counters.js'
   import { storage } from '../utilities/storage.js'
-  import { secToObj } from '../utilities/timer.js'
+  import { secsToObj } from '../utilities/timer.js'
   import Icon from './Icon.svelte'
   import TimeString from './TimeString.svelte'
   export let name
-  export let uuid
+  export let id
   export let secs
   export let secsLeft
   export let active
   export let secsLeftOnActivate = 0
   export let timeOnActivate = 0
-  export let removeCounter
+  // export let removeCounter
   let actionsActive = false
+
+  function remove() {
+    $counters = $counters.filter(el => el.id != id)
+    storage.set('counters', $counters)
+  }
 
   function showActions() {
     actionsActive = true
@@ -25,8 +33,23 @@
     actionsActive = false
   }
 
-  let timeObj = secToObj(secs)
-  $: timeLeftObj = secToObj(secsLeft)
+  function addNewHistoryItem() {
+    // const now = new Date()
+    const nowInSecs = Math.floor($now.getTime() / 1000)
+
+    $history = [...$history, {      
+      id: $uuid++,
+      name: name,
+      secs: secs,
+      timeInSecsOnFinish: nowInSecs,
+    }]
+
+    storage.set('uuid', $uuid)
+    storage.set('history', $history)
+  }
+
+  let timeObj = secsToObj(secs)
+  $: timeLeftObj = secsToObj(secsLeft)
   $: resetActive = counting.finished || secs > secsLeft
 
   const counting = {
@@ -34,13 +57,13 @@
     interval: false,
     count: () => {
       secsLeft--
-      if (secsLeft <= 0) counting.finish()
+      if (secsLeft <= 0) counting.finish(true)
     },
     start: () => {
       active = true
-      const now = new Date()
+      // const now = new Date()
       secsLeftOnActivate = secsLeft
-      timeOnActivate = Math.floor(now.getTime() / 1000)
+      timeOnActivate = Math.floor($now.getTime() / 1000)
       counting.interval = setInterval(counting.count, 1000)
       storage.set('counters', $counters)
     },
@@ -60,27 +83,31 @@
         counting.stop()
       } else if (!counting.finished) {
         counting.start()
+      } else {
+        counting.reset()
       }
     },
-    finish: () => {
+    finish: (saveInHistory) => {
+      secsLeft = 0
       counting.finished = true
       counting.stop()
+
+      if(saveInHistory) addNewHistoryItem()
     },
   }
 
   if (active) {
-    const now = new Date()
-    const nowInSecs = Math.floor(now.getTime() / 1000)
+    const nowInSecs = Math.floor($now.getTime() / 1000)
     const secsDiff = nowInSecs - timeOnActivate
     secsLeft = Math.max(secsLeftOnActivate - secsDiff, 0)
     if (!secsLeft) {
-      counting.finish()
+      counting.finish(true)
     } else {
       counting.start()
     }
   }
 
-  if (!secsLeft) counting.finish()
+  if (!secsLeft) counting.finish(false)
   onDestroy(() => counting.stop())
 </script>
 
@@ -121,7 +148,7 @@
       class="button delete"
       on:focus={showActions}
       on:blur={hideActions}
-      on:click={() => removeCounter(uuid)}
+      on:click={() => remove()}
     >
       <Icon name="delete" />
     </button>
@@ -144,8 +171,8 @@
 <style>
   .counter {
     width: 100%;
-    background-color: var(--color-primary-9);
-    color: var(--color-primary-7);
+    background-color: var(--color-primary-7);
+    color: var(--color-primary-6);
     position: relative;
   }
 
@@ -162,7 +189,7 @@
 
   .toggle:hover,
   .toggle:focus {
-    background-color: var(--color-primary-15);
+    background-color: var(--color-primary-11);
   }
 
   .button {
@@ -172,7 +199,7 @@
     align-items: center;
     border: none;
     background-color: var(--color-primary-2);
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     position: absolute;
     width: 50px;
     height: 100%;
@@ -204,7 +231,7 @@
     font-size: 1.2em;
     width: 30%;
     padding: 5px 0;
-    color: var(--color-primary-14);
+    color: var(--color-primary-10);
   }
 
   .timeLeft,
@@ -229,7 +256,7 @@
 
   .timeLeft {
     opacity: .7;
-    color: var(--color-primary-14);
+    color: var(--color-primary-10);
     transition: 0.2s;
   }
 
@@ -244,7 +271,7 @@
   }
 
   .name {
-    color: var(--color-primary-12);
+    color: var(--color-primary-9);
     width: 100%;
   }
 

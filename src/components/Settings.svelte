@@ -2,7 +2,6 @@
   import { settings } from '../stores/settings.js'
   import { modal } from '../stores/modal.js'
   import Modal from './Modal.svelte'
-  import Colors from '../themes/Colors.svelte'
   import ThemeDark from '../themes/ThemeDark.svelte'
   import ThemeLight from '../themes/ThemeLight.svelte'
 
@@ -53,7 +52,7 @@
 
   :global(body) {
     background-color: var(--color-primary-4);
-    color: var(--color-primary-9);
+    color: var(--color-primary-7);
     padding: 0;
     height: auto;
     /* font-size: 1.2em; */
