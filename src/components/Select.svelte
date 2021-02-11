@@ -12,6 +12,7 @@
 </div>
 
 <style>
+  
   select:hover,
   select:focus {
     background-color: var(--color-primary-8);

@@ -24,7 +24,7 @@ export function stringToSec(str) {
     }
   })
 
-  return flag ? sec : false
+  return flag ? Math.floor(sec) : false
 }
 
 export function secsToObj(sec) {

@@ -1,37 +1,30 @@
 <script>
   import { counters } from '../stores/counters.js'
-  import { uuid } from '../stores/uuid.js'
+  import { settings } from '../stores/settings.js'
+  import { v4 as uuid } from 'uuid'
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
   import { fly, scale } from 'svelte/transition'
-  // import { storage } from '../utilities/storage.js'
   import { secsToObj } from '../utilities/timer.js'
-  import TimeString from './TimeString.svelte'
+  import Time from './Time.svelte'
   import Icon from './Icon.svelte'
   export let inModal = false
   export let name
   export let secs
   export let id
   let deleteActive = false
-
-  function showDelete() {
-    deleteActive = true
-  }
-
-  function hideDelete() {
-    deleteActive = false
-  }
+  const showDelete = () => (deleteActive = true)
+  const hideDelete = () => (deleteActive = false)
 
   function remove() {
     $saved = $saved.filter(el => el.id != id)
-    // storage.set('saved', $saved)
   }
 
   function addNewCounter(name, secs) {
     $counters = [
       {
         name: name,
-        id: $uuid++,
+        id: uuid(),
         secs: secs,
         secsLeft: secs,
         active: false,
@@ -39,10 +32,7 @@
       ...$counters,
     ]
 
-    // storage.set('counters', $counters)
-    // storage.set('uuid', $uuid)
     $modal.addPanel = false
-    // console.log($modal)
   }
 </script>
 
@@ -70,11 +60,11 @@
     on:mouseleave={hideDelete}
     on:click={() => addNewCounter(name, secs)}
   >
-    <span class="time"
-      ><TimeString type="timeSaved" timeObj={secsToObj(secs)} /></span
-    >
-    <span class="name">{name}</span>
-  </button>
+    <span class="time">
+      <Time timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
+      <span class="name">{name}</span>
+    </span></button
+  >
 </div>
 
 <style>
@@ -114,7 +104,7 @@
     right: 100%;
     margin: 0;
   }
-  
+
   .delete.inModal {
     height: auto;
     position: static;

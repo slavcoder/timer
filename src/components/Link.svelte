@@ -2,7 +2,7 @@
   export let href
 </script>
 
-<a {href}><slot></slot></a>
+<a {href}><slot /></a>
 
 <style>
   a:hover,

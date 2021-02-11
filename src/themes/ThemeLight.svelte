@@ -2,8 +2,8 @@
   primary, secondary, success danger warning info
 -->
 <style>
-  :global(body.theme_ligth) {
-    --color-primary: hsl(0, 0%, 20%);
+  :global(body.theme_light) {
+    --color-primary: hsl(0, 0%, 70%);
     --color-primary-2: hsl(0, 0%, 17%);
     --color-primary-3: hsla(0, 0%, 17%, 0.9);
     --color-primary-4: hsl(0, 0%, 13%);

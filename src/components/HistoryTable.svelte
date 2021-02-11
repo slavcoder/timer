@@ -1,6 +1,5 @@
 <script>
   import HistoryRow from './HistoryRow.svelte'
-  // import { flip } from 'svelte/animate'
   import { fade } from 'svelte/transition'
   export let items
   export let nowInSecs
@@ -47,7 +46,7 @@
   }
 
   .emptyInfo {
-    opacity: .8;
+    opacity: 0.8;
     text-align: center;
     width: 100%;
   }

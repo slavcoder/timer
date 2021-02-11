@@ -1,15 +1,17 @@
 <script>
   import { device } from '../stores/device.js'
   import { history } from '../stores/history.js'
-  import { uuid } from '../stores/uuid.js'
+  import { settings } from '../stores/settings.js'
   import { now } from '../stores/time.js'
+  import { v4 as uuid } from 'uuid'
   import { onDestroy } from 'svelte'
   import { scale, fly } from 'svelte/transition'
   import { counters } from '../stores/counters.js'
   import { storage } from '../utilities/storage.js'
   import { secsToObj } from '../utilities/timer.js'
   import Icon from './Icon.svelte'
-  import TimeString from './TimeString.svelte'
+  // import TimeString from './TimeString.svelte'
+  import Time from './Time.svelte'
   export let name
   export let id
   export let secs
@@ -18,18 +20,12 @@
   export let secsLeftOnActivate = 0
   export let timeOnActivate = 0
   let actionsActive = false
+  const showActions = () => (actionsActive = true)
+  const hideActions = () => (actionsActive = false)
 
   function remove() {
     $counters = $counters.filter(el => el.id != id)
     storage.set('counters', $counters)
-  }
-
-  function showActions() {
-    actionsActive = true
-  }
-
-  function hideActions() {
-    actionsActive = false
   }
 
   function addNewHistoryItem() {
@@ -38,7 +34,7 @@
     $history = [
       ...$history,
       {
-        id: $uuid++,
+        id: uuid(),
         name: name,
         secs: secs,
         timeInSecsOnFinish: nowInSecs,
@@ -88,7 +84,6 @@
       secsLeft = 0
       counting.finished = true
       counting.stop()
-
       if (saveInHistory) addNewHistoryItem()
     },
   }
@@ -121,7 +116,8 @@
     on:click={counting.toggle}
   >
     <span class="time">
-      <TimeString type="time" {timeObj} />
+      <!-- <Time name="time" {timeObj} /> -->
+      <Time {timeObj} variant={$settings.timeVariant} />
     </span>
 
     {#if counting.finished}
@@ -134,7 +130,7 @@
         class:active
         class:pauzed={!active && secsLeft < secs}
       >
-        <TimeString type="timeLeft" bind:timeObj={timeLeftObj} />
+        <Time name="timeLeft" bind:timeObj={timeLeftObj} variant={$settings.timeVariant} />
       </span>
     {/if}
 
@@ -181,6 +177,7 @@
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     padding: 5px 10px;
     width: 100%;
     margin: 0;

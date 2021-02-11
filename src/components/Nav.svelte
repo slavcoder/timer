@@ -7,21 +7,21 @@
     <li class="menu_item">
       <a
         class="menu_link"
-        on:click|preventDefault={() => $modal.settings = true}
+        on:click|preventDefault={() => ($modal.settings = true)}
         href="/">settings</a
       >
     </li>
     <li class="menu_item">
       <a
         class="menu_link"
-        on:click|preventDefault={() => $modal.history = true}
+        on:click|preventDefault={() => ($modal.history = true)}
         href="/">history</a
       >
     </li>
     <li class="menu_item">
       <a
         class="menu_link"
-        on:click|preventDefault={() => $modal.about = true}
+        on:click|preventDefault={() => ($modal.about = true)}
         href="/">about</a
       >
     </li>

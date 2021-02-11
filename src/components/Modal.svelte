@@ -55,7 +55,6 @@
     padding: 50px 20px;
     background-color: var(--color-primary-4);
     border: 1px solid var(--color-primary-5);
-    /* box-shadow: 3px 3px 15px var(--color-primary-2); */
     border-top: none;
     position: fixed;
     top: 0;
@@ -63,8 +62,8 @@
     width: 80%;
     z-index: 101;
   }
-  
-  @media(max-width: 800px) {
+
+  @media (max-width: 800px) {
     .container {
       max-width: 100%;
       width: 100%;

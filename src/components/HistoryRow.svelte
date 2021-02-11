@@ -1,9 +1,9 @@
 <script>
   import { history } from '../stores/history.js'
-  // import { storage } from '../utilities/storage.js'
+  import { settings } from '../stores/settings.js'
   import { secsToObj } from '../utilities/timer.js'
-  import TimeString from './TimeString.svelte'
-  import TimeAgoString from './TimeAgoString.svelte'
+  import Time from './Time.svelte'
+  import TimeAgo from './TimeAgo.svelte'
   import Icon from './Icon.svelte'
   export let id
   export let name
@@ -15,7 +15,6 @@
 
   function remove() {
     $history = $history.filter(el => el.id != id)
-    // storage.set('history', $history)
   }
 </script>
 
@@ -28,9 +27,11 @@
     <span class="unnamed">unnamed</span>
   {/if}
 </td>
-<td class="time"><TimeString type="history" timeObj={secsToObj(secs)} /></td>
+<td class="time">
+  <Time name="history" timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
+</td>
 <td title={dateOnFinish.toLocaleString()} class="finished">
-  <TimeAgoString timeObj={secsToObj(secsAgo)} />
+  <TimeAgo timeObj={secsToObj(secsAgo)} />
 </td>
 
 <style>
@@ -74,6 +75,6 @@
   }
 
   .finished {
-    width: 100px;
+    width: 200px;
   }
 </style>

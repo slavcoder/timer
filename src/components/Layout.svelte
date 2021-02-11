@@ -11,7 +11,7 @@
   import CountersList from './CountersList.svelte'
   import SavedList from './SavedList.svelte'
   import Clock from './Clock.svelte'
-  import CookiesInfo from './CookiesInfo.svelte'
+  // import CookiesInfo from './CookiesInfo.svelte'
 </script>
 
 {#if $modal.settings} <Settings /> {/if}
@@ -55,9 +55,9 @@
   </div>
 {/if}
 
-{#if $modal.cookiesInfo}
+<!-- {#if $modal.cookiesInfo}
   <CookiesInfo />
-{/if}
+{/if} -->
 
 <style>
   .modalInnerContainer {

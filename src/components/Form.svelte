@@ -1,6 +1,6 @@
 <script>
   import { counters } from '../stores/counters.js'
-  import { uuid } from '../stores/uuid.js'
+  import { v4 as uuid } from 'uuid'
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
   import { storage } from '../utilities/storage.js'
@@ -21,7 +21,7 @@
     $counters = [
       {
         name: name,
-        id: $uuid++,
+        id: uuid(),
         secs: valueToSec,
         secsLeft: valueToSec,
         active: false,
@@ -41,7 +41,7 @@
       ...$saved,
       {
         name: name,
-        id: $uuid++,
+        id: uuid(),
         secs: valueToSec,
       },
     ]
@@ -134,7 +134,7 @@
     background-color: var(--color-primary-2);
     width: calc(50% - 5px);
     color: var(--color-primary-7);
-    opacity: 0.5;
+    opacity: .3;
   }
 
   .add {
