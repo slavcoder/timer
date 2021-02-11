@@ -17,7 +17,6 @@
   export let active
   export let secsLeftOnActivate = 0
   export let timeOnActivate = 0
-  // export let removeCounter
   let actionsActive = false
 
   function remove() {
@@ -34,18 +33,17 @@
   }
 
   function addNewHistoryItem() {
-    // const now = new Date()
     const nowInSecs = Math.floor($now.getTime() / 1000)
 
-    $history = [...$history, {      
-      id: $uuid++,
-      name: name,
-      secs: secs,
-      timeInSecsOnFinish: nowInSecs,
-    }]
-
-    storage.set('uuid', $uuid)
-    storage.set('history', $history)
+    $history = [
+      ...$history,
+      {
+        id: $uuid++,
+        name: name,
+        secs: secs,
+        timeInSecsOnFinish: nowInSecs,
+      },
+    ]
   }
 
   let timeObj = secsToObj(secs)
@@ -61,7 +59,6 @@
     },
     start: () => {
       active = true
-      // const now = new Date()
       secsLeftOnActivate = secsLeft
       timeOnActivate = Math.floor($now.getTime() / 1000)
       counting.interval = setInterval(counting.count, 1000)
@@ -87,17 +84,16 @@
         counting.reset()
       }
     },
-    finish: (saveInHistory) => {
+    finish: saveInHistory => {
       secsLeft = 0
       counting.finished = true
       counting.stop()
 
-      if(saveInHistory) addNewHistoryItem()
+      if (saveInHistory) addNewHistoryItem()
     },
   }
 
   if (active) {
-    console.log('is active')
     const nowInSecs = Math.floor($now.getTime() / 1000)
     const secsDiff = nowInSecs - timeOnActivate
     secsLeft = Math.max(secsLeftOnActivate - secsDiff, 0)
@@ -133,7 +129,11 @@
         <p>finished!</p>
       </span>
     {:else}
-      <span class="timeLeft" class:active class:pauzed={!active && secsLeft < secs}>
+      <span
+        class="timeLeft"
+        class:active
+        class:pauzed={!active && secsLeft < secs}
+      >
         <TimeString type="timeLeft" bind:timeObj={timeLeftObj} />
       </span>
     {/if}
@@ -194,7 +194,6 @@
   }
 
   .button {
-    /* z-index: 8; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -256,7 +255,7 @@
   }
 
   .timeLeft {
-    opacity: .7;
+    opacity: 0.7;
     color: var(--color-primary-10);
     transition: 0.2s;
   }

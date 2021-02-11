@@ -1,7 +1,7 @@
 <script>
   import { settings } from '../stores/settings.js'
   import { modal } from '../stores/modal.js'
-  import { storage } from '../utilities/storage.js'
+  // import { storage } from '../utilities/storage.js'
   import Modal from './Modal.svelte'
   import Select from './Select.svelte'
   import Heading from './Heading.svelte'
@@ -11,7 +11,7 @@
     fonts: ['russo', 'roboto'],
   }
 
-  $: storage.set('settings', $settings) 
+  // $: storage.set('settings', $settings) 
 
 </script>
 

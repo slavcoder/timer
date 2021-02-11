@@ -10,11 +10,15 @@
   $: valueToSec = stringToSec(value)
   $: correct = Boolean(valueToSec)
 
+  function clearForm() {
+    value = ''
+    name = ''
+  }
+
   function addNewCounter() {
     if (!valueToSec) return
 
     $counters = [
-      ...$counters,
       {
         name: name,
         id: $uuid++,
@@ -22,12 +26,11 @@
         secsLeft: valueToSec,
         active: false,
       },
+      ...$counters,
     ]
 
     storage.set('counters', $counters)
-    storage.set('uuid', $uuid)
-    value = ''
-    name = ''
+    clearForm()
     $modal.addPanel = false
   }
 
@@ -43,10 +46,7 @@
       },
     ]
 
-    storage.set('saved', $saved)
-    storage.set('uuid', $uuid)
-    value = ''
-    name = ''
+    clearForm()
   }
 </script>
 
@@ -97,7 +97,7 @@
     border: none;
     margin: 5px;
     text-align: center;
-    transition: .2s;
+    transition: 0.2s;
   }
 
   .name:focus,
@@ -115,11 +115,10 @@
   .name:focus {
     background-color: var(--color-primary-5);
     opacity: 1;
-    /* color: var(--color-primary-3); */
   }
 
   .name {
-    opacity: .7;
+    opacity: 0.7;
     background-color: var(--color-primary-5);
     color: var(--color-primary-7);
   }

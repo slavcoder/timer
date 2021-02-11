@@ -4,7 +4,7 @@
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
   import { fly, scale } from 'svelte/transition'
-  import { storage } from '../utilities/storage.js'
+  // import { storage } from '../utilities/storage.js'
   import { secsToObj } from '../utilities/timer.js'
   import TimeString from './TimeString.svelte'
   import Icon from './Icon.svelte'
@@ -24,12 +24,11 @@
 
   function remove() {
     $saved = $saved.filter(el => el.id != id)
-    storage.set('saved', $saved)
+    // storage.set('saved', $saved)
   }
 
   function addNewCounter(name, secs) {
     $counters = [
-      ...$counters,
       {
         name: name,
         id: $uuid++,
@@ -37,10 +36,11 @@
         secsLeft: secs,
         active: false,
       },
+      ...$counters,
     ]
 
-    storage.set('counters', $counters)
-    storage.set('uuid', $uuid)
+    // storage.set('counters', $counters)
+    // storage.set('uuid', $uuid)
     $modal.addPanel = false
     // console.log($modal)
   }

@@ -1,6 +1,6 @@
 <script>
   import { history } from '../stores/history.js'
-  import { storage } from '../utilities/storage.js'
+  // import { storage } from '../utilities/storage.js'
   import { secsToObj } from '../utilities/timer.js'
   import TimeString from './TimeString.svelte'
   import TimeAgoString from './TimeAgoString.svelte'
@@ -15,7 +15,7 @@
 
   function remove() {
     $history = $history.filter(el => el.id != id)
-    storage.set('history', $history)
+    // storage.set('history', $history)
   }
 </script>
 

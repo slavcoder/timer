@@ -1,7 +1,6 @@
 <script>
   import { device } from '../stores/device.js'
   import { settings } from '../stores/settings.js'
-
   let innerWidth
   $: $device.innerWidth = innerWidth
   $: document.body.className = `theme_${$settings.theme} font_${$settings.font}`

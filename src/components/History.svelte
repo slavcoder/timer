@@ -1,7 +1,6 @@
 <script>
   import { now } from '../stores/time.js'
   import { history } from '../stores/history.js'
-  import { storage } from '../utilities/storage.js'
   import Modal from './Modal.svelte'
   import Select from './Select.svelte'
   import Heading from './Heading.svelte'
@@ -29,7 +28,6 @@
 
   function clearHistory() {
     $history = $history.filter(el => !items.includes(el))
-    storage.set('history', $history)
   }
 </script>
 
