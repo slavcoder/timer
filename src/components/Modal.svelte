@@ -48,7 +48,8 @@
   .container {
     width: 600px;
     max-width: 90%;
-    height: 80%;
+    height: auto;
+    max-height: 100%;
     overflow-y: auto;
     overflow-y: overlay;
     scrollbar-width: thin;

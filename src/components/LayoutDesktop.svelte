@@ -36,7 +36,7 @@
     min-height: 200px;
   }
   .container_counters {
-    width: 50%;
+    width: 55%;
     min-height: 200px;
   }
 </style>

@@ -4,7 +4,7 @@ import {storage} from '../utilities/storage.js'
 export const defaultSettings = {
   theme: 'dark',
   font: 'russo',
-  fontSize: 'default',
+  fontSize: 'medium',
   timeVariant: 1,
 }
 

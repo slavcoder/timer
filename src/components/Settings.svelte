@@ -8,7 +8,7 @@
   const options = {
     themes: ['dark', 'light'],
     fonts: ['russo', 'roboto'],
-    fontSize: ['default', 'large', 'small'],
+    fontSize: ['small', 'medium', 'large'],
     timeVariant: [1, 2],
   }
 

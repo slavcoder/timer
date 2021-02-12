@@ -1,14 +1,15 @@
 <script>
   import { counters } from '../stores/counters.js'
-  import { v4 as uuid } from 'uuid'
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
+  import { fade } from 'svelte/transition'
+  import { v4 as uuid } from 'uuid'
   import { storage } from '../utilities/storage.js'
   import { stringToSec } from '../utilities/timer.js'
   let value = ''
   let name = ''
+  $: filled = value.length
   $: valueToSec = stringToSec(value)
-  $: correct = Boolean(valueToSec)
 
   function clearForm() {
     value = ''
@@ -16,14 +17,14 @@
   }
 
   function addNewCounter() {
-    if (!valueToSec) return
+    if (valueToSec.error) return
 
     $counters = [
       {
         name: name,
         id: uuid(),
-        secs: valueToSec,
-        secsLeft: valueToSec,
+        secs: valueToSec.secs,
+        secsLeft: valueToSec.secs,
         active: false,
       },
       ...$counters,
@@ -35,14 +36,14 @@
   }
 
   function save() {
-    if (!valueToSec) return
+    if (valueToSec.error) return
 
     $saved = [
       ...$saved,
       {
         name: name,
         id: uuid(),
-        secs: valueToSec,
+        secs: valueToSec.secs,
       },
     ]
 
@@ -54,22 +55,30 @@
   <form class="form" on:submit|preventDefault={addNewCounter}>
     <input
       placeholder="1d 2h 3m 4s"
-      class:incorrect={value.trim() && !valueToSec}
+      class:incorrect={value.trim() && valueToSec.error}
       class="time"
       type="text"
       bind:value
     />
     <input class="name" type="text" bind:value={name} placeholder="name" />
     <div class="form_box">
-      <button
-        disabled={!correct}
-        class:active={valueToSec}
-        on:click|preventDefault={save}
-        class="save">save</button
-      >
-      <button disabled={!correct} class:active={valueToSec} class="add"
-        >add</button
-      >
+      {#if valueToSec.error && filled}
+        <div class="error">{valueToSec.errorMessage}</div>
+      {:else}
+        <button
+          in:fade={{duration:200}}
+          disabled={valueToSec.error}
+          class:active={!valueToSec.error}
+          on:click|preventDefault={save}
+          class="save">save</button
+        >
+        <button
+          in:fade={{duration:200}}
+          disabled={valueToSec.error}
+          class:active={!valueToSec.error}
+          class="add">add</button
+        >
+      {/if}
     </div>
   </form>
 </div>
@@ -93,7 +102,9 @@
   .name,
   .add,
   .time,
+  .error,
   .save {
+    padding: 8px;
     border: none;
     margin: 5px;
     text-align: center;
@@ -129,12 +140,17 @@
     align-content: stretch;
   }
 
+  .error {
+    width: 100%;
+    color: var(--color-danger);
+  }
+
   .add,
   .save {
     background-color: var(--color-primary-2);
     width: calc(50% - 5px);
     color: var(--color-primary-7);
-    opacity: .3;
+    opacity: 0.3;
   }
 
   .add {

@@ -7,24 +7,43 @@ const timeInSec = {
 
 export function stringToSec(str) {
   str = str.trim()
-  let sec = 0
-  let flag = true
+  let secs = 0
+  let error = false
+  let errorMessage = ''
   const arr = str.split(' ').filter(el => el.trim().length)
+  const arrLength = arr.length
   const correct = Object.keys(timeInSec)
 
-  arr.forEach(el => {
-    let key = el.substr(-1)
-    let isCorrect = correct.includes(key)
-    let num = Number(el.substr(0, el.length - 1))
+  for (let i = 0; i < arrLength; i++) {
+    const key = arr[i].substr(-1)
+    const number = arr[i].substr(0, arr[i].length - 1)
+    const keyIsCorrect = correct.includes(key)
+    const numberIsCorrect = Number(number)
 
-    if (!isCorrect || !num) {
-      flag = false
+    if (keyIsCorrect && numberIsCorrect) {
+      secs += number * timeInSec[key]
     } else {
-      sec += num * timeInSec[key]
+      error = true
+      errorMessage = 'wrong format'
+      break
     }
-  })
+  }
 
-  return flag ? Math.floor(sec) : false
+  if (!error && secs < 1) {
+    error = true
+    errorMessage = '1 second is minimum time'
+  }
+
+  if (!error && secs > timeInSec.d * 1000) {
+    error = true
+    errorMessage = '1000 days is max time'
+  }
+
+  return {
+    error: error,
+    errorMessage: errorMessage,
+    secs: Math.round(secs),
+  }
 }
 
 export function secsToObj(sec) {
