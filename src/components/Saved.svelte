@@ -1,9 +1,10 @@
 <script>
   import { counters } from '../stores/counters.js'
   import { settings } from '../stores/settings.js'
-  import { v4 as uuid } from 'uuid'
+  import { now } from '../stores/time.js'
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
+  import { v4 as uuid } from 'uuid'
   import { fly, scale } from 'svelte/transition'
   import { secsToObj } from '../utilities/timer.js'
   import Time from './Time.svelte'
@@ -26,8 +27,9 @@
         name: name,
         id: uuid(),
         secs: secs,
-        secsLeft: secs,
-        active: false,
+        status: 'pending',
+        timeOnChange: Math.floor($now.getTime() / 1000),
+        secsLeftOnChange: secs,
       },
       ...$counters,
     ]

@@ -1,8 +1,8 @@
 <script>
+  import { now } from '../stores/time.js'
   import { device } from '../stores/device.js'
   import { history } from '../stores/history.js'
   import { settings } from '../stores/settings.js'
-  import { now } from '../stores/time.js'
   import { v4 as uuid } from 'uuid'
   import { onDestroy } from 'svelte'
   import { scale, fly, fade } from 'svelte/transition'
@@ -11,18 +11,21 @@
   import { secsToObj } from '../utilities/timer.js'
   import Icon from './Icon.svelte'
   import Time from './Time.svelte'
+  import TimeAgo from './TimeAgo.svelte'
   import Alarm from './Alarm.svelte'
   export let name
   export let id
   export let secs
-  export let secsLeft
-  export let active
-  export let secsLeftOnActivate = 0
-  export let timeOnActivate = 0
+  export let status
+  export let secsLeftOnChange
+  export let timeOnChange
   let playAlarm = false
   let actionsActive = false
   const showActions = () => (actionsActive = true)
   const hideActions = () => (actionsActive = false)
+  const nowInSecs = () => Math.floor($now.getTime() / 1000)
+  let timeObj = secsToObj(secs)
+  $: timeLeftObj = secsToObj(counting.secs)
 
   function remove() {
     $counters = $counters.filter(el => el.id != id)
@@ -30,91 +33,95 @@
   }
 
   function addNewHistoryItem() {
-    const nowInSecs = Math.floor($now.getTime() / 1000)
-
     $history = [
       ...$history,
       {
         id: uuid(),
         name: name,
         secs: secs,
-        timeInSecsOnFinish: nowInSecs,
+        timeInSecsOnFinish: timeOnChange,
       },
     ]
   }
 
-  let timeObj = secsToObj(secs)
-  $: timeLeftObj = secsToObj(secsLeft)
-  $: resetActive = counting.finished || secs > secsLeft
+  function updateStatus(newStatus) {
+    status = newStatus
+    secsLeftOnChange = counting.secs
+    timeOnChange = nowInSecs()
+    storage.set('counters', $counters)
+  }
 
   const counting = {
-    finished: false,
-    pauzed: false,
+    secs: secs,
+    secsAgo: 0,
     interval: false,
+    init: () => {
+      if (status === 'active') {
+        const diff = nowInSecs() - timeOnChange
+        counting.secs = Math.max(secsLeftOnChange - diff, 0)
+        counting.start()
+      } else if (status === 'pauzed') {
+        counting.secs = secsLeftOnChange
+      } else if (status === 'finished') {
+        counting.secs = 0
+        counting.startCountingSecsAgo()
+      }
+    },
     count: () => {
-      secsLeft--
-      if (secsLeft <= 0) counting.finish(true, true)
+      counting.secs--
+
+      if (counting.secs <= 0) {
+        counting.finish()
+      }
     },
     start: () => {
-      counting.pauzed = false
-      active = true
-      secsLeftOnActivate = secsLeft
-      timeOnActivate = Math.floor($now.getTime() / 1000)
+      updateStatus('active')
       counting.interval = setInterval(counting.count, 1000)
-      storage.set('counters', $counters)
     },
-    stop: (pauzing) => {
-      if(pauzing) counting.pauzed = true
+    stop: () => {
       clearInterval(counting.interval)
-      active = false
-      storage.set('counters', $counters)
+      updateStatus('pauzed')
     },
     reset: () => {
-      counting.stop(false)
-      secsLeft = secs
-      counting.finished = false
-      storage.set('counters', $counters)
+      clearInterval(counting.interval)
+      counting.secs = secs
+      updateStatus('pending')
     },
     toggle: () => {
-      if (active) {
-        counting.stop(true)
-      } else if (!counting.finished) {
+      if (status === 'pending') {
         counting.start()
-      } else {
-        playAlarm = false
+      } else if (status === 'active') {
+        counting.stop()
+      } else if (status === 'pauzed') {
+        counting.start()
+      } else if (status === 'finished') {
         counting.reset()
       }
     },
-    finish: (saveInHistory, runAlarmSound) => {
-      secsLeft = 0
-      counting.finished = true
-      counting.stop(false)
-
-      if (runAlarmSound && $settings.alarm === 'enabled') playAlarm = true
-      if (saveInHistory) addNewHistoryItem()
+    finish: () => {
+      clearInterval(counting.interval)
+      counting.secs = 0
+      updateStatus('finished')
+      if ($settings.alarm === 'enabled') playAlarm = true
+      counting.startCountingSecsAgo()
+      addNewHistoryItem()
+    },
+    startCountingSecsAgo: () => {
+      counting.countSecsAgo()
+      counting.interval = setInterval(counting.countSecsAgo, 1000)
+    },
+    countSecsAgo: () => {
+      counting.secsAgo = nowInSecs() - timeOnChange
     },
   }
 
-  if (active) {
-    const nowInSecs = Math.floor($now.getTime() / 1000)
-    const secsDiff = nowInSecs - timeOnActivate
-    secsLeft = Math.max(secsLeftOnActivate - secsDiff, 0)
-
-    if (!secsLeft) {
-      counting.finish(true, false)
-    } else {
-      counting.start()
-    }
-  }
-
-  if (!secsLeft) counting.finish(false, false)
-  if (!active && !counting.finished && secsLeft < secs) counting.pauzed = true
-  onDestroy(() => counting.stop(false))
+  counting.init()
+  onDestroy(() => clearInterval(counting.interval))
 </script>
 
 <div
   transition:scale={{ duration: 200 }}
-  class="counter"
+  class="counter {status}"
   on:mouseover={showActions}
   on:mouseleave={hideActions}
 >
@@ -128,17 +135,7 @@
       <Time {timeObj} variant={$settings.timeVariant} />
     </span>
 
-    <!-- {#if counting.finished}
-      <span class="finishedInfo">
-        <p>finished!</p>
-      </span>
-    {/if} -->
-    <span
-      class="timeLeft"
-      class:active
-      class:finished={counting.finished}
-      class:pauzed={counting.pauzed}
-    >
+    <span class="timeLeft {status}">
       <Time
         name="timeLeft"
         bind:timeObj={timeLeftObj}
@@ -146,13 +143,16 @@
       />
     </span>
 
-    <span class="name">
+    <span class="name {status}">
       <p>{name}</p>
     </span>
 
-    {#if counting.finished}
+    {#if status === 'finished'}
       <span class="alarmInfo" transition:fade={{ duration: 200 }}>
         <span class="bell"><Icon name="bell" /></span>
+        <span class="timeAgo">
+          <TimeAgo timeObj={secsToObj(counting.secsAgo)} />
+        </span>
       </span>
     {/if}
   </button>
@@ -168,13 +168,12 @@
       <Icon name="delete" />
     </button>
 
-    {#if secs > secsLeft || active}
+    {#if status !== 'pending'}
       <button
         transition:fly={{ x: 50, duration: 200 }}
         class="button reset"
         on:focus={showActions}
         on:blur={hideActions}
-        disabled={!resetActive}
         on:click={counting.reset}
       >
         <Icon name="reset" />
@@ -184,11 +183,8 @@
 
   {#if $settings.progressBar === 'enabled'}
     <div
-      class:active
-      class:pauzed={counting.pauzed}
-      class:finished={counting.finished}
-      class="progress"
-      style="transform: scaleX({1 - secsLeft / secs});"
+      class="progress {status}"
+      style="transform: scaleX({1 - counting.secs / secs});"
     />
   {/if}
 
@@ -203,6 +199,11 @@
     background-color: var(--color-primary-7);
     color: var(--color-primary-6);
     position: relative;
+    transition: opacity 0.2s;
+  }
+
+  .counter.pending {
+    opacity: 0.7;
   }
 
   .toggle {
@@ -264,7 +265,6 @@
     color: var(--color-primary-10);
   }
 
-  /* .finishedInfo { */
   .timeLeft {
     width: 70%;
     min-height: 1.8em;
@@ -272,34 +272,20 @@
     padding: 5px 0;
     justify-content: flex-end;
     text-align: right;
-    font-size: 1.5em;
+    font-size: 2em;
   }
-
-  /* .finishedInfo {
-    color: var(--color-primary-2);
-  }
-
-  .finishedInfo p {
-    margin: 0;
-    padding: 0;
-    color: var(--color-success-2);
-  } */
 
   .timeLeft {
-    opacity: 0.7;
     color: var(--color-primary-10);
     transition: 0.2s;
   }
 
   .timeLeft.active,
   .timeLeft.finished {
-    opacity: 1;
-    /* color: var(--color-primary-5); */
     color: var(--color-success-2);
   }
 
   .timeLeft.pauzed {
-    opacity: 1;
     color: var(--color-danger-2);
   }
 
@@ -311,6 +297,11 @@
   .name p {
     margin: 0;
     text-align: right;
+  }
+  
+  .timeLeft.finished,
+  .name.finished {
+    opacity: 0;
   }
 
   .progress {
@@ -341,10 +332,10 @@
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-success);
-    opacity: .5;
+    background-color: var(--color-success-3);
     z-index: 50;
   }
 
@@ -365,8 +356,12 @@
     display: block;
     color: var(--color-success-2);
     animation: ringing;
-    animation-duration: 0.3s;
+    animation-duration: .5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+  }
+
+  .timeAgo {
+    color: var(--color-success-2);
   }
 </style>

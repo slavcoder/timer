@@ -6,11 +6,7 @@
   const remove = () => play = false
   let audio
 
-  onMount(() => {
-    audio.play()
-    console.log(audio)
-  })
-
+  onMount(() =>  audio.play())
 </script>
 
 <audio id="myAudio" bind:this={audio} on:ended={remove}>

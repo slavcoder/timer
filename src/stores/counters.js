@@ -11,3 +11,13 @@ export const counters = writable(storage.get('counters',[]))
 //   secsLeftOnActivate: 13413,
 //   timeInSecsOnActivate: 'time in secs'
 // }
+
+
+// let example {
+//   name: name,
+//   id: uuid(),
+//   secs: valueToSec.secs,
+//   status: 'pending',
+//   timeOnChange: Math.floor($now.getTime() / 1000),
+//   secsLeftOnChange: valueToSec.secs,
+// }

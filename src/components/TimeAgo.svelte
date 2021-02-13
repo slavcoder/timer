@@ -9,9 +9,9 @@
     s: 'second',
   }
 
-  let timeKey = keys.find(key => timeObj[key] > 0)
-  if(!timeKey) timeKey = 's'
-  let plural = timeObj[timeKey] === 1 ? '' : 's'
+  $: timeKey = keys.find(key => timeObj[key] > 0)
+  $: if(!timeKey) timeKey = 's'
+  $: plural = timeObj[timeKey] === 1 ? '' : 's'
 </script>
 
 <span>

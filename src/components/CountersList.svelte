@@ -6,15 +6,14 @@
 
 <h2 class="heading">counters</h2>
 <ul class="list">
-  {#each $counters as { timeOnActivate, secsLeftOnActivate, id, secsLeft, active, ...rest } (id)}
+  {#each $counters as { id, status, timeOnChange, secsLeftOnChange, ...rest } (id)}
     <li class="list_item" animate:flip={{ duration: 200 }}>
       <Counter
         {id}
+        bind:status
+        bind:secsLeftOnChange
+        bind:timeOnChange
         {...rest}
-        bind:secsLeft
-        bind:active
-        bind:secsLeftOnActivate
-        bind:timeOnActivate
       />
     </li>
   {/each}

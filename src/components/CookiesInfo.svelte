@@ -35,6 +35,7 @@
     align-items: center;
     flex-wrap: wrap;
     padding: 20px 50px;
+    z-index: 200;
   }
 
   button {
