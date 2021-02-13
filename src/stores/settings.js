@@ -6,6 +6,9 @@ export const defaultSettings = {
   font: 'russo',
   fontSize: 'medium',
   timeVariant: 1,
+  alarm: 'enabled',
+  alarmSound: 'Store Door Chime',
+  progressBar: 'enabled',
 }
 
 export const settings = writable(storage.get('settings', defaultSettings))

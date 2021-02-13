@@ -103,6 +103,7 @@
     height: 100%;
     right: 100%;
     margin: 0;
+    padding: 5px 12px;
   }
 
   .delete.inModal {

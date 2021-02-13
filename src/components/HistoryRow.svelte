@@ -53,6 +53,9 @@
   }
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: transparent;
     border: none;
     margin: 0;

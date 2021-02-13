@@ -19,7 +19,7 @@
   export let active
   export let secsLeftOnActivate = 0
   export let timeOnActivate = 0
-  let playAlarm = false
+  let showAlarm = false
   let actionsActive = false
   const showActions = () => (actionsActive = true)
   const hideActions = () => (actionsActive = false)
@@ -49,50 +49,59 @@
 
   const counting = {
     finished: false,
-    pauzed: false,
     interval: false,
     count: () => {
       secsLeft--
-      if (secsLeft <= 0) counting.finish(true, true)
+      if (secsLeft <= 0) counting.finish(true)
     },
     start: () => {
-      counting.pauzed = false
       active = true
       secsLeftOnActivate = secsLeft
       timeOnActivate = Math.floor($now.getTime() / 1000)
       counting.interval = setInterval(counting.count, 1000)
       storage.set('counters', $counters)
     },
-    stop: (pauzing) => {
-      if(pauzing) counting.pauzed = true
+    stop: () => {
       clearInterval(counting.interval)
       active = false
       storage.set('counters', $counters)
     },
     reset: () => {
-      counting.stop(false)
+      counting.stop()
       secsLeft = secs
       counting.finished = false
       storage.set('counters', $counters)
     },
     toggle: () => {
       if (active) {
-        counting.stop(true)
+        counting.stop()
       } else if (!counting.finished) {
         counting.start()
       } else {
-        playAlarm = false
+        showAlarm = false
         counting.reset()
       }
     },
-    finish: (saveInHistory, runAlarmSound) => {
+    finish: saveInHistory => {
       secsLeft = 0
       counting.finished = true
-      counting.stop(false)
+      counting.stop()
 
-      if (runAlarmSound && $settings.alarm === 'enabled') playAlarm = true
-      if (saveInHistory) addNewHistoryItem()
+      if (saveInHistory) {
+        counting.alarm()
+        addNewHistoryItem()
+      }
     },
+    alarm: () => {
+      console.log('alarm should ring')
+      showAlarm = true
+
+      if($settings.alarm === 'disabled') {
+        setTimeout(() => {
+          showAlarm = false
+        }, 3000)
+      }
+    }
   }
 
   if (active) {
@@ -101,15 +110,14 @@
     secsLeft = Math.max(secsLeftOnActivate - secsDiff, 0)
 
     if (!secsLeft) {
-      counting.finish(true, false)
+      counting.finish(true)
     } else {
       counting.start()
     }
   }
 
-  if (!secsLeft) counting.finish(false, false)
-  if (!active && !counting.finished && secsLeft < secs) counting.pauzed = true
-  onDestroy(() => counting.stop(false))
+  if (!secsLeft) counting.finish(false)
+  onDestroy(() => counting.stop())
 </script>
 
 <div
@@ -128,30 +136,30 @@
       <Time {timeObj} variant={$settings.timeVariant} />
     </span>
 
-    <!-- {#if counting.finished}
+    {#if counting.finished}
       <span class="finishedInfo">
         <p>finished!</p>
       </span>
-    {/if} -->
-    <span
-      class="timeLeft"
-      class:active
-      class:finished={counting.finished}
-      class:pauzed={counting.pauzed}
-    >
-      <Time
-        name="timeLeft"
-        bind:timeObj={timeLeftObj}
-        variant={$settings.timeVariant}
-      />
-    </span>
+    {:else}
+      <span
+        class="timeLeft"
+        class:active
+        class:pauzed={!active && secsLeft < secs}
+      >
+        <Time
+          name="timeLeft"
+          bind:timeObj={timeLeftObj}
+          variant={$settings.timeVariant}
+        />
+      </span>
+    {/if}
 
     <span class="name">
       <p>{name}</p>
     </span>
 
-    {#if counting.finished}
-      <span class="alarmInfo" transition:fade={{ duration: 200 }}>
+    {#if showAlarm}
+      <span class="alarmInfo" transition:fade={{duration: 200}}>
         <span class="bell"><Icon name="bell" /></span>
       </span>
     {/if}
@@ -185,17 +193,17 @@
   {#if $settings.progressBar === 'enabled'}
     <div
       class:active
-      class:pauzed={counting.pauzed}
+      class:pauzed={!active && secsLeft < secs}
       class:finished={counting.finished}
       class="progress"
-      style="transform: scaleX({1 - secsLeft / secs});"
+      style="transform: scaleX({1 - (secsLeft) / secs});"
     />
   {/if}
-
-  {#if playAlarm}
-    <Alarm bind:play={playAlarm} sound={$settings.alarmSound} />
-  {/if}
 </div>
+
+{#if showAlarm && $settings.alarm === 'enabled'} 
+  <Alarm bind:showAlarm sound={$settings.alarmSound} />
+{/if}
 
 <style>
   .counter {
@@ -264,10 +272,9 @@
     color: var(--color-primary-10);
   }
 
-  /* .finishedInfo { */
-  .timeLeft {
+  .timeLeft,
+  .finishedInfo {
     width: 70%;
-    min-height: 1.8em;
     display: flex;
     padding: 5px 0;
     justify-content: flex-end;
@@ -275,7 +282,7 @@
     font-size: 1.5em;
   }
 
-  /* .finishedInfo {
+  .finishedInfo {
     color: var(--color-primary-2);
   }
 
@@ -283,7 +290,7 @@
     margin: 0;
     padding: 0;
     color: var(--color-success-2);
-  } */
+  }
 
   .timeLeft {
     opacity: 0.7;
@@ -291,11 +298,9 @@
     transition: 0.2s;
   }
 
-  .timeLeft.active,
-  .timeLeft.finished {
+  .timeLeft.active {
     opacity: 1;
-    /* color: var(--color-primary-5); */
-    color: var(--color-success-2);
+    color: var(--color-primary-5);
   }
 
   .timeLeft.pauzed {
@@ -321,7 +326,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    transition: 0.1s;
+    transition: .1s;
     transition-timing-function: linear;
   }
 
@@ -349,15 +354,9 @@
   }
 
   @keyframes ringing {
-    0% {
-      transform: rotate(20deg);
-    }
-    50% {
-      transform: rotate(-20deg);
-    }
-    100% {
-      transform: rotate(20deg);
-    }
+    0% {transform: rotate(20deg)}
+    50% {transform: rotate(-20deg)}
+    100% {transform: rotate(20deg)}
   }
 
   .bell {
@@ -365,7 +364,7 @@
     display: block;
     color: var(--color-success-2);
     animation: ringing;
-    animation-duration: 0.3s;
+    animation-duration: .3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }

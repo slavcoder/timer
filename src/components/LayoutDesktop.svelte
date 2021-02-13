@@ -35,8 +35,9 @@
     width: 22.5%;
     min-height: 200px;
   }
+  
   .container_counters {
-    width: 55%;
+    width: 54%;
     min-height: 200px;
   }
 </style>

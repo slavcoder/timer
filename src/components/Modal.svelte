@@ -88,6 +88,7 @@
     justify-content: center;
     align-items: center;
     border: none;
+    width: 50px;
   }
 
   .close:hover,

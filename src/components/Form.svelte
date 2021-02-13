@@ -66,14 +66,14 @@
         <div class="error">{valueToSec.errorMessage}</div>
       {:else}
         <button
-          in:fade={{duration:200}}
+          in:fade|local={{duration:200}}
           disabled={valueToSec.error}
           class:active={!valueToSec.error}
           on:click|preventDefault={save}
           class="save">save</button
         >
         <button
-          in:fade={{duration:200}}
+          in:fade|local={{duration:200}}
           disabled={valueToSec.error}
           class:active={!valueToSec.error}
           class="add">add</button
