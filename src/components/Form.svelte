@@ -3,6 +3,7 @@
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
   import { now } from '../stores/time.js'
+  import { settings } from '../stores/settings.js'
   import { fade } from 'svelte/transition'
   import { v4 as uuid } from 'uuid'
   import { storage } from '../utilities/storage.js'
@@ -10,7 +11,7 @@
   let value = ''
   let name = ''
   $: filled = value.length
-  $: valueToSec = stringToSec(value)
+  $: valueToSec = stringToSec(value, $settings.dateFormat)
 
   function clearForm() {
     value = ''

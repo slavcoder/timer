@@ -18,6 +18,14 @@
     alarmSound: Object.keys(alarmList),
     progressBar: ['enabled', 'disabled'],
     clock: ['enabled', 'disabled'],
+    dateFormat: [
+      'dd/mm/yyyy',
+      'dd-mm-yyyy',
+      'yyyy/mm/dd',
+      'yyyy-mm-dd',
+      'mm/dd/yyyy',
+      'mm-dd-yyyy'
+    ],
   }
 
   function setToDefault() {
@@ -46,8 +54,11 @@
 
     <div class="settingOption">
       <h3>time variant</h3>
-      <Select bind:value={$settings.timeVariant} options={options.timeVariant} />
-      <div class="timePreview">
+      <Select
+        bind:value={$settings.timeVariant}
+        options={options.timeVariant}
+      />
+      <div class="description">
         <h4 class="previewHeading">current variant preview:</h4>
         <p>1 day, 2 hours, 30 minutes and 45 seconds is presented as:</p>
         <div class="timeExample">
@@ -58,10 +69,13 @@
         </div>
       </div>
     </div>
-    
+
     <div class="settingOption">
       <h3>progress bar</h3>
-      <Select bind:value={$settings.progressBar} options={options.progressBar} />
+      <Select
+        bind:value={$settings.progressBar}
+        options={options.progressBar}
+      />
     </div>
 
     <div class="settingOption">
@@ -70,9 +84,14 @@
       {#if $settings.alarm === 'enabled'}
         <div transition:slide|local>
           <h4>select alarm</h4>
-          <button class="alarmTest" on:click={() => (playAlarm = true)}>alarm test</button>
-          <Select bind:value={$settings.alarmSound} options={options.alarmSound} />
-          {#if playAlarm} 
+          <button class="alarmTest" on:click={() => (playAlarm = true)}
+            >alarm test</button
+          >
+          <Select
+            bind:value={$settings.alarmSound}
+            options={options.alarmSound}
+          />
+          {#if playAlarm}
             <Alarm bind:play={playAlarm} sound={$settings.alarmSound} />
           {/if}
         </div>
@@ -82,6 +101,18 @@
     <div class="settingOption">
       <h3>clock (desktop view)</h3>
       <Select bind:value={$settings.clock} options={options.clock} />
+    </div>
+
+    <div class="settingOption">
+      <h3>date format</h3>
+      <Select bind:value={$settings.dateFormat} options={options.dateFormat} />
+      <div class="description">
+        <h4 class="previewHeading">you can use date to calculate time</h4>
+        <p>
+          for example, you can write 2030 to calculate time up to 2030 year, or
+          just any date with choosen format (default format is dd/mm/yyyy)
+        </p>
+      </div>
     </div>
 
     <div class="settingOption">
@@ -102,10 +133,10 @@
     margin-bottom: 2em;
     /* border-left: .3em solid var(--color-success); */
     background-color: var(--color-primary-10);
-    padding: 1em .5em;
+    padding: 1em 0.5em;
   }
 
-  .timePreview {
+  .description {
     /* margin: 10px 0; */
     /* padding: 10px; */
     /* background-color: var(--color-primary-3); */
@@ -156,5 +187,4 @@
     color: var(--color-primary);
     background-color: var(--color-success);
   }
-
 </style>

@@ -5,28 +5,79 @@ const timeInSec = {
   s: 1,
 }
 
-export function stringToSec(str) {
+function destructTimeItem(el) {
+  const key = el.substr(-1)
+  const number = el.substr(0, el.length - 1)
+
+  return {
+    key: key,
+    number: number
+  }
+}
+
+function validateTimeFormat(el) {
+  const correct = Object.keys(timeInSec)
+  const destructed = destructTimeItem(el)
+  const keyIsCorrect = correct.includes(destructed.key)
+  let numberIsCorrect = typeof Number(destructed.number) === 'number'
+  numberIsCorrect = numberIsCorrect && !isNaN(destructed.number)
+  return (keyIsCorrect && numberIsCorrect)
+}
+
+function changeDateFormat(date, format) {
+  const dateFormat = {
+    'dd/mm/yyyy': date => date.split('/').reverse().join('-'),
+    'dd-mm-yyyy': date => date.split('-').reverse().join('-'),
+    'yyyy/mm/dd': date => date.split('/').join('-'),
+    'yyyy-mm-dd': date => date,
+    'mm/dd/yyyy': date => {
+      const splitted = date.split('/')
+      splitted.unshift(splitted.pop())
+      return splitted.join('-')
+    },
+    'mm-dd-yyyy': date => {
+      const splitted = date.split('-')
+      splitted.unshift(splitted.pop())
+      return splitted.join('-')
+    },
+  }
+
+  return dateFormat[format](date)
+}
+
+function validateDateFormat(el, format) {
+  return Boolean(Date.parse(changeDateFormat(el, format)))
+}
+
+export function stringToSec(str, dateFormat) {
   str = str.trim()
   let secs = 0
   let error = false
   let errorMessage = ''
   const arr = str.split(' ').filter(el => el.trim().length)
   const arrLength = arr.length
-  const correct = Object.keys(timeInSec)
 
   for (let i = 0; i < arrLength; i++) {
-    const key = arr[i].substr(-1)
-    const number = arr[i].substr(0, arr[i].length - 1)
-    const keyIsCorrect = correct.includes(key)
-    const numberIsCorrect = typeof Number(number) === 'number'
+    const item = arr[i]
+    const validDateFormat = validateDateFormat(item, dateFormat)
+    const validTimeFormat = validateTimeFormat(item)
 
-    if (keyIsCorrect && numberIsCorrect) {
-      secs += number * timeInSec[key]
-    } else {
-      error = true
-      errorMessage = 'wrong format'
-      break
+    if(validDateFormat) {
+      const nowInSecs = Date.now() / 1000
+      const dateInSecs = Date.parse(changeDateFormat(item,dateFormat)) / 1000
+      secs += Math.floor(dateInSecs - nowInSecs)
+      continue
     }
+    
+    if(validTimeFormat) {
+      const destructed = destructTimeItem(item)
+      secs += Number(destructed.number) * timeInSec[destructed.key]
+      continue
+    }
+
+    error = true
+    errorMessage = 'incorrect format'
+    break
   }
 
   if (!error && secs < 1) {
@@ -34,9 +85,9 @@ export function stringToSec(str) {
     errorMessage = '1 second is minimum time'
   }
 
-  if (!error && secs > timeInSec.d * 1000) {
+  if (!error && secs > timeInSec.d * 10000) {
     error = true
-    errorMessage = '1000 days is max time'
+    errorMessage = '10,000 days is max time'
   }
 
   return {
