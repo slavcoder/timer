@@ -7,7 +7,6 @@
   import { onDestroy } from 'svelte'
   import { scale, fly, fade } from 'svelte/transition'
   import { counters } from '../stores/counters.js'
-  import { storage } from '../utilities/storage.js'
   import { secsToObj } from '../utilities/timer.js'
   import Icon from './Icon.svelte'
   import Time from './Time.svelte'
@@ -29,7 +28,6 @@
 
   function remove() {
     $counters = $counters.filter(el => el.id != id)
-    storage.set('counters', $counters)
   }
 
   function addNewHistoryItem() {
@@ -48,31 +46,28 @@
     status = newStatus
     secsLeftOnChange = counting.secs
     timeOnChange = nowInSecs()
-    storage.set('counters', $counters)
   }
 
   const counting = {
     secs: secs,
     secsAgo: 0,
     interval: false,
-    init: () => {
-      if (status === 'active') {
+    init: {
+      pending: () => (counting.secs = secs),
+      active: () => {
         const diff = nowInSecs() - timeOnChange
         counting.secs = Math.max(secsLeftOnChange - diff, 0)
         counting.start()
-      } else if (status === 'pauzed') {
-        counting.secs = secsLeftOnChange
-      } else if (status === 'finished') {
+      },
+      pauzed: () => (counting.secs = secsLeftOnChange),
+      finished: () => {
         counting.secs = 0
         counting.startCountingSecsAgo()
-      }
+      },
     },
     count: () => {
       counting.secs--
-
-      if (counting.secs <= 0) {
-        counting.finish()
-      }
+      if (counting.secs <= 0) counting.finish()
     },
     start: () => {
       updateStatus('active')
@@ -87,16 +82,11 @@
       counting.secs = secs
       updateStatus('pending')
     },
-    toggle: () => {
-      if (status === 'pending') {
-        counting.start()
-      } else if (status === 'active') {
-        counting.stop()
-      } else if (status === 'pauzed') {
-        counting.start()
-      } else if (status === 'finished') {
-        counting.reset()
-      }
+    toggle: {
+      pending: () => counting.start(),
+      active: () => counting.stop(),
+      pauzed: () => counting.start(),
+      finished: () => counting.reset(),
     },
     finish: () => {
       clearInterval(counting.interval)
@@ -115,7 +105,7 @@
     },
   }
 
-  counting.init()
+  counting.init[status]()
   onDestroy(() => clearInterval(counting.interval))
 </script>
 
@@ -129,7 +119,7 @@
     class="toggle"
     on:focus={showActions}
     on:blur={hideActions}
-    on:click={counting.toggle}
+    on:click={counting.toggle[status]}
   >
     <span class="time">
       <Time {timeObj} variant={$settings.timeVariant} />
@@ -144,7 +134,7 @@
     </span>
 
     <span class="name {status}">
-      <p>{name}</p>
+      {name}
     </span>
 
     {#if status === 'finished'}
@@ -209,7 +199,7 @@
   .toggle {
     cursor: pointer;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: flex-start;
     padding: 20px 10px;
     width: 100%;
@@ -260,24 +250,22 @@
   .time {
     opacity: 0.8;
     font-size: 1.2em;
-    width: 30%;
-    padding: 5px 0;
+    width: 100%;
+    padding: 0.1em 0;
     color: var(--color-primary-10);
   }
 
   .timeLeft {
-    width: 70%;
-    min-height: 1.8em;
+    width: 100%;
+    min-height: 1.5em;
     display: flex;
-    padding: 5px 0;
+    padding: 0.1em 0;
     justify-content: flex-end;
     text-align: right;
-    font-size: 2em;
-  }
-
-  .timeLeft {
+    font-size: 2.5em;
     color: var(--color-primary-10);
     transition: 0.2s;
+    margin-bottom: 0.5em;
   }
 
   .timeLeft.active,
@@ -290,15 +278,12 @@
   }
 
   .name {
-    color: var(--color-primary-9);
+    color: var(--color-primary-6);
     width: 100%;
-  }
-
-  .name p {
-    margin: 0;
+    word-wrap: anywhere;
     text-align: right;
   }
-  
+
   .timeLeft.finished,
   .name.finished {
     opacity: 0;
@@ -356,7 +341,7 @@
     display: block;
     color: var(--color-success-2);
     animation: ringing;
-    animation-duration: .5s;
+    animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }

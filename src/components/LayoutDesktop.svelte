@@ -1,4 +1,5 @@
 <script>
+  import { settings } from '../stores/settings.js'
   import Form from './Form.svelte'
   import CountersList from './CountersList.svelte'
   import SavedList from './SavedList.svelte'
@@ -15,7 +16,9 @@
     <CountersList />
   </div>
   <div class="container_clock">
-    <Clock />
+    {#if $settings.clock === 'enabled'}
+      <Clock />
+    {/if}
   </div>
 </div>
 

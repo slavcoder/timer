@@ -17,6 +17,7 @@
     alarm: ['enabled', 'disabled'],
     alarmSound: Object.keys(alarmList),
     progressBar: ['enabled', 'disabled'],
+    clock: ['enabled', 'disabled'],
   }
 
   function setToDefault() {
@@ -76,6 +77,11 @@
           {/if}
         </div>
       {/if}
+    </div>
+
+    <div class="settingOption">
+      <h3>clock (desktop view)</h3>
+      <Select bind:value={$settings.clock} options={options.clock} />
     </div>
 
     <div class="settingOption">

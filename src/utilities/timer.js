@@ -18,7 +18,7 @@ export function stringToSec(str) {
     const key = arr[i].substr(-1)
     const number = arr[i].substr(0, arr[i].length - 1)
     const keyIsCorrect = correct.includes(key)
-    const numberIsCorrect = Number(number)
+    const numberIsCorrect = typeof Number(number) === 'number'
 
     if (keyIsCorrect && numberIsCorrect) {
       secs += number * timeInSec[key]

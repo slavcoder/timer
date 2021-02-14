@@ -115,6 +115,7 @@
 
   .time {
     font-size: 1.2em;
+    word-wrap: anywhere;
   }
 
   .add {

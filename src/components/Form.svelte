@@ -90,6 +90,7 @@
     display: flex;
     justify-content: center;
   }
+
   .form {
     width: 300px;
     max-width: 80%;

@@ -9,6 +9,7 @@ export const defaultSettings = {
   alarm: 'enabled',
   alarmSound: 'Store Door Chime',
   progressBar: 'enabled',
+  clock: 'enabled'
 }
 
 export const settings = writable(storage.get('settings', defaultSettings))

@@ -3,7 +3,6 @@
   export let name = 'time'
   export let variant = 1
   let keys = Object.keys(timeObj)
-  // let 
 </script>
 
 {#if variant === 1}
