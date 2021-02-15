@@ -1,3 +1,22 @@
 export const alarmList = {
-  'Store Door Chime': 'store-door-chime.mp3'
+  'analog watch alarm': 'analog-watch-alarm.mp3',
+  'bleep': 'bleep.mp3',
+  'dun dun dun': 'dun-dun-dun.mp3',
+  'fire pager': 'fire-pager.mp3',
+  'loud alarm clock buzzer': 'loud-alarm-clock-buzzer.mp3',
+  'pew pew': 'pew-pew.mp3',
+  'rooster crow': 'rooster-crow.mp3',
+  'rooster crowing': 'rooster-crowing.mp3',
+  'rooster': 'rooster.mp3',
+  'ship bell': 'ship-bell.mp3',
+  'siren noise': 'siren-noise.mp3',
+  'siren': 'siren.mp3',
+  'store door chime': 'store-door-chime.mp3',
+  'tornado siren sound': 'tornado-siren-sound.mp3',
+  'tornado siren': 'tornado-siren.mp3',
+  'warning siren': 'warning-siren.mp3',
+  'whistling': 'whistling.mp3',
+  'woop woop': 'woop-woop.mp3',
+  'zombie gets attacked': 'zombie-gets-attacked.mp3',
+  'zombie in pain': 'zombie-in-pain.mp3'
 }

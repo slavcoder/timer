@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import {storage} from '../utilities/storage.js'
+import { storage } from '../utilities/storage.js'
 
 export const defaultSettings = {
   theme: 'dark',
@@ -7,7 +7,7 @@ export const defaultSettings = {
   fontSize: 'medium',
   timeVariant: 1,
   alarm: 'enabled',
-  alarmSound: 'Store Door Chime',
+  alarmSound: 'bleep',
   progressBar: 'enabled',
   clock: 'enabled',
   dateFormat: 'dd/mm/yyyy',

@@ -10,7 +10,7 @@
   let playAlarm = false
 
   const options = {
-    themes: ['dark', 'light'],
+    themes: ['dark', 'light', 'fancy'],
     fonts: ['russo', 'roboto'],
     fontSize: ['small', 'medium', 'large'],
     timeVariant: [1, 2],
@@ -84,8 +84,9 @@
       {#if $settings.alarm === 'enabled'}
         <div transition:slide|local>
           <h4>select alarm</h4>
-          <button class="alarmTest" on:click={() => (playAlarm = true)}
-            >alarm test</button
+          <button class="alarmTest" on:click={() => (playAlarm = !playAlarm)}>
+            {playAlarm ? 'stop test' : 'alarm test'}
+          </button
           >
           <Select
             bind:value={$settings.alarmSound}

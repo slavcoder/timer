@@ -18,7 +18,6 @@
     --color-success: #7fe0aa;
     --color-success-2: hsl(147, 61%, 29%);
     --color-success-3: hsla(147, 61%, 69%, .3);
-    /* --color-success-3: hsla(147, 61%, 29%, 2); */
 
     --color-danger: #dc9696;
     --color-danger-2: hsl(0, 50%, 63%);

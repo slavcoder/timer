@@ -3,6 +3,7 @@
   import { device } from '../stores/device.js'
   import ThemeDark from '../themes/ThemeDark.svelte'
   import ThemeLight from '../themes/ThemeLight.svelte'
+  import ThemeFancy from '../themes/ThemeFancy.svelte'
 
   let innerWidth
   $: $device.innerWidth = innerWidth
