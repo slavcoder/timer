@@ -1,6 +1,5 @@
 <script>
   import HistoryRow from './HistoryRow.svelte'
-  import { fade } from 'svelte/transition'
   export let items
   export let nowInSecs
 </script>
@@ -16,10 +15,8 @@
       </tr>
     </thead>
     <tbody>
-      {#each items as { id, ...rest } (id)}
-        <tr transition:fade|local>
+      {#each items as { id, ...rest } (id)}        
           <HistoryRow {id} {...rest} {nowInSecs} />
-        </tr>
       {/each}
     </tbody>
   </table>
@@ -63,11 +60,4 @@
     background-color: var(--color-primary);
   }
 
-  tr:nth-child(even) {
-    background-color: var(--color-primary-11);
-  }
-
-  tr:hover {
-    background-color: var(--color-primary-3);
-  }
 </style>

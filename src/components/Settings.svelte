@@ -10,7 +10,7 @@
   let playAlarm = false
 
   const options = {
-    themes: ['dark', 'light', 'fancy'],
+    themes: ['dark', 'light', 'cyberpunk-dark', 'cyberpunk-light', 'arctic', 'pink-rose'],
     fonts: ['russo', 'roboto'],
     fontSize: ['small', 'medium', 'large'],
     timeVariant: [1, 2],

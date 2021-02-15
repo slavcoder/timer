@@ -15,11 +15,11 @@
     --color-primary-10: hsla(0, 0%, 20%, 0.5);
     --color-primary-11: hsla(0, 0%, 20%, 0.1);
 
-    --color-success: #7fe0aa;
+    --color-success: hsl(147, 61%, 69%);
     --color-success-2: hsl(147, 61%, 29%);
     --color-success-3: hsla(147, 61%, 69%, .3);
 
-    --color-danger: #dc9696;
+    --color-danger: hsl(0, 50%, 73%);
     --color-danger-2: hsl(0, 50%, 63%);
   }
 </style>

@@ -2,6 +2,7 @@
   import { history } from '../stores/history.js'
   import { settings } from '../stores/settings.js'
   import { secsToObj } from '../utilities/timer.js'
+  import { fade } from 'svelte/transition'
   import Time from './Time.svelte'
   import TimeAgo from './TimeAgo.svelte'
   import Icon from './Icon.svelte'
@@ -18,28 +19,48 @@
   }
 </script>
 
-<td class="remove"><button on:click={remove}><Icon name="delete" /></button></td
->
-<td class="name">
-  {#if name.length}
-    {name}
-  {:else}
-    <span class="unnamed">unnamed</span>
-  {/if}
-</td>
-<td class="time">
-  <Time name="history" timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
-</td>
-<td title={dateOnFinish.toLocaleString()} class="finished">
-  <TimeAgo timeObj={secsToObj(secsAgo)} />
-</td>
+<tr transition:fade|local>
+  <td class="remove"><button on:click={remove}><Icon name="delete" /></button></td
+  >
+  <td class="name">
+    {#if name.length}
+      {name}
+    {:else}
+      <span class="unnamed">unnamed</span>
+    {/if}
+  </td>
+  <td class="time">
+    <Time name="history" timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
+  </td>
+  <td title={dateOnFinish.toLocaleString()} class="finished">
+    <TimeAgo timeObj={secsToObj(secsAgo)} />
+  </td>
+</tr>
 
 <style>
+  tr:nth-child(even) {
+    background-color: var(--color-primary-11);
+  }
+
+  tr {
+    color: var(--color-primary-7);
+  }
+
+  tr:hover {
+    background-color: var(--color-primary-3);
+    color: var(--color-primary-8);
+  }
+
+  tr:hover button {
+    color: var(--color-primary-8);
+  }
+
   td {
     border: 1px solid var(--color-primary);
     text-align: center;
     padding: 5px 20px;
     text-align: left;
+    /* color: var(--color-primary-2); */
   }
 
   @media (max-width: 800px) {
@@ -49,7 +70,7 @@
   }
 
   .unnamed {
-    opacity: 0.2;
+    opacity: 0.3;
   }
 
   button {
@@ -61,9 +82,10 @@
     margin: 0;
     transition: 0.2s;
     min-width: 40px;
+    color: var(--color-primary-7);
   }
 
-  button:hover,
+  tr:hover button:hover,
   button:focus {
     color: var(--color-danger);
     cursor: pointer;
