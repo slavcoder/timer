@@ -19,7 +19,7 @@
   .list {
     margin: 10px 0;
     width: 100%;
-    max-width: 225px;
+    /* max-width: 225px; */
     padding: 0;
     list-style: none;
     display: flex;

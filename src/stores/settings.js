@@ -3,7 +3,7 @@ import { storage } from '../utilities/storage.js'
 
 export const defaultSettings = {
   theme: 'dark',
-  font: 'russo',
+  font: 'Noto Sans',
   fontSize: 'medium',
   timeVariant: 1,
   alarm: 'enabled',

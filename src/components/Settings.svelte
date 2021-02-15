@@ -10,8 +10,29 @@
   let playAlarm = false
 
   const options = {
-    themes: ['dark', 'light', 'cyberpunk-dark', 'cyberpunk-light', 'arctic', 'pink-rose'],
-    fonts: ['russo', 'roboto'],
+    themes: [
+      'dark',
+      'light',
+      'cyberpunk-dark',
+      'cyberpunk-light',
+      'arctic',
+      'pink-rose',
+    ],
+    fonts: [
+      'Russo One',
+      'Roboto Condensed',
+      'Noto Sans',
+      'Mukta',
+      'Fjalla One',
+      'Teko',
+      'Oswald',
+      'Hammersmith One',
+      'Francois One',
+      'Acme',
+      'Jockey One',
+      'Ramabhadra',
+      'Do Hyeon'
+    ],
     fontSize: ['small', 'medium', 'large'],
     timeVariant: [1, 2],
     alarm: ['enabled', 'disabled'],
@@ -24,7 +45,7 @@
       'yyyy/mm/dd',
       'yyyy-mm-dd',
       'mm/dd/yyyy',
-      'mm-dd-yyyy'
+      'mm-dd-yyyy',
     ],
   }
 
@@ -86,8 +107,7 @@
           <h4>select alarm</h4>
           <button class="alarmTest" on:click={() => (playAlarm = !playAlarm)}>
             {playAlarm ? 'stop test' : 'alarm test'}
-          </button
-          >
+          </button>
           <Select
             bind:value={$settings.alarmSound}
             options={options.alarmSound}

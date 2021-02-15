@@ -1,5 +1,5 @@
 <script>
-  import {settings} from '../stores/settings.js'
+  import { settings } from '../stores/settings.js'
 </script>
 
 <div class="wrapper font-{$settings.fontSize}">
@@ -16,13 +16,60 @@
     padding-bottom: 50px;
   }
 
-  .font-default {
-    font-size: 1.1em;
+    .font-small {
+      font-size: .8em;
+    }
+
+    .font-medium {
+      font-size: 1em;
+    }
+
+    .font-large {
+      font-size: 1.1em;
+    }
+
+  @media (min-width: 1200px) {
+
+    /* .font-small {
+      font-size: .8em;
+    }
+
+    .font-medium {
+      font-size: 1em;
+    } */
+
+    .font-large {
+      font-size: 1.5em;
+    }
+
   }
-  .font-large {
-    font-size: 1.5em;
+
+  @media (min-width: 1600px) {
+    .font-small {
+      font-size: 1em;
+    }
+
+    .font-medium {
+      font-size: 1.2em;
+    }
+
+    .font-large {
+      font-size: 1.7em;
+    }
   }
-  .font-small {
-    font-size: .9em;
+  
+  @media (min-width: 2400px) {
+    .font-small {
+      font-size: 1.2em;
+    }
+
+    .font-medium {
+      font-size: 1.4em;
+    }
+
+    .font-large {
+      font-size: 1.9em;
+    }
+
   }
 </style>

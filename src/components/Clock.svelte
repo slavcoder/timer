@@ -51,10 +51,18 @@
     align-items: center;
   }
 
+
   @media (max-width: 1400px) {
     .clock {
       width: 200px;
       height: 200px;
+    }
+  }
+
+  @media (min-width: 2400px) {
+    .clock {
+      width: 400px;
+      height: 400px;
     }
   }
 
@@ -99,6 +107,7 @@
   .hand {
     position: absolute;
     bottom: 50%;
+    z-index: 20;
     transform-origin: center bottom;
     border-radius: 5px;
   }
@@ -115,9 +124,11 @@
     height: 35%;
     width: 4px;
     background-color: var(--color-primary-5);
+    z-index: 21;
   }
 
   .hand.seconds {
+    z-index: 22;
     left: calc(50% - 1px);
     height: 40%;
     width: 2px;

@@ -9,13 +9,13 @@
 <Form />
 
 <div class="container">
-  <div class="container_saved">
+  <div class="saved">
     <SavedList />
   </div>
-  <div class="container_counters">
+  <div class="counters">
     <CountersList />
   </div>
-  <div class="container_clock">
+  <div class="sidebar">
     {#if $settings.clock === 'enabled'}
       <Clock />
     {/if}
@@ -32,14 +32,28 @@
     max-width: 80%;
     margin: 50px auto;
   }
+  
+  @media (min-width: 1600px) {
+    .container {
+      width: 90%;
+      max-width: 1500px;
+    }
+  }
 
-  .container_saved,
-  .container_clock {
+  @media (min-width: 2400px) {
+    .container {
+      width: 90%;
+      max-width: 1700px;
+    }
+  }
+
+  .saved,
+  .sidebar {
     width: 22.5%;
     min-height: 200px;
   }
   
-  .container_counters {
+  .counters {
     width: 54%;
     min-height: 200px;
   }

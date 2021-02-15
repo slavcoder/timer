@@ -62,11 +62,11 @@
     on:mouseleave={hideDelete}
     on:click={() => addNewCounter(name, secs)}
   >
-    <span class="time">
+    <span class="time variant-{$settings.timeVariant}">
       <Time timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
-      <span class="name">{name}</span>
-    </span></button
-  >
+    </span>
+    <span class="name">{name}</span>
+  </button>
 </div>
 
 <style>
@@ -79,11 +79,24 @@
     align-items: stretch;
   }
 
+  .time {
+    /* padding: .2em; */
+    line-height: 1;
+    font-weight: bold;
+  }
+
+  .time.variant-1 {
+    word-wrap: anywhere;
+  }
+
   .name {
+    word-wrap: anywhere;
     text-align: left;
-    font-size: 0.8em;
-    color: var(--color-primary-8);
-    opacity: 0.5;
+    font-size: 0.6em;
+    margin-top: 0.2em;
+    /* font-weight: 400; */
+    color: var(--color-success);
+    opacity: 0.8;
   }
 
   .delete:hover,
@@ -113,12 +126,8 @@
     position: static;
   }
 
-  .time {
-    font-size: 1.2em;
-    word-wrap: anywhere;
-  }
-
   .add {
+    font-size: 1.6em;
     background-color: var(--color-primary);
     border: none;
     cursor: pointer;
@@ -131,6 +140,7 @@
     text-align: left;
     margin: 0;
     height: 100%;
+    padding: 0.3em;
   }
 
   .add.inModal {

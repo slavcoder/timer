@@ -131,6 +131,7 @@
         bind:timeObj={timeLeftObj}
         variant={$settings.timeVariant}
       />
+      {#if $settings.timeVariant === 1 && status === 'finished'}0{/if}
     </span>
 
     <span class="name {status}">
@@ -249,7 +250,7 @@
 
   .time {
     opacity: 0.8;
-    font-size: 1.2em;
+    font-size: 1.4em;
     width: 100%;
     padding: 0.1em 0;
     color: var(--color-primary-10);
@@ -257,15 +258,21 @@
 
   .timeLeft {
     width: 100%;
-    min-height: 1.5em;
+    /* min-height: 2em; */
+    font-size: 2.5em;
     display: flex;
     padding: 0.1em 0;
     justify-content: flex-end;
     text-align: right;
-    font-size: 2.5em;
     color: var(--color-primary-10);
     transition: 0.2s;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.4em;
+  }
+
+  .time,
+  .timeLeft {
+    font-weight: bold;
+    line-height: 1;
   }
 
   .timeLeft.active,

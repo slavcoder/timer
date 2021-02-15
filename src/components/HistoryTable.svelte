@@ -34,6 +34,7 @@
     border-collapse: collapse;
     max-width: 1200px;
     color: var(--color-primary-6);
+    background-color: var(--color-primary-5);
   }
 
   @media (max-width: 800px) {

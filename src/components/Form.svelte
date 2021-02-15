@@ -178,6 +178,7 @@
   .time {
     background-color: var(--color-primary-7);
     color: var(--color-primary-3);
+    font-weight: bold;
   }
 
   .time.incorrect {

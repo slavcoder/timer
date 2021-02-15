@@ -37,7 +37,7 @@
 
   .list_item {
     width: calc(100% - 100px);
-    max-width: 400px;
+    max-width: 600px;
     margin-bottom: 10px;
   }
 </style>
