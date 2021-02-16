@@ -4,6 +4,7 @@
   import CountersList from './CountersList.svelte'
   import SavedList from './SavedList.svelte'
   import Clock from './Clock.svelte'
+  import DigitalClock from './DigitalClock.svelte'
 </script>
 
 <Form />
@@ -16,6 +17,10 @@
     <CountersList />
   </div>
   <div class="sidebar">
+    {#if $settings.digitalClock === 'enabled'}
+      <DigitalClock type={$settings.digitalClockType} />
+    {/if}
+
     {#if $settings.clock === 'enabled'}
       <Clock />
     {/if}
@@ -32,7 +37,7 @@
     max-width: 80%;
     margin: 50px auto;
   }
-  
+
   @media (min-width: 1600px) {
     .container {
       width: 90%;
@@ -52,7 +57,7 @@
     width: 22.5%;
     min-height: 200px;
   }
-  
+
   .counters {
     width: 54%;
     min-height: 200px;

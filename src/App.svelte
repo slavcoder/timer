@@ -27,7 +27,9 @@
 
   {#if $device.isMobile || $device.innerWidth < 800}
     <LayoutMobile />
-  {:else}
+  {/if}
+
+  {#if $device.innerWidth >= 800}
     <LayoutDesktop />
   {/if}
 

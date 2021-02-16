@@ -93,6 +93,7 @@
 
   .close:hover,
   .close:focus {
+    background-color: transparent;
     color: var(--color-primary-7);
   }
 </style>

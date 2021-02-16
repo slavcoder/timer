@@ -1,30 +1,22 @@
 <script>
-  import { onMount } from 'svelte'
   import { now } from '../stores/time.js'
   const rotateHourMarks = [0, 30, 60, 90, 120, 150]
   const dayInSecs = 24 * 3600
   const hourInSecs = 3600
   const minuteInSecs = 60
   const maxHandDeg = 720
-  let currentSecs
-  let currentHourInSecs
-  let todayInSecs
-  updateClock()
 
-  function updateClock() {
-    currentSecs = $now.getSeconds()
-    currentHourInSecs = $now.getMinutes() * 60 + currentSecs
-    todayInSecs = $now.getHours() * 3600 + currentHourInSecs + currentSecs
-  }
+  let currentSecs = $now.getSeconds()
+  let currentHourInSecs = $now.getMinutes() * 60 + currentSecs
+  let todayInSecs = $now.getHours() * 3600 + currentHourInSecs + currentSecs
+
+  $: currentSecs = $now.getSeconds()
+  $: currentHourInSecs = $now.getMinutes() * 60 + currentSecs
+  $: todayInSecs = $now.getHours() * 3600 + currentHourInSecs + currentSecs
 
   $: secsHandDeg = (currentSecs / minuteInSecs) * (maxHandDeg / 2)
   $: minutesHandDeg = (currentHourInSecs / hourInSecs) * (maxHandDeg / 2)
   $: hoursHandDeg = (todayInSecs / dayInSecs) * maxHandDeg
-
-  onMount(() => {
-    const interval = setInterval(updateClock, 1000)
-    return () => clearInterval(interval)
-  })
 </script>
 
 <div class="clock">
@@ -40,9 +32,10 @@
 
 <style>
   .clock {
-    margin-top: 40px;
-    width: 300px;
-    height: 300px;
+    margin: 2em auto;
+    /* margin-top: 40px; */
+    width: 120px;
+    height: 120px;
     background-color: var(--color-primary-4);
     border-radius: 50%;
     position: relative;
@@ -52,10 +45,17 @@
   }
 
 
-  @media (max-width: 1400px) {
+  @media (min-width: 1200px) {
     .clock {
-      width: 200px;
-      height: 200px;
+      width: 170px;
+      height: 170px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .clock {
+      width: 250px;
+      height: 250px;
     }
   }
 

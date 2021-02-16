@@ -25,7 +25,7 @@
     background-color: var(--color-primary-7);
     color: var(--color-primary-3);
     padding-right: 30px;
-    text-align: center;
+    text-align: inherit;
     appearance: none;
     margin: 0;
     cursor: pointer;

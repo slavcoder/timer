@@ -110,7 +110,7 @@
 </script>
 
 <div
-  transition:scale={{ duration: 200 }}
+  transition:scale|local={{ duration: 200 }}
   class="counter {status}"
   on:mouseover={showActions}
   on:mouseleave={hideActions}
@@ -180,7 +180,7 @@
   {/if}
 
   {#if playAlarm}
-    <Alarm bind:play={playAlarm} sound={$settings.alarmSound} />
+    <Alarm bind:play={playAlarm} sound={$settings.alarmSound} volume={$settings.alarmVolume} />
   {/if}
 </div>
 
@@ -233,6 +233,7 @@
   .button:focus {
     opacity: 0.8;
     color: var(--color-success);
+    background-color: var(--color-primary-2);
   }
 
   .button.delete:hover,

@@ -39,6 +39,8 @@
     alarmSound: Object.keys(alarmList),
     progressBar: ['enabled', 'disabled'],
     clock: ['enabled', 'disabled'],
+    digitalClock: ['enabled', 'disabled'],
+    digitalClockType: ['24h', '12h'],
     dateFormat: [
       'dd/mm/yyyy',
       'dd-mm-yyyy',
@@ -112,8 +114,13 @@
             bind:value={$settings.alarmSound}
             options={options.alarmSound}
           />
+          <label>
+            <p class="volume">volume: {$settings.alarmVolume}%</p>
+            <input class="range" type="range" min=1 max=100 bind:value={$settings.alarmVolume}>
+          </label>
+
           {#if playAlarm}
-            <Alarm bind:play={playAlarm} sound={$settings.alarmSound} />
+            <Alarm bind:play={playAlarm} sound={$settings.alarmSound} volume={$settings.alarmVolume} />
           {/if}
         </div>
       {/if}
@@ -122,6 +129,18 @@
     <div class="settingOption">
       <h3>clock (desktop view)</h3>
       <Select bind:value={$settings.clock} options={options.clock} />
+    </div>
+
+    <div class="settingOption">
+      <h3>digital clock (desktop view)</h3>
+      <Select bind:value={$settings.digitalClock} options={options.digitalClock} />
+      
+      {#if $settings.digitalClock === 'enabled'}
+      <div class="description">
+        <h4 class="previewHeading">type</h4>
+        <Select bind:value={$settings.digitalClockType} options={options.digitalClockType} />
+      </div>
+      {/if}
     </div>
 
     <div class="settingOption">
@@ -151,6 +170,9 @@
   }
 
   .settingOption {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 2em;
     /* border-left: .3em solid var(--color-success); */
     background-color: var(--color-primary-10);
@@ -207,5 +229,13 @@
   .alarmTest:focus {
     color: var(--color-primary);
     background-color: var(--color-success);
+  }
+
+  .volume {
+    margin-bottom: .1em;
+  }
+
+  .range {
+    margin: 0;
   }
 </style>

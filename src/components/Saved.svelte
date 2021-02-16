@@ -102,6 +102,7 @@
   .delete:hover,
   .delete:focus {
     color: var(--color-danger);
+    background-color: var(--color-primary-2);
   }
 
   .delete {

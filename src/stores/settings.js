@@ -7,9 +7,12 @@ export const defaultSettings = {
   fontSize: 'medium',
   timeVariant: 1,
   alarm: 'enabled',
+  alarmVolume: 50,
   alarmSound: 'bleep',
   progressBar: 'enabled',
   clock: 'enabled',
+  digitalClock: 'disabled',
+  digitalType: '24h',
   dateFormat: 'dd/mm/yyyy',
 }
 

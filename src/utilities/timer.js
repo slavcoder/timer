@@ -11,7 +11,7 @@ function destructTimeItem(el) {
 
   return {
     key: key,
-    number: number
+    number: number,
   }
 }
 
@@ -21,7 +21,7 @@ function validateTimeFormat(el) {
   const keyIsCorrect = correct.includes(destructed.key)
   let numberIsCorrect = typeof Number(destructed.number) === 'number'
   numberIsCorrect = numberIsCorrect && !isNaN(destructed.number)
-  return (keyIsCorrect && numberIsCorrect)
+  return keyIsCorrect && numberIsCorrect
 }
 
 function changeDateFormat(date, format) {
@@ -62,14 +62,14 @@ export function stringToSec(str, dateFormat) {
     const validDateFormat = validateDateFormat(item, dateFormat)
     const validTimeFormat = validateTimeFormat(item)
 
-    if(validDateFormat) {
+    if (validDateFormat) {
       const nowInSecs = Date.now() / 1000
-      const dateInSecs = Date.parse(changeDateFormat(item,dateFormat)) / 1000
+      const dateInSecs = Date.parse(changeDateFormat(item, dateFormat)) / 1000
       secs += Math.floor(dateInSecs - nowInSecs)
       continue
     }
-    
-    if(validTimeFormat) {
+
+    if (validTimeFormat) {
       const destructed = destructTimeItem(item)
       secs += Number(destructed.number) * timeInSec[destructed.key]
       continue
@@ -85,9 +85,9 @@ export function stringToSec(str, dateFormat) {
     errorMessage = '1 second is minimum time'
   }
 
-  if (!error && secs > timeInSec.d * 10000) {
+  if (!error && secs > timeInSec.d * 9999) {
     error = true
-    errorMessage = '10,000 days is max time'
+    errorMessage = '9,999 days is max time'
   }
 
   return {
