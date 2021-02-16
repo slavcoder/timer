@@ -136,7 +136,7 @@
       <Select bind:value={$settings.digitalClock} options={options.digitalClock} />
       
       {#if $settings.digitalClock === 'enabled'}
-      <div class="description">
+      <div class="description" transition:slide|local>
         <h4 class="previewHeading">type</h4>
         <Select bind:value={$settings.digitalClockType} options={options.digitalClockType} />
       </div>

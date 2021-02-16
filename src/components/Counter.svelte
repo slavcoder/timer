@@ -3,6 +3,7 @@
   import { device } from '../stores/device.js'
   import { history } from '../stores/history.js'
   import { settings } from '../stores/settings.js'
+  import { tweened } from 'svelte/motion'
   import { v4 as uuid } from 'uuid'
   import { onDestroy } from 'svelte'
   import { scale, fly, fade } from 'svelte/transition'
@@ -52,17 +53,37 @@
     secs: secs,
     secsAgo: 0,
     interval: false,
+    setProgress: action => {
+      if ($settings.progressBar === 'enabled') {
+        counting.progressAction[action]()
+      }
+    },
+    progressAction: {
+      active: () => progress.set((secs - counting.secs) / secs),
+      pauzed: () => progress.set((secs - counting.secs) / secs),
+      finished: () => progress.set(1),
+      start: () => progress.set(1, { duration: counting.secs * 1000 }),
+      stop: () => progress.set($progress, { duration: 0 }),
+      reset: () => progress.set(0, { duration: 500 })
+    },
     init: {
-      pending: () => (counting.secs = secs),
+      pending: () => {
+        counting.secs = secs
+      },
       active: () => {
         const diff = nowInSecs() - timeOnChange
         counting.secs = Math.max(secsLeftOnChange - diff, 0)
+        counting.setProgress('active')
         counting.start()
       },
-      pauzed: () => (counting.secs = secsLeftOnChange),
+      pauzed: () => {
+        counting.secs = secsLeftOnChange
+        counting.setProgress('pauzed')
+      },
       finished: () => {
         counting.secs = 0
         counting.startCountingSecsAgo()
+        counting.setProgress('finished')
       },
     },
     count: () => {
@@ -72,15 +93,18 @@
     start: () => {
       updateStatus('active')
       counting.interval = setInterval(counting.count, 1000)
+      counting.setProgress('start')
     },
     stop: () => {
       clearInterval(counting.interval)
       updateStatus('pauzed')
+      counting.setProgress('stop')
     },
     reset: () => {
       clearInterval(counting.interval)
       counting.secs = secs
       updateStatus('pending')
+      counting.setProgress('reset')
     },
     toggle: {
       pending: () => counting.start(),
@@ -105,6 +129,7 @@
     },
   }
 
+  const progress = tweened(0, {duration: 0})
   counting.init[status]()
   onDestroy(() => clearInterval(counting.interval))
 </script>
@@ -173,14 +198,15 @@
   {/if}
 
   {#if $settings.progressBar === 'enabled'}
-    <div
-      class="progress {status}"
-      style="transform: scaleX({1 - counting.secs / secs});"
-    />
+    <div class="progress {status}" style="transform: scaleX({$progress});" />
   {/if}
 
   {#if playAlarm}
-    <Alarm bind:play={playAlarm} sound={$settings.alarmSound} volume={$settings.alarmVolume} />
+    <Alarm
+      bind:play={playAlarm}
+      sound={$settings.alarmSound}
+      volume={$settings.alarmVolume}
+    />
   {/if}
 </div>
 
@@ -259,7 +285,7 @@
 
   .timeLeft {
     width: 100%;
-    /* min-height: 2em; */
+    /* min-height: 2.5em; */
     font-size: 2.5em;
     display: flex;
     padding: 0.1em 0;
@@ -305,8 +331,8 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    transition: 0.1s;
-    transition-timing-function: linear;
+    /* transition: 0.1s;
+    transition-timing-function: linear; */
   }
 
   .progress.pauzed {
