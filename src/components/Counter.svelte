@@ -99,6 +99,7 @@
       counting.setProgress('stop')
     },
     reset: () => {
+      playAlarm = false
       clearInterval(counting.interval)
       counting.secs = secs
       updateStatus('pending')
