@@ -1,14 +1,15 @@
 export const storage = {
   set: (name, value) => {
-    let item = JSON.stringify(value)
-    localStorage.setItem(name, item)
+    localStorage.setItem(name, JSON.stringify(value))
   },
   get: (name, value) => {
     let item = JSON.parse(localStorage.getItem(name))
-    if(!item) {
+
+    if (!item) {
       storage.set(name, value)
       item = value
     }
+
     return item
   },
 }

@@ -7,6 +7,7 @@
   import HistoryTable from './HistoryTable.svelte'
   let value = 'last 24 hours'
   let nowInSecs = Math.floor($now.getTime() / 1000)
+  $: nowInSecs = Math.floor($now.getTime() / 1000)
 
   let optionsObj = {
     'last 15 minutes': 60 * 15,

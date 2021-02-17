@@ -6,15 +6,8 @@
   import Icon from './Icon.svelte'
   export let name
   let container
-
-  function close() {
-    $modal[name] = false
-  }
-
-  function closeOnEsc(e) {
-    if (e.keyCode == 27) close()
-  }
-
+  const close = () => ($modal[name] = false)
+  const closeOnEsc = e => e.keyCode === 27 && close()
   onMount(() => container.focus())
 </script>
 

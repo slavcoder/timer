@@ -65,7 +65,7 @@
     <span class="time variant-{$settings.timeVariant}">
       <Time timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
     </span>
-    <span class="name">{name}</span>
+    {#if name.length}<span class="name">{name}</span>{/if}
   </button>
 </div>
 
@@ -80,7 +80,6 @@
   }
 
   .time {
-    /* padding: .2em; */
     line-height: 1;
     font-weight: bold;
   }
@@ -94,7 +93,6 @@
     text-align: left;
     font-size: 0.6em;
     margin-top: 0.2em;
-    /* font-weight: 400; */
     color: var(--color-success);
     opacity: 0.8;
   }
@@ -137,7 +135,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     text-align: left;
     margin: 0;
     height: 100%;

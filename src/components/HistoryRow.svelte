@@ -12,6 +12,7 @@
   export let timeInSecsOnFinish
   export let nowInSecs
   let secsAgo = Math.max(nowInSecs - timeInSecsOnFinish, 0)
+  $: secsAgo = Math.max(nowInSecs - timeInSecsOnFinish, 0)
   let dateOnFinish = new Date(timeInSecsOnFinish * 1000)
 
   function remove() {
@@ -20,8 +21,9 @@
 </script>
 
 <tr transition:fade|local>
-  <td class="remove"><button on:click={remove}><Icon name="delete" /></button></td
-  >
+  <td class="remove">
+    <button on:click={remove}><Icon name="delete" /></button>
+  </td>
   <td class="name">
     {#if name.length}
       {name}
@@ -30,7 +32,11 @@
     {/if}
   </td>
   <td class="time">
-    <Time name="history" timeObj={secsToObj(secs)} variant={$settings.timeVariant} />
+    <Time
+      name="history"
+      timeObj={secsToObj(secs)}
+      variant={$settings.timeVariant}
+    />
   </td>
   <td title={dateOnFinish.toLocaleString()} class="finished">
     <TimeAgo timeObj={secsToObj(secsAgo)} />
@@ -60,7 +66,6 @@
     text-align: center;
     padding: 5px 20px;
     text-align: left;
-    /* color: var(--color-primary-2); */
   }
 
   @media (max-width: 800px) {

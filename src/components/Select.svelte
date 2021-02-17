@@ -12,13 +12,6 @@
 </div>
 
 <style>
-  
-  select:hover,
-  select:focus {
-    background-color: var(--color-primary-8);
-    outline: none;
-  }
-
   select {
     border: none;
     transition: 0.2s;
@@ -32,6 +25,12 @@
     width: 100%;
   }
 
+  select:hover,
+  select:focus {
+    background-color: var(--color-primary-8);
+    outline: none;
+  }
+  
   .selectContainer {
     position: relative;
   }

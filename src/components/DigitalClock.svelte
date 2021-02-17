@@ -1,7 +1,6 @@
 <script>
   import { now } from '../stores/time.js'
   export let type = '24h'
-  // export let type = '12h'
   const validate = item => (item < 10 ? '0' + item : item)
 
   let seconds = $now.getSeconds()

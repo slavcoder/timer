@@ -24,7 +24,7 @@
   const showActions = () => (actionsActive = true)
   const hideActions = () => (actionsActive = false)
   const nowInSecs = () => Math.floor($now.getTime() / 1000)
-  let timeObj = secsToObj(secs)
+  const timeObj = secsToObj(secs)
   $: timeLeftObj = secsToObj(counting.secs)
 
   function remove() {
@@ -59,12 +59,10 @@
       }
     },
     progressAction: {
-      active: () => progress.set((secs - counting.secs) / secs),
-      pauzed: () => progress.set((secs - counting.secs) / secs),
-      finished: () => progress.set(1),
+      lastKnown: () => progress.set((secs - counting.secs) / secs),
       start: () => progress.set(1, { duration: counting.secs * 1000 }),
       stop: () => progress.set($progress, { duration: 0 }),
-      reset: () => progress.set(0, { duration: 500 })
+      reset: () => progress.set(0, { duration: 500 }),
     },
     init: {
       pending: () => {
@@ -73,17 +71,17 @@
       active: () => {
         const diff = nowInSecs() - timeOnChange
         counting.secs = Math.max(secsLeftOnChange - diff, 0)
-        counting.setProgress('active')
+        counting.setProgress('lastKnown')
         counting.start()
       },
       pauzed: () => {
         counting.secs = secsLeftOnChange
-        counting.setProgress('pauzed')
+        counting.setProgress('lastKnown')
       },
       finished: () => {
         counting.secs = 0
+        counting.setProgress('lastKnown')
         counting.startCountingSecsAgo()
-        counting.setProgress('finished')
       },
     },
     count: () => {
@@ -129,7 +127,7 @@
     },
   }
 
-  const progress = tweened(0, {duration: 0})
+  const progress = tweened(0, { duration: 0 })
   counting.init[status]()
   onDestroy(() => clearInterval(counting.interval))
 </script>
@@ -285,7 +283,6 @@
 
   .timeLeft {
     width: 100%;
-    /* min-height: 2.5em; */
     font-size: 2.5em;
     display: flex;
     padding: 0.1em 0;
@@ -331,8 +328,6 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    /* transition: 0.1s;
-    transition-timing-function: linear; */
   }
 
   .progress.pauzed {

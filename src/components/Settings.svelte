@@ -31,7 +31,7 @@
       'Acme',
       'Jockey One',
       'Ramabhadra',
-      'Do Hyeon'
+      'Do Hyeon',
     ],
     fontSize: ['small', 'medium', 'large'],
     timeVariant: [1, 2],
@@ -104,6 +104,7 @@
     <div class="settingOption">
       <h3>alarm</h3>
       <Select bind:value={$settings.alarm} options={options.alarm} />
+
       {#if $settings.alarm === 'enabled'}
         <div transition:slide|local>
           <h4>select alarm</h4>
@@ -116,11 +117,21 @@
           />
           <label>
             <p class="volume">volume: {$settings.alarmVolume}%</p>
-            <input class="range" type="range" min=1 max=100 bind:value={$settings.alarmVolume}>
+            <input
+              class="range"
+              type="range"
+              min="1"
+              max="100"
+              bind:value={$settings.alarmVolume}
+            />
           </label>
 
           {#if playAlarm}
-            <Alarm bind:play={playAlarm} sound={$settings.alarmSound} volume={$settings.alarmVolume} />
+            <Alarm
+              bind:play={playAlarm}
+              sound={$settings.alarmSound}
+              volume={$settings.alarmVolume}
+            />
           {/if}
         </div>
       {/if}
@@ -133,13 +144,19 @@
 
     <div class="settingOption">
       <h3>digital clock (desktop view)</h3>
-      <Select bind:value={$settings.digitalClock} options={options.digitalClock} />
-      
+      <Select
+        bind:value={$settings.digitalClock}
+        options={options.digitalClock}
+      />
+
       {#if $settings.digitalClock === 'enabled'}
-      <div class="description" transition:slide|local>
-        <h4 class="previewHeading">type</h4>
-        <Select bind:value={$settings.digitalClockType} options={options.digitalClockType} />
-      </div>
+        <div class="description" transition:slide|local>
+          <h4 class="previewHeading">type</h4>
+          <Select
+            bind:value={$settings.digitalClockType}
+            options={options.digitalClockType}
+          />
+        </div>
       {/if}
     </div>
 
@@ -165,8 +182,6 @@
 <style>
   h3 {
     margin-top: 0;
-    /* background-color: #fff; */
-    /* border-left: .3em solid var(--color-primary-7); */
   }
 
   .settingOption {
@@ -174,15 +189,11 @@
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 2em;
-    /* border-left: .3em solid var(--color-success); */
     background-color: var(--color-primary-10);
     padding: 1em 0.5em;
   }
 
   .description {
-    /* margin: 10px 0; */
-    /* padding: 10px; */
-    /* background-color: var(--color-primary-3); */
     font-size: 0.9em;
   }
 
@@ -232,7 +243,7 @@
   }
 
   .volume {
-    margin-bottom: .1em;
+    margin-bottom: 0.1em;
   }
 
   .range {

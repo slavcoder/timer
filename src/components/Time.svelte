@@ -2,7 +2,7 @@
   export let timeObj
   export let name = 'time'
   export let variant = 1
-  let keys = Object.keys(timeObj)
+  const keys = Object.keys(timeObj)
 </script>
 
 {#if variant === 1}
@@ -43,9 +43,9 @@
   }
 
   .variant1 .pair {
-    margin-right: .2em;
+    margin-right: 0.2em;
   }
-  
+
   .variant1 .pair:last-child {
     margin-right: 0;
   }

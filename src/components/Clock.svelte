@@ -33,7 +33,6 @@
 <style>
   .clock {
     margin: 2em auto;
-    /* margin-top: 40px; */
     width: 120px;
     height: 120px;
     background-color: var(--color-primary-4);
@@ -43,7 +42,6 @@
     justify-content: center;
     align-items: center;
   }
-
 
   @media (min-width: 1200px) {
     .clock {

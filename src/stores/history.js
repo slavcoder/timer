@@ -3,7 +3,9 @@ import {storage} from '../utilities/storage.js'
 
 export const history = writable(storage.get('history',[]))
 
-// let example = {
+
+// example:
+// {
 //   id: 1,
 //   name: 'lorem',
 //   secs: 13412

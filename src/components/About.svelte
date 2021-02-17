@@ -51,8 +51,8 @@
       second). For instance "1d -10h" gives 14 hours.
     </p>
     <p>
-      I know what you will ask now:<br />
-      - can I use "0.5d"<br />
+      I know what will you ask now:<br />
+      - can I use "0.5d"?<br />
       The answer is yes! "0.5d" or even ".5" will be calculated as 12 hours. If you
       want 1/3 of a day, you can simply write "0.33333d".<br />
     </p>

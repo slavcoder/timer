@@ -5,8 +5,8 @@
   export let sound
   export let volume = 50
   let mounted = false
-  const remove = () => play = false
   let audio
+  const remove = () => play = false
   $: if(mounted) audio.volume = volume / 100
 
   onMount(() =>  {
@@ -16,7 +16,7 @@
   })
 </script>
 
-<audio id="myAudio" bind:this={audio} on:ended={remove}>
+<audio bind:this={audio} on:ended={remove}>
   <track kind="captions">
   <source src="alarm/{alarmList[sound]}" type="audio/mpeg">
   Your browser does not support the audio element.

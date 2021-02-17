@@ -15,8 +15,8 @@
       </tr>
     </thead>
     <tbody>
-      {#each items as { id, ...rest } (id)}        
-          <HistoryRow {id} {...rest} {nowInSecs} />
+      {#each items as { id, ...rest } (id)}
+        <HistoryRow {id} {...rest} {nowInSecs} />
       {/each}
     </tbody>
   </table>
@@ -60,5 +60,4 @@
     border: 1px solid var(--color-primary);
     background-color: var(--color-primary);
   }
-
 </style>

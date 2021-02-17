@@ -16,32 +16,22 @@
     padding-bottom: 50px;
   }
 
-    .font-small {
-      font-size: .8em;
-    }
+  .font-small {
+    font-size: 0.8em;
+  }
 
-    .font-medium {
-      font-size: 1em;
-    }
+  .font-medium {
+    font-size: 1em;
+  }
 
-    .font-large {
-      font-size: 1.1em;
-    }
+  .font-large {
+    font-size: 1.1em;
+  }
 
   @media (min-width: 1200px) {
-
-    /* .font-small {
-      font-size: .8em;
-    }
-
-    .font-medium {
-      font-size: 1em;
-    } */
-
     .font-large {
       font-size: 1.5em;
     }
-
   }
 
   @media (min-width: 1600px) {
@@ -57,7 +47,7 @@
       font-size: 1.7em;
     }
   }
-  
+
   @media (min-width: 2400px) {
     .font-small {
       font-size: 1.2em;
@@ -70,6 +60,5 @@
     .font-large {
       font-size: 1.9em;
     }
-
   }
 </style>

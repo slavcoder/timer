@@ -6,5 +6,5 @@ export const modal = writable({
   history: false,
   about: false,
   addPanel: false,
-  cookiesInfo: !storage.get('cookiesAccepted', false)
+  cookiesInfo: !storage.get('cookiesAccepted', false),
 })

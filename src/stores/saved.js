@@ -21,9 +21,3 @@ const pomodoro = [
 ]
 
 export const saved = writable(storage.get('saved', pomodoro))
-
-// {
-//   name: 'lorem',
-//   secs: 552,
-//   id: 1
-// }
