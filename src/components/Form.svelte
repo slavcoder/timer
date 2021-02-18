@@ -2,7 +2,6 @@
   import { counters } from '../stores/counters.js'
   import { saved } from '../stores/saved.js'
   import { modal } from '../stores/modal.js'
-  import { now } from '../stores/time.js'
   import { settings } from '../stores/settings.js'
   import { fade } from 'svelte/transition'
   import { v4 as uuid } from 'uuid'
@@ -27,7 +26,7 @@
         id: uuid(),
         secs: valueToSec.secs,
         status: 'pending',
-        timeOnChange: Math.floor($now.getTime() / 1000),
+        timeOnChange: Math.floor(Date.now() / 1000),
         secsLeftOnChange: valueToSec.secs,
       },
       ...$counters,

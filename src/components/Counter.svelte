@@ -1,5 +1,4 @@
 <script>
-  import { now } from '../stores/time.js'
   import { device } from '../stores/device.js'
   import { history } from '../stores/history.js'
   import { settings } from '../stores/settings.js'
@@ -23,7 +22,7 @@
   let actionsActive = false
   const showActions = () => (actionsActive = true)
   const hideActions = () => (actionsActive = false)
-  const nowInSecs = () => Math.floor($now.getTime() / 1000)
+  const nowInSecs = () => Math.floor(Date.now() / 1000)
   const timeObj = secsToObj(secs)
   $: timeLeftObj = secsToObj(counting.secs)
 

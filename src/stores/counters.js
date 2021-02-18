@@ -9,6 +9,6 @@ export const counters = writable(storage.get('counters',[]))
 //   id: uuid(),
 //   secs: 1300,
 //   status: 'pending',
-//   timeOnChange: Math.floor($now.getTime() / 1000),
+//   timeOnChange: Math.floor(Date.now() / 1000),
 //   secsLeftOnChange: 1200,
 // }
