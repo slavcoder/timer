@@ -9,4 +9,13 @@
   $: storage.set('counters', $counters)
   $: storage.set('saved', $saved)
   $: storage.set('history', $history)
+
+  function update() {
+    $settings = storage.get('settings')
+    $counters = storage.get('counters')
+    $saved = storage.get('saved')
+    $history = storage.get('history')
+  }
 </script>
+
+<svelte:window on:focus={update} />

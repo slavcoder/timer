@@ -66,7 +66,7 @@
     <p>
       Combine time and date.<br />
       "-2d 03/08/2032 20d -5h 333m 5000s" will be valid (if you use default date
-      format). The limit is less than 9999 days but more than 1second.
+      format). The limit is less than 9999 days but more than 1 second.
     </p>
     <p>
       Don't forget to star <Link href="https://github.com/slavcoder/timer"

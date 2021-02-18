@@ -54,13 +54,14 @@
     display: flex;
     justify-content: center;
   }
+  
   .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 90%;
-    margin: 50px auto;
+    margin: 10px auto;
   }
 
   .container_counters {

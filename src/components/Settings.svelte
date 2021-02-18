@@ -1,55 +1,13 @@
 <script>
-  import { settings, defaultSettings } from '../stores/settings.js'
+  import { settings, defaultSettings, options } from '../stores/settings.js'
+  import { device } from '../stores/device.js'
   import { slide } from 'svelte/transition'
-  import { alarmList } from '../data/alarmList.js'
   import Modal from './Modal.svelte'
   import Alarm from './Alarm.svelte'
   import Time from './Time.svelte'
   import Select from './Select.svelte'
   import Heading from './Heading.svelte'
   let playAlarm = false
-
-  const options = {
-    themes: [
-      'dark',
-      'light',
-      'cyberpunk-dark',
-      'cyberpunk-light',
-      'arctic',
-      'pink-rose',
-    ],
-    fonts: [
-      'Russo One',
-      'Roboto Condensed',
-      'Noto Sans',
-      'Mukta',
-      'Fjalla One',
-      'Teko',
-      'Oswald',
-      'Hammersmith One',
-      'Francois One',
-      'Acme',
-      'Jockey One',
-      'Ramabhadra',
-      'Do Hyeon',
-    ],
-    fontSize: ['small', 'medium', 'large'],
-    timeVariant: [1, 2],
-    alarm: ['enabled', 'disabled'],
-    alarmSound: Object.keys(alarmList),
-    progressBar: ['enabled', 'disabled'],
-    clock: ['enabled', 'disabled'],
-    digitalClock: ['enabled', 'disabled'],
-    digitalClockType: ['24h', '12h'],
-    dateFormat: [
-      'dd/mm/yyyy',
-      'dd-mm-yyyy',
-      'yyyy/mm/dd',
-      'yyyy-mm-dd',
-      'mm/dd/yyyy',
-      'mm-dd-yyyy',
-    ],
-  }
 
   function setToDefault() {
     $settings = defaultSettings
@@ -62,12 +20,12 @@
   <div class="container">
     <div class="settingOption">
       <h3>theme</h3>
-      <Select bind:value={$settings.theme} options={options.themes} />
+      <Select bind:value={$settings.theme} options={options.theme} />
     </div>
 
     <div class="settingOption">
       <h3>font</h3>
-      <Select bind:value={$settings.font} options={options.fonts} />
+      <Select bind:value={$settings.font} options={options.font} />
     </div>
 
     <div class="settingOption">
@@ -138,29 +96,6 @@
     </div>
 
     <div class="settingOption">
-      <h3>clock (desktop view)</h3>
-      <Select bind:value={$settings.clock} options={options.clock} />
-    </div>
-
-    <div class="settingOption">
-      <h3>digital clock (desktop view)</h3>
-      <Select
-        bind:value={$settings.digitalClock}
-        options={options.digitalClock}
-      />
-
-      {#if $settings.digitalClock === 'enabled'}
-        <div class="description" transition:slide|local>
-          <h4 class="previewHeading">type</h4>
-          <Select
-            bind:value={$settings.digitalClockType}
-            options={options.digitalClockType}
-          />
-        </div>
-      {/if}
-    </div>
-
-    <div class="settingOption">
       <h3>date format</h3>
       <Select bind:value={$settings.dateFormat} options={options.dateFormat} />
       <div class="description">
@@ -171,6 +106,33 @@
         </p>
       </div>
     </div>
+    
+    {#if !$device.isMobile && $device.innerWidth >= 800}
+      <div class="settingOption">
+        <span class="text-smaller">(desktop view only)</span>
+        <h3>clock</h3>
+        <Select bind:value={$settings.clock} options={options.clock} />
+      </div>
+
+      <div class="settingOption">
+        <span class="text-smaller">(desktop view only)</span>
+        <h3>digital clock</h3>
+        <Select
+          bind:value={$settings.digitalClock}
+          options={options.digitalClock}
+        />
+
+        {#if $settings.digitalClock === 'enabled'}
+          <div class="description" transition:slide|local>
+            <h4 class="previewHeading">type</h4>
+            <Select
+              bind:value={$settings.digitalClockType}
+              options={options.digitalClockType}
+            />
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     <div class="settingOption">
       <h3>restore default settings</h3>
@@ -208,7 +170,7 @@
   }
 
   .restore {
-    width: 100%;
+    padding: .5em 1em;
     color: var(--color-danger);
     background-color: var(--color-primary-10);
     transition: 0.2s;
@@ -248,5 +210,11 @@
 
   .range {
     margin: 0;
+  }
+
+  .text-smaller {
+    font-size: .7em;
+    font-weight: 400;
+    margin-bottom: .5em;
   }
 </style>

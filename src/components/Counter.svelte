@@ -67,6 +67,7 @@
     init: {
       pending: () => {
         counting.secs = secs
+        counting.setProgress('lastKnown')
       },
       active: () => {
         const diff = nowInSecs() - timeOnChange
@@ -126,12 +127,19 @@
     countSecsAgo: () => {
       counting.secsAgo = nowInSecs() - timeOnChange
     },
+    refresh: () => {
+      if(status !== 'finished') playAlarm = false
+      clearInterval(counting.interval)
+      counting.init[status]()
+    }
   }
 
   const progress = tweened(0, { duration: 0 })
   counting.init[status]()
   onDestroy(() => clearInterval(counting.interval))
+  
 </script>
+<svelte:window on:focus={counting.refresh} />
 
 <div
   transition:scale|local={{ duration: 200 }}

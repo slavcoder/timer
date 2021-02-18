@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import { storage } from '../utilities/storage.js'
+import { alarmList } from '../data/alarmList.js'
 
 export const defaultSettings = {
   theme: 'dark',
@@ -11,9 +12,51 @@ export const defaultSettings = {
   alarmSound: 'bleep',
   progressBar: 'enabled',
   clock: 'enabled',
-  digitalClock: 'disabled',
-  digitalType: '24h',
+  digitalClock: 'enabled',
+  digitalClockType: '24h',
   dateFormat: 'dd/mm/yyyy',
 }
 
 export const settings = writable(storage.get('settings', defaultSettings))
+
+export const options = {
+  theme: [
+    'dark',
+    'light',
+    'cyberpunk-dark',
+    'cyberpunk-light',
+    'arctic',
+    'pink-rose',
+  ],
+  font: [
+    'Russo One',
+    'Roboto Condensed',
+    'Noto Sans',
+    'Mukta',
+    'Fjalla One',
+    'Teko',
+    'Oswald',
+    'Hammersmith One',
+    'Francois One',
+    'Acme',
+    'Jockey One',
+    'Ramabhadra',
+    'Do Hyeon',
+  ],
+  fontSize: ['small', 'medium', 'large'],
+  timeVariant: [1, 2],
+  alarm: ['enabled', 'disabled'],
+  alarmSound: Object.keys(alarmList),
+  progressBar: ['enabled', 'disabled'],
+  clock: ['enabled', 'disabled'],
+  digitalClock: ['enabled', 'disabled'],
+  digitalClockType: ['24h', '12h'],
+  dateFormat: [
+    'dd/mm/yyyy',
+    'dd-mm-yyyy',
+    'yyyy/mm/dd',
+    'yyyy-mm-dd',
+    'mm/dd/yyyy',
+    'mm-dd-yyyy',
+  ],
+}

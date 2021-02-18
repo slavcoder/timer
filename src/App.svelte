@@ -14,8 +14,8 @@
   import Header from './components/Header.svelte'
 </script>
 
-<Head />
 <Storage />
+<Head />
 
 <Wrapper>
   {#if $modal.settings} <Settings /> {/if}
