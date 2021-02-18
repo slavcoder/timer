@@ -52,6 +52,9 @@
     secs: secs,
     secsAgo: 0,
     interval: false,
+    getSecsLeft: () => {
+      return Math.max(secsLeftOnChange - (nowInSecs() - timeOnChange), 0)
+    },
     setProgress: action => {
       if ($settings.progressBar === 'enabled') {
         counting.progressAction[action]()
@@ -69,8 +72,7 @@
         counting.setProgress('lastKnown')
       },
       active: () => {
-        const diff = nowInSecs() - timeOnChange
-        counting.secs = Math.max(secsLeftOnChange - diff, 0)
+        counting.secs = counting.getSecsLeft()
         counting.setProgress('lastKnown')
         counting.start()
       },
@@ -85,7 +87,7 @@
       },
     },
     count: () => {
-      counting.secs--
+      counting.secs = counting.getSecsLeft()
       if (counting.secs <= 0) counting.finish()
     },
     start: () => {
@@ -127,17 +129,17 @@
       counting.secsAgo = nowInSecs() - timeOnChange
     },
     refresh: () => {
-      if(status !== 'finished') playAlarm = false
+      if (status !== 'finished') playAlarm = false
       clearInterval(counting.interval)
       counting.init[status]()
-    }
+    },
   }
 
   const progress = tweened(0, { duration: 0 })
   counting.init[status]()
   onDestroy(() => clearInterval(counting.interval))
-  
 </script>
+
 <svelte:window on:focus={counting.refresh} />
 
 <div
