@@ -35,7 +35,7 @@
     margin: 2em auto;
     width: 120px;
     height: 120px;
-    background-color: var(--color-primary-4);
+    background-color: var(--bg-primary-1);
     border-radius: 50%;
     position: relative;
     display: flex;
@@ -70,21 +70,21 @@
     height: 2px;
     left: -2px;
     top: calc(50% - 1px);
-    background-color: var(--color-primary-5);
+    background-color: var(--bg-primary-1-decoration-2);
   }
 
   .line-0,
   .line-90 {
     left: -10px;
     width: calc(100% + 20px);
-    background-color: var(--color-success);
+    background-color: var(--bg-primary-1-decoration-3);
   }
 
   .circle {
     position: relative;
     width: 95%;
     height: 95%;
-    background-color: var(--color-primary-4);
+    background-color: var(--bg-primary-1);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -99,7 +99,7 @@
     height: calc(100% + 28px);
     background-color: transparent;
     border-radius: 50%;
-    border: 1px solid var(--color-primary-5);
+    border: 1px solid var(--bg-primary-1-border-1);
   }
 
   .hand {
@@ -114,15 +114,17 @@
     left: calc(50% - 2px);
     height: 25%;
     width: 4px;
-    background-color: var(--color-primary-6);
+    background-color: var(--bg-primary-1-decoration-1);
+    opacity: .8;
   }
 
   .hand.minutes {
     left: calc(50% - 2px);
     height: 35%;
     width: 4px;
-    background-color: var(--color-primary-5);
+    background-color: var(--bg-primary-1-decoration-1);
     z-index: 21;
+    opacity: .3;
   }
 
   .hand.seconds {
@@ -130,6 +132,7 @@
     left: calc(50% - 1px);
     height: 40%;
     width: 2px;
-    background-color: var(--color-primary);
+    background-color: var(--bg-primary-1-decoration-1);
+    opacity: .2;
   }
 </style>

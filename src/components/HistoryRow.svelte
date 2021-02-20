@@ -44,25 +44,25 @@
 </tr>
 
 <style>
-  tr:nth-child(even) {
-    background-color: var(--color-primary-11);
+  tr {
+    color: var(--bg-primary-1-text-1);
   }
 
-  tr {
-    color: var(--color-primary-7);
+  tr:nth-child(even) {
+    background-color: var(--bg-primary-3);
   }
 
   tr:hover {
-    background-color: var(--color-primary-3);
-    color: var(--color-primary-8);
+    background-color: var(--bg-primary-5);
+    color: var(--bg-primary-5-text-1);
   }
 
   tr:hover button {
-    color: var(--color-primary-8);
+    color: var(--bg-primary-5-text-1);
   }
 
   td {
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--bg-primary-3-border-1);
     text-align: center;
     padding: 5px 20px;
     text-align: left;
@@ -87,12 +87,12 @@
     margin: 0;
     transition: 0.2s;
     min-width: 40px;
-    color: var(--color-primary-7);
+    color: var(--bg-primary-1-text-1);
   }
 
   tr:hover button:hover,
   button:focus {
-    color: var(--color-danger);
+    color: var(--bg-primary-4-text-3);
     cursor: pointer;
   }
 

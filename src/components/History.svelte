@@ -47,8 +47,8 @@
 <style>
   .clear {
     margin: 0 10px 0 0;
-    background-color: var(--color-primary-5);
-    color: var(--color-primary-12);
+    background-color: var(--bg-primary-2);
+    color: var(--bg-primary-2-text-1);
     border: none;
     transition: color 0.2s;
     cursor: pointer;
@@ -56,7 +56,8 @@
 
   .clear:hover,
   .clear:focus {
-    color: var(--color-success);
+    background-color: var(--bg-primary-3);
+    color: var(--bg-primary-3-text-1);
   }
 
   .date {

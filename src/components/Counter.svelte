@@ -221,8 +221,6 @@
 <style>
   .counter {
     width: 100%;
-    background-color: var(--color-primary-7);
-    color: var(--color-primary-6);
     position: relative;
     transition: opacity 0.2s;
   }
@@ -239,13 +237,13 @@
     padding: 20px 10px;
     width: 100%;
     margin: 0;
-    background-color: transparent;
     border: none;
+    background-color: var(--bg-primary-4);
   }
 
   .toggle:hover,
   .toggle:focus {
-    background-color: var(--color-primary-11);
+    background-color: var(--bg-primary-6);
   }
 
   .button {
@@ -253,26 +251,26 @@
     justify-content: center;
     align-items: center;
     border: none;
-    background-color: var(--color-primary-2);
-    color: var(--color-primary-7);
+    background-color: var(--bg-primary-3);
+    color: var(--bg-primary-3-text-2);
     position: absolute;
     width: 50px;
     height: 100%;
     top: 0;
+    transition: .2s;
     cursor: pointer;
     padding: 5px 12px;
   }
 
   .button:hover,
   .button:focus {
-    opacity: 0.8;
-    color: var(--color-success);
-    background-color: var(--color-primary-2);
+    background-color: var(--bg-primary-3);
+    color: var(--bg-primary-3-text-1);
   }
 
   .button.delete:hover,
   .button.delete:focus {
-    color: var(--color-danger);
+    color: var(--bg-primary-3-text-3);
   }
 
   .button.delete {
@@ -288,7 +286,7 @@
     font-size: 1.4em;
     width: 100%;
     padding: 0.1em 0;
-    color: var(--color-primary-10);
+    color: var(--bg-primary-4-text-1);
   }
 
   .timeLeft {
@@ -298,7 +296,7 @@
     padding: 0.1em 0;
     justify-content: flex-end;
     text-align: right;
-    color: var(--color-primary-10);
+    color: var(--bg-primary-4-text-1);
     transition: 0.2s;
     margin-bottom: 0.4em;
   }
@@ -311,15 +309,15 @@
 
   .timeLeft.active,
   .timeLeft.finished {
-    color: var(--color-success-2);
+    color: var(--bg-primary-4-text-2);
   }
 
   .timeLeft.pauzed {
-    color: var(--color-danger-2);
+    color: var(--bg-primary-4-text-3);
   }
 
   .name {
-    color: var(--color-primary-6);
+    color: var(--bg-primary-4-text-1);
     width: 100%;
     word-wrap: anywhere;
     text-align: right;
@@ -332,7 +330,7 @@
 
   .progress {
     transform-origin: left center;
-    background-color: var(--color-primary-2);
+    background-color: var(--bg-primary-4-decoration-1);
     height: 5px;
     position: absolute;
     bottom: 0;
@@ -341,12 +339,12 @@
   }
 
   .progress.pauzed {
-    background-color: var(--color-danger-2);
+    background-color: var(--bg-primary-4-decoration-2);
   }
 
   .progress.active,
   .progress.finished {
-    background-color: var(--color-success-2);
+    background-color: var(--bg-primary-4-decoration-3);
   }
 
   .alarmInfo {
@@ -359,7 +357,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-success-3);
     z-index: 50;
   }
 
@@ -378,7 +375,7 @@
   .bell {
     width: 40px;
     display: block;
-    color: var(--color-success-2);
+    color: var(--bg-primary-4-text-2);
     animation: ringing;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -386,6 +383,7 @@
   }
 
   .timeAgo {
-    color: var(--color-success-2);
+    color: var(--bg-primary-4-text-2);
+    font-weight: bold;
   }
 </style>

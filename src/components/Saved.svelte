@@ -92,22 +92,19 @@
     text-align: left;
     font-size: 0.6em;
     margin-top: 0.2em;
-    color: var(--color-success);
+    color: var(--bg-primary-2-text-2);
     opacity: 0.8;
   }
 
   .delete:hover,
   .delete:focus {
-    color: var(--color-danger);
-    background-color: var(--color-primary-2);
+    color: var(--bg-primary-3-text-3);
   }
 
   .delete {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-primary-2);
-    color: var(--color-primary-7);
     border: none;
     cursor: pointer;
     position: absolute;
@@ -117,6 +114,8 @@
     right: 100%;
     margin: 0;
     padding: 5px 12px;
+    background-color: var(--bg-primary-3);
+    color: var(--bg-primary-3-text-2);
   }
 
   .delete.inModal {
@@ -126,10 +125,10 @@
 
   .add {
     font-size: 1.6em;
-    background-color: var(--color-primary);
+    background-color: var(--bg-primary-2);
+    color: var(--bg-primary-2-text-1);
     border: none;
     cursor: pointer;
-    color: var(--color-primary-7);
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -147,6 +146,6 @@
 
   .add:hover,
   .add:focus {
-    background-color: var(--color-primary-2);
+    background-color: var(--bg-primary-3);
   }
 </style>

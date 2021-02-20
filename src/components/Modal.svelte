@@ -29,7 +29,7 @@
 <style>
   .cover {
     z-index: 100;
-    background-color: var(--color-primary);
+    background-color: var(--bg-primary-2);
     opacity: 0.8;
     position: fixed;
     top: 0;
@@ -47,8 +47,8 @@
     overflow-y: overlay;
     scrollbar-width: thin;
     padding: 50px 20px;
-    background-color: var(--color-primary-4);
-    border: 1px solid var(--color-primary-5);
+    background-color: var(--bg-primary-1);
+    border: 1px solid var(--bg-primary-1-border-1);
     border-top: none;
     position: fixed;
     top: 0;
@@ -76,7 +76,7 @@
     top: 20px;
     right: 20px;
     background-color: transparent;
-    color: var(--color-danger-2);
+    color: var(--bg-primary-1-text-1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,6 +87,6 @@
   .close:hover,
   .close:focus {
     background-color: transparent;
-    color: var(--color-primary-7);
+    color: var(--bg-primary-1-text-2);
   }
 </style>

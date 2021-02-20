@@ -26,7 +26,8 @@
 
 <style>
   .clock {
-    background-color: var(--color-primary-3);
+    background-color: var(--bg-primary-2);
+    color: var(--bg-primary-2-text-1);
     margin: 1em auto 2em auto;
     min-width: 120px;
     text-align: center;

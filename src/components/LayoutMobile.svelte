@@ -38,14 +38,15 @@
 
   .openButton:hover,
   .openButton:focus {
-    opacity: 0.8;
-    transition: opacity 0.2s;
+    transition: 0.2s;
+    background-color: var(--bg-success-1);
+    color: var(--bg-success-1-text-1);
   }
 
   .openButton {
     width: 200px;
-    color: var(--color-success);
-    background-color: var(--color-primary-2);
+    background-color: var(--bg-primary-3);
+    color: var(--bg-primary-3-text-1);
     border: none;
     cursor: pointer;
   }

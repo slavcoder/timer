@@ -28,8 +28,8 @@
     min-height: 100px;
     left: 0;
     width: 100%;
-    background-color: var(--color-primary-2);
-    border-top: 1px solid var(--color-primary-5);
+    background-color: var(--bg-primary-3);
+    border-top: 1px solid var(--bg-primary-3-border-1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,8 +40,8 @@
 
   button {
     margin: 0;
-    background-color: var(--color-primary-4);
-    color: var(--color-success);
+    background-color: var(--bg-primary-1);
+    color: var(--bg-primary-1-text-2);
     border: 0;
     margin: 10px;
     cursor: pointer;
@@ -55,7 +55,7 @@
 
   button:hover,
   button:focus {
-    background-color: var(--color-primary-9);
-    color: var(--color-primary-7);
+    background-color: var(--bg-success-1);
+    color: var(--bg-success-1-text-1);
   }
 </style>

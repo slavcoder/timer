@@ -119,22 +119,33 @@
   .time:focus {
     outline: none;
   }
+  
+  .time {
+    background-color: var(--bg-primary-4);
+    color: var(--bg-primary-4-text-1);
+    font-weight: bold;
+  }
 
   .time:hover,
   .time:focus {
-    background-color: var(--color-primary-8);
+    background-color: var(--bg-primary-6);
+    color: var(--bg-primary-6-text-1);
   }
 
-  .name:hover,
-  .name:focus {
-    background-color: var(--color-primary-5);
-    opacity: 1;
+  .time.incorrect {
+    background-color: var(--bg-danger-1);
+    color: var(--bg-danger-1-text-1);
   }
 
   .name {
     opacity: 0.7;
-    background-color: var(--color-primary-5);
-    color: var(--color-primary-7);
+    background-color: var(--bg-primary-5);
+    color: var(--bg-primary-5-text-1);
+  }
+
+  .name:hover,
+  .name:focus {
+    opacity: 1;
   }
 
   .form_box {
@@ -145,19 +156,19 @@
 
   .error {
     width: 100%;
-    color: var(--color-danger);
+    color: var(--bg-primary-1-text-3);
   }
 
   .add,
   .save {
-    background-color: var(--color-primary-2);
+    background-color: var(--bg-primary-3);
     width: calc(50% - 5px);
-    color: var(--color-primary-7);
+    color: var(--bg-primary-3-text-2);
     opacity: 0.3;
   }
 
   .add {
-    color: var(--color-success);
+    color: var(--bg-primary-3-text-1);
   }
 
   .save.active,
@@ -170,17 +181,7 @@
   .save.active:focus,
   .add.active:hover,
   .add.active:focus {
-    background-color: var(--color-primary-7);
-    color: var(--color-primary-3);
+    background-color: var(--bg-primary-2);
   }
 
-  .time {
-    background-color: var(--color-primary-7);
-    color: var(--color-primary-3);
-    font-weight: bold;
-  }
-
-  .time.incorrect {
-    background-color: var(--color-danger);
-  }
 </style>

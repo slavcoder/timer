@@ -3,7 +3,7 @@ import { storage } from '../utilities/storage.js'
 import { alarmList } from '../data/alarmList.js'
 
 export const defaultSettings = {
-  theme: 'dark',
+  theme: 'mirage',
   font: 'Noto Sans',
   fontSize: 'medium',
   timeVariant: 1,
@@ -21,11 +21,15 @@ export const settings = writable(storage.get('settings', defaultSettings))
 
 export const options = {
   theme: [
-    'dark',
-    'light',
+    'mirage',
+    'dark-grey',
+    'light-grey',
+    'dark-goblin',
+    'dark-purple',
     'cyberpunk-dark',
     'cyberpunk-light',
     'arctic',
+    'dead-blue',
     'pink-rose',
   ],
   font: [

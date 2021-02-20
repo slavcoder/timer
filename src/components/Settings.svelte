@@ -151,7 +151,8 @@
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 2em;
-    background-color: var(--color-primary-10);
+    background-color: var(--bg-primary-2);
+    color: var(--bg-primary-2-text-1);
     padding: 1em 0.5em;
   }
 
@@ -171,8 +172,8 @@
 
   .restore {
     padding: .5em 1em;
-    color: var(--color-danger);
-    background-color: var(--color-primary-10);
+    background-color: var(--bg-danger-1);
+    color: var(--bg-danger-1-text-1);
     transition: 0.2s;
     cursor: pointer;
     border: none;
@@ -180,12 +181,11 @@
 
   .restore:hover,
   .restore:focus {
-    color: var(--color-primary);
-    background-color: var(--color-danger-2);
+    opacity: .8;
   }
 
   .previewHeading {
-    color: var(--color-success);
+    color: var(--bg-primary-2-text-2);
   }
 
   .alarmTest {
@@ -194,14 +194,13 @@
     display: block;
     cursor: pointer;
     border: none;
-    color: var(--color-success);
-    background-color: var(--color-primary-10);
+    background-color: var(--bg-success-1);
+    color: var(--bg-success-1-text-1);
   }
 
   .alarmTest:hover,
   .alarmTest:focus {
-    color: var(--color-primary);
-    background-color: var(--color-success);
+    opacity: .8;
   }
 
   .volume {

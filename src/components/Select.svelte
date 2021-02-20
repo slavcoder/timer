@@ -15,8 +15,9 @@
   select {
     border: none;
     transition: 0.2s;
-    background-color: var(--color-primary-7);
-    color: var(--color-primary-3);
+    background-color: var(--bg-primary-1);
+    color: var(--bg-primary-1-text-1);
+    border: 1px solid var(--bg-primary-1-border-1);
     padding-right: 30px;
     text-align: inherit;
     appearance: none;
@@ -27,7 +28,8 @@
 
   select:hover,
   select:focus {
-    background-color: var(--color-primary-8);
+    background-color: var(--bg-primary-2);
+    color: var(--bg-primary-2-text-1);
     outline: none;
   }
   
@@ -41,7 +43,7 @@
     position: absolute;
     right: 10px;
     top: calc(50% - 4px);
-    border: solid var(--color-primary-3);
+    border: solid var(--bg-primary-1-decoration-1);
     border-width: 0 4px 4px 0;
     display: block;
     padding: 3px;

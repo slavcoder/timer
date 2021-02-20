@@ -8,8 +8,8 @@
 
 <style>
   .wrapper {
-    background-color: var(--color-primary-4);
-    color: var(--color-primary-7);
+    background-color: var(--bg-primary-1);
+    color: var(--bg-primary-1-text-1);
     width: 100%;
     height: 100%;
     min-height: 100vh;

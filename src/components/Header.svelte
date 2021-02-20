@@ -11,12 +11,13 @@
 
   .link {
     transition: color .2s;
-    color: var(--color-primary-7);
+    color: var(--bg-primary-1-text-1);
     text-decoration: none;
   }
+
   .link:hover,
   .link:focus {
-    color: var(--color-success);
+    color: var(--bg-primary-1-text-2);
   }
 
   .heading {
@@ -24,7 +25,7 @@
     width: 200px;
     max-width: 80%;
     text-align: center;
-    border-bottom: 1px solid var(--color-primary-7);
+    border-bottom: 1px solid var(--bg-primary-1-border-2);
     padding-bottom: .3em;
   }
 </style>

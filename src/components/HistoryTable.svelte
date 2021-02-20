@@ -33,8 +33,7 @@
     min-width: 400px;
     border-collapse: collapse;
     max-width: 1200px;
-    color: var(--color-primary-6);
-    background-color: var(--color-primary-5);
+    color: var(--bg-primary-1-text-1);
   }
 
   @media (max-width: 800px) {
@@ -50,14 +49,13 @@
   }
 
   p {
-    color: var(--color-danger);
+    color: var(--bg-primary-1-text-3);
   }
 
   th {
     padding: 15px 20px;
     text-align: left;
-    color: var(--color-success);
-    border: 1px solid var(--color-primary);
-    background-color: var(--color-primary);
+    background-color: var(--bg-primary-2);
+    color: var(--bg-primary-2-text-1);
   }
 </style>

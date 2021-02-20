@@ -1,17 +1,17 @@
 <style>
-  :global(body.theme_cyberpunk-dark) {
-    --color-success: hsl(59, 100%, 69%);
-    --color-success-dark: hsl(59, 100%, 59%);
+  :global(body.theme_dark-grey) {
+    --color-success: hsl(147, 61%, 69%);
+    --color-success-dark: hsl(147, 61%, 29%);
     --color-danger: hsl(0, 50%, 73%);
     --color-danger-dark: hsl(0, 50%, 63%);
 
-    --color-primary-1: hsl(254, 41%, 13%);
-    --color-primary-2: hsl(254, 41%, 20%);
-    --color-primary-3: hsl(254, 41%, 17%);
-    --color-primary-4: hsl(254, 41%, 80%);
-    --color-primary-5: hsl(254, 41%, 27%);
-    --color-primary-6: hsl(254, 41%, 82%);
-    --color-primary-7: hsla(254, 41%, 20%, 0.5);
+    --color-primary-1: hsl(0, 0%, 13%);
+    --color-primary-2: hsl(0, 0%, 20%);
+    --color-primary-3: hsl(0, 0%, 17%);
+    --color-primary-4: hsl(0, 0%, 80%);
+    --color-primary-5: hsl(0, 0%, 27%);
+    --color-primary-6: hsl(0, 0%, 90%);
+    --color-primary-7: hsla(0, 0%, 20%, 0.5);
 
     --bg-primary-1: var(--color-primary-1);
     --bg-primary-1-text-1: var(--color-primary-4);
@@ -54,5 +54,6 @@
 
     --bg-danger-1: var(--color-danger);
     --bg-danger-1-text-1: var(--color-primary-1);
+
   }
 </style>

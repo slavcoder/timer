@@ -11,6 +11,6 @@
   }
 
   a {
-    color: var(--color-success);
+    color: var(--bg-primary-1-text-2);
   }
 </style>
