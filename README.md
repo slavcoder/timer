@@ -2,6 +2,9 @@
 Simple timer built with [svelte](https://svelte.dev/).  
 You can create as many counters as you want and run them in the same time. Necessary data is saved in browser's local storage.
 
+## Live
+[slavcoder-timer.netlify.app](https://slavcoder-timer.netlify.app/)
+
 ## Features
 - create simple counters (days, hours, minutes, seconds)
 - calculate time up to given date
