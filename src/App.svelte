@@ -25,11 +25,13 @@
   <Nav />
   <Header />
 
-  {#if $device.isMobile || $device.innerWidth < 800}
-    <LayoutMobile />
-  {:else if $device.innerWidth >= 800}
-    <LayoutDesktop />
-  {/if}
+  <main>
+    {#if $device.isMobile || $device.innerWidth < 800}
+      <LayoutMobile />
+    {:else if $device.innerWidth >= 800}
+      <LayoutDesktop />
+    {/if}
+  </main>
 
   {#if $modal.cookiesInfo}
     <CookiesInfo />

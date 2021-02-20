@@ -58,12 +58,13 @@
     padding: 0.4em;
     margin: 0;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 2px;
   }
 
   :global(button, select) {
     cursor: pointer;
+    outline: none;
   }
 
 </style>
