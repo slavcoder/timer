@@ -44,7 +44,6 @@
     color: var(--bg-primary-1-text-2);
     border: 0;
     margin: 10px;
-    cursor: pointer;
     transition: 0.2s;
     padding: 5px 10px;
   }

@@ -48,7 +48,6 @@
     background-color: var(--bg-primary-3);
     color: var(--bg-primary-3-text-1);
     border: none;
-    cursor: pointer;
   }
 
   .openContainer {

@@ -24,14 +24,46 @@
   <Fonts />
 </svelte:head>
 
-<style>
+<style global>
   :global(body) {
     background-color: var(--bg-primary-1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     padding: 0;
+    margin: 0;
     height: auto;
   }
 
   :global(*) {
     box-sizing: border-box;
   }
+
+  :global(html, body) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(a) {
+    text-decoration: none;
+  }
+
+  :global(label) {
+    display: block;
+  }
+
+  :global(input, button, select, textarea) {
+    font-family: inherit;
+    font-size: inherit;
+    -webkit-padding: 0.4em 0;
+    padding: 0.4em;
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+  }
+
+  :global(button, select) {
+    cursor: pointer;
+  }
+
 </style>

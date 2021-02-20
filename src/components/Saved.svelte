@@ -106,7 +106,6 @@
     justify-content: center;
     align-items: center;
     border: none;
-    cursor: pointer;
     position: absolute;
     top: 0;
     width: 50px;
@@ -128,7 +127,6 @@
     background-color: var(--bg-primary-2);
     color: var(--bg-primary-2-text-1);
     border: none;
-    cursor: pointer;
     max-width: 100%;
     display: flex;
     flex-direction: column;

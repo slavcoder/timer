@@ -165,6 +165,7 @@
     width: calc(50% - 5px);
     color: var(--bg-primary-3-text-2);
     opacity: 0.3;
+    cursor: default;
   }
 
   .add {

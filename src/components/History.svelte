@@ -51,7 +51,6 @@
     color: var(--bg-primary-2-text-1);
     border: none;
     transition: color 0.2s;
-    cursor: pointer;
   }
 
   .clear:hover,

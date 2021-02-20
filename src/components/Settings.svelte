@@ -175,7 +175,6 @@
     background-color: var(--bg-danger-1);
     color: var(--bg-danger-1-text-1);
     transition: 0.2s;
-    cursor: pointer;
     border: none;
   }
 
@@ -192,7 +191,6 @@
     margin: 10px 0;
     min-width: 100px;
     display: block;
-    cursor: pointer;
     border: none;
     background-color: var(--bg-success-1);
     color: var(--bg-success-1-text-1);

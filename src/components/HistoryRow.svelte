@@ -93,7 +93,6 @@
   tr:hover button:hover,
   button:focus {
     color: var(--bg-primary-4-text-3);
-    cursor: pointer;
   }
 
   .remove {

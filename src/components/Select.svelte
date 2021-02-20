@@ -22,7 +22,6 @@
     text-align: inherit;
     appearance: none;
     margin: 0;
-    cursor: pointer;
     width: 100%;
   }
 

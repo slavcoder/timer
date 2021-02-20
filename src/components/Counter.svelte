@@ -230,7 +230,6 @@
   }
 
   .toggle {
-    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -258,7 +257,6 @@
     height: 100%;
     top: 0;
     transition: .2s;
-    cursor: pointer;
     padding: 5px 12px;
   }
 
