@@ -17,7 +17,7 @@ You can create as many counters as you want and run them in the same time. Neces
 - `0.2d` or simply `.2d` will be calculated as 4 hours and 48 minutes
 - `1d -10h` will be calculated as 14 hours
 - `-10s` will be **invalid**, the minimum time is 1 second and maximum is 9999 days
-- `20/02/2025` will be calculated as time up tu that date
+- `20/02/2025` will be calculated as time up to that date
 - `-5h 20/02/2025 30m -4444s` will be still a valid time (time up to that date, minus 5 hours, plus 30 minutes, minus 4444 seconds) 
 
 ## Settings
