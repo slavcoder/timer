@@ -20,6 +20,8 @@
     border: 1px solid var(--bg-primary-1-border-1);
     padding-right: 30px;
     text-align: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
     margin: 0;
     width: 100%;
@@ -31,7 +33,7 @@
     color: var(--bg-primary-2-text-1);
     outline: none;
   }
-  
+
   .selectContainer {
     position: relative;
   }
