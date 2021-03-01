@@ -15,15 +15,6 @@ function destructTimeItem(el) {
   }
 }
 
-function validateTimeFormat(el) {
-  const correct = Object.keys(timeInSec)
-  const destructed = destructTimeItem(el)
-  const keyIsCorrect = correct.includes(destructed.key)
-  let numberIsCorrect = typeof Number(destructed.number) === 'number'
-  numberIsCorrect = numberIsCorrect && !isNaN(destructed.number)
-  return keyIsCorrect && numberIsCorrect
-}
-
 function changeDateFormat(date, format) {
   const dateFormat = {
     'dd/mm/yyyy': date => date.split('/').reverse().join('-'),
@@ -45,8 +36,28 @@ function changeDateFormat(date, format) {
   return dateFormat[format](date)
 }
 
+function validateTimeFormat(el) {
+  const correct = Object.keys(timeInSec)
+  const destructed = destructTimeItem(el)
+  const keyIsCorrect = correct.includes(destructed.key)
+  let numberIsCorrect = typeof Number(destructed.number) === 'number'
+  numberIsCorrect = numberIsCorrect && !isNaN(destructed.number)
+  return keyIsCorrect && numberIsCorrect
+}
+
 function validateDateFormat(el, format) {
   return Boolean(Date.parse(changeDateFormat(el, format)))
+}
+
+function validateClockTimeFormat(item) {
+  const arr = item.split(':')
+  if(arr.length !== 2) return false
+  const hours = Number(arr[0])
+  const minutes = Number(arr[1])
+  if(isNaN(hours) || isNaN(minutes)) return false
+  if(hours > 23 || hours < 0) return false
+  if(minutes > 59 || minutes < 0) return false
+  return true
 }
 
 export function stringToSec(str, dateFormat) {
@@ -61,10 +72,14 @@ export function stringToSec(str, dateFormat) {
     const item = arr[i]
     const validDateFormat = validateDateFormat(item, dateFormat)
     const validTimeFormat = validateTimeFormat(item)
+    const validClockTimeFormat = validateClockTimeFormat(item)
 
     if (validDateFormat) {
       const nowInSecs = Date.now() / 1000
-      const dateInSecs = Date.parse(changeDateFormat(item, dateFormat)) / 1000
+      const date = new Date(changeDateFormat(item, dateFormat))
+      date.setHours(0)
+      date.setMinutes(0)
+      const dateInSecs = date.getTime() / 1000
       secs += Math.floor(dateInSecs - nowInSecs)
       continue
     }
@@ -72,6 +87,21 @@ export function stringToSec(str, dateFormat) {
     if (validTimeFormat) {
       const destructed = destructTimeItem(item)
       secs += Number(destructed.number) * timeInSec[destructed.key]
+      continue
+    }
+
+    if (validClockTimeFormat) {
+      const arr = item.split(':')
+      const hours = Number(arr[0])
+      const minutes = Number(arr[1])
+      const nowInSecs = Date.now() / 1000
+      const date = new Date()
+      date.setHours(hours)
+      date.setMinutes(minutes)
+      date.setSeconds(0)
+      const dateInSecs = date.getTime() / 1000
+      const diff = dateInSecs - nowInSecs > 0 ? 0 : timeInSec.d 
+      secs += Math.abs(Math.floor(dateInSecs - nowInSecs + diff))
       continue
     }
 
