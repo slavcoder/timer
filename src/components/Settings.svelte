@@ -62,6 +62,7 @@
     <div class="settingOption">
       <h3>alarm</h3>
       <Select bind:value={$settings.alarm} options={options.alarm} />
+      
 
       {#if $settings.alarm === 'enabled'}
         <div transition:slide|local>
@@ -91,6 +92,7 @@
               volume={$settings.alarmVolume}
             />
           {/if}
+          <p>make sure that autoplay rule in your browser is enabled for this website</p>
         </div>
       {/if}
     </div>
