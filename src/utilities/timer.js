@@ -36,31 +36,73 @@ function changeDateFormat(date, format) {
   return dateFormat[format](date)
 }
 
-function validateTimeFormat(el) {
+function validateTime(el) {
   const correct = Object.keys(timeInSec)
   const destructed = destructTimeItem(el)
   const keyIsCorrect = correct.includes(destructed.key)
+  const number = Number(destructed.number)
   let numberIsCorrect = typeof Number(destructed.number) === 'number'
   numberIsCorrect = numberIsCorrect && !isNaN(destructed.number)
-  return keyIsCorrect && numberIsCorrect
+  if (!keyIsCorrect || !numberIsCorrect) return false
+  const secs = number * timeInSec[destructed.key]
+  return { secs }
 }
 
-function validateDateFormat(el, format) {
-  return Boolean(Date.parse(changeDateFormat(el, format)))
+function validateDate(el, format, clockTimeFormat) {
+  const arr = el.split('_')
+  let clockTime = { hours: 0, minutes: 0 }
+
+  if (arr.length === 2) {
+    let newClockTime = validateClockTime(arr[1], clockTimeFormat)
+    if (!newClockTime) return false
+    clockTime.hours = newClockTime.hours
+    clockTime.minutes = newClockTime.minutes
+  }
+
+  const dateFormat = changeDateFormat(arr[0], format)
+  if (!Boolean(Date.parse(dateFormat))) return false
+  const date = new Date(dateFormat)
+  date.setHours(clockTime.hours)
+  date.setMinutes(clockTime.minutes)
+  const secs = date.getTime() / 1000
+  return { secs }
 }
 
-function validateClockTimeFormat(item) {
+function convertClockTimeHourFormat(hours, key) {
+  if (key === 'am') return hours === 12 ? 0 : hours
+  return hours === 12 ? 12 : hours + 12
+}
+
+function validateClockTime(item, clockTimeFormat) {
+  let key
+
+  if (clockTimeFormat === '12h') {
+    key = item.substr(-2)
+    if (key !== 'pm' && key !== 'am') return false
+    item = item.substr(0, item.length - 2)
+  }
+
   const arr = item.split(':')
-  if(arr.length !== 2) return false
-  const hours = Number(arr[0])
+  if (arr.length !== 2) return false
+  let hours = Number(arr[0])
   const minutes = Number(arr[1])
-  if(isNaN(hours) || isNaN(minutes)) return false
-  if(hours > 23 || hours < 0) return false
-  if(minutes > 59 || minutes < 0) return false
-  return true
+  if (hours !== Math.floor(hours)) return false
+  if (minutes !== Math.floor(minutes)) return false
+  if (isNaN(hours) || isNaN(minutes)) return false
+
+  if (clockTimeFormat === '12h') {
+    if (hours > 12 || hours < 1) return false
+    if (minutes > 59 || minutes < 0) return false
+    hours = convertClockTimeHourFormat(hours, key)
+  } else {
+    if (hours > 23 || hours < 0) return false
+    if (minutes > 59 || minutes < 0) return false
+  }
+
+  return { hours, minutes }
 }
 
-export function stringToSec(str, dateFormat) {
+export function stringToSec(str, dateFormat, clockTimeFormat) {
   str = str.trim()
   let secs = 0
   let error = false
@@ -70,37 +112,29 @@ export function stringToSec(str, dateFormat) {
 
   for (let i = 0; i < arrLength; i++) {
     const item = arr[i]
-    const validDateFormat = validateDateFormat(item, dateFormat)
-    const validTimeFormat = validateTimeFormat(item)
-    const validClockTimeFormat = validateClockTimeFormat(item)
+    const date = validateDate(item, dateFormat, clockTimeFormat)
+    const time = validateTime(item)
+    const clockTime = validateClockTime(item, clockTimeFormat)
 
-    if (validDateFormat) {
+    if (date) {
       const nowInSecs = Date.now() / 1000
-      const date = new Date(changeDateFormat(item, dateFormat))
-      date.setHours(0)
-      date.setMinutes(0)
-      const dateInSecs = date.getTime() / 1000
-      secs += Math.floor(dateInSecs - nowInSecs)
+      secs += Math.floor(date.secs - nowInSecs)
       continue
     }
 
-    if (validTimeFormat) {
-      const destructed = destructTimeItem(item)
-      secs += Number(destructed.number) * timeInSec[destructed.key]
+    if (time) {
+      secs += time.secs
       continue
     }
 
-    if (validClockTimeFormat) {
-      const arr = item.split(':')
-      const hours = Number(arr[0])
-      const minutes = Number(arr[1])
+    if (clockTime) {
       const nowInSecs = Date.now() / 1000
       const date = new Date()
-      date.setHours(hours)
-      date.setMinutes(minutes)
+      date.setHours(clockTime.hours)
+      date.setMinutes(clockTime.minutes)
       date.setSeconds(0)
       const dateInSecs = date.getTime() / 1000
-      const diff = dateInSecs - nowInSecs > 0 ? 0 : timeInSec.d 
+      const diff = dateInSecs - nowInSecs > 0 ? 0 : timeInSec.d
       secs += Math.abs(Math.floor(dateInSecs - nowInSecs + diff))
       continue
     }

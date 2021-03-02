@@ -10,7 +10,7 @@
   let value = ''
   let name = ''
   $: filled = value.length
-  $: valueToSec = stringToSec(value, $settings.dateFormat)
+  $: valueToSec = stringToSec(value, $settings.dateFormat, $settings.clockTimeFormat)
 
   function clearForm() {
     value = ''

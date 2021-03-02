@@ -15,6 +15,7 @@ export const defaultSettings = {
   digitalClock: 'enabled',
   digitalClockType: '24h',
   dateFormat: 'dd/mm/yyyy',
+  clockTimeFormat: '24h',
 }
 
 export const settings = writable(storage.get('settings', defaultSettings))
@@ -63,4 +64,5 @@ export const options = {
     'mm/dd/yyyy',
     'mm-dd-yyyy',
   ],
+  clockTimeFormat: ['24h', '12h'],
 }

@@ -62,7 +62,6 @@
     <div class="settingOption">
       <h3>alarm</h3>
       <Select bind:value={$settings.alarm} options={options.alarm} />
-      
 
       {#if $settings.alarm === 'enabled'}
         <div transition:slide|local>
@@ -92,7 +91,10 @@
               volume={$settings.alarmVolume}
             />
           {/if}
-          <p>make sure that autoplay rule in your browser is enabled for this website</p>
+          <p>
+            make sure that autoplay rule in your browser is enabled for this
+            website
+          </p>
         </div>
       {/if}
     </div>
@@ -108,7 +110,18 @@
         </p>
       </div>
     </div>
-    
+
+    <div class="settingOption">
+      <h3>time format</h3>
+      <Select bind:value={$settings.clockTimeFormat} options={options.clockTimeFormat} />
+      <div class="description">
+        <p>
+          for example, you can write 20:00 to calculate time up to closest 20:00
+          hour, or 8:00pm if you prefer 12h format over 24h (default)
+        </p>
+      </div>
+    </div>
+
     {#if !$device.isMobile && $device.innerWidth >= 800}
       <div class="settingOption">
         <span class="text-smaller">(desktop view only)</span>
@@ -173,7 +186,7 @@
   }
 
   .restore {
-    padding: .5em 1em;
+    padding: 0.5em 1em;
     background-color: var(--bg-danger-1);
     color: var(--bg-danger-1-text-1);
     transition: 0.2s;
@@ -182,7 +195,7 @@
 
   .restore:hover,
   .restore:focus {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   .previewHeading {
@@ -200,7 +213,7 @@
 
   .alarmTest:hover,
   .alarmTest:focus {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   .volume {
@@ -212,8 +225,8 @@
   }
 
   .text-smaller {
-    font-size: .7em;
+    font-size: 0.7em;
     font-weight: 400;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 </style>
