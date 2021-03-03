@@ -1,7 +1,7 @@
 <script>
   import { history } from '../stores/history.js'
   import { settings } from '../stores/settings.js'
-  import { secsToObj } from '../utilities/timer.js'
+  import { secsToObj, getFormatedDateTime } from '../utilities/timer.js'
   import { fade } from 'svelte/transition'
   import Time from './Time.svelte'
   import TimeAgo from './TimeAgo.svelte'
@@ -13,7 +13,11 @@
   export let nowInSecs
   let secsAgo = Math.max(nowInSecs - timeInSecsOnFinish, 0)
   $: secsAgo = Math.max(nowInSecs - timeInSecsOnFinish, 0)
-  let dateOnFinish = new Date(timeInSecsOnFinish * 1000)
+  const dateTimeOnFinish = getFormatedDateTime(
+    timeInSecsOnFinish,
+    $settings.dateFormat,
+    $settings.clockTimeFormat
+  )
 
   function remove() {
     $history = $history.filter(el => el.id != id)
@@ -38,7 +42,7 @@
       variant={$settings.timeVariant}
     />
   </td>
-  <td title={dateOnFinish.toLocaleString()} class="finished">
+  <td title={dateTimeOnFinish} class="finished">
     <TimeAgo timeObj={secsToObj(secsAgo)} />
   </td>
 </tr>

@@ -164,7 +164,7 @@ export function stringToSec(str, dateFormat, clockTimeFormat) {
     error,
     errorMessage,
     secs: Math.round(secs),
-    blocked
+    blocked,
   }
 }
 
@@ -178,4 +178,52 @@ export function secsToObj(sec) {
   time.s = sec - time.m * timeInSec.m
 
   return time
+}
+
+function zeroBefore(num) {
+  return num > 9 ? num : '0' + num
+}
+
+const formatDate = {
+  'dd/mm/yyyy': (y, m, d) => `${zeroBefore(d)}/${zeroBefore(m)}/${y}`,
+  'dd-mm-yyyy': (y, m, d) => `${zeroBefore(d)}-${zeroBefore(m)}-${y}`,
+  'yyyy/mm/dd': (y, m, d) => `${y}/${zeroBefore(m)}/${zeroBefore(d)}`,
+  'yyyy-mm-dd': (y, m, d) => `${y}-${zeroBefore(m)}-${zeroBefore(d)}`,
+  'mm/dd/yyyy': (y, m, d) => `${zeroBefore(m)}/${zeroBefore(d)}/${y}`,
+  'mm-dd-yyyy': (y, m, d) => `${zeroBefore(m)}-${zeroBefore(d)}-${y}`,
+}
+
+export function getFormatedDateTime(dateInSecs, dateFormat, timeFormat) {
+  let res = ''
+  const today = new Date()
+  const todayYear = today.getFullYear()
+  const todayMonth = today.getMonth() + 1
+  const todayDay = today.getDate()
+
+  const date = new Date(dateInSecs * 1000)
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  if (todayYear !== year || todayMonth !== month || todayDay !== day) {
+    res += formatDate[dateFormat](year, month, day) + ', '
+  } else {
+    res += 'today, '
+  }
+
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  const seconds = date.getSeconds()
+
+  if (timeFormat === '12h') {
+    const dayPart = hours < 12 ? 'AM' : 'PM'
+    const hoursFormated = hours % 12 ? hours % 12 : '12'
+    res += `${zeroBefore(hoursFormated)}:${zeroBefore(minutes)}:${zeroBefore(
+      seconds
+    )} ${dayPart}`
+  } else {
+    res += `${zeroBefore(hours)}:${zeroBefore(minutes)}:${zeroBefore(seconds)}`
+  }
+
+  return res
 }

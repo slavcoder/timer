@@ -7,7 +7,7 @@
   import { onDestroy } from 'svelte'
   import { scale, fly, fade } from 'svelte/transition'
   import { counters } from '../stores/counters.js'
-  import { secsToObj } from '../utilities/timer.js'
+  import { secsToObj, getFormatedDateTime } from '../utilities/timer.js'
   import Icon from './Icon.svelte'
   import Time from './Time.svelte'
   import TimeAgo from './TimeAgo.svelte'
@@ -24,19 +24,25 @@
   const showActions = () => (actionsActive = true)
   const hideActions = () => (actionsActive = false)
   const nowInSecs = () => Math.floor(Date.now() / 1000)
-  const getFinishDatePrediction = () => {
-    return new Date((nowInSecs() + counting.secs) * 1000)
-  }
   const timeObj = secsToObj(secs)
   $: timeLeftObj = secsToObj(counting.secs)
   let finishDatePrediction
 
   function updateFinishDatePrediction() {
-    finishDatePrediction = getFinishDatePrediction()
+    const dateInSecs = nowInSecs() + counting.secs
+    finishDatePrediction = getFormatedDateTime(
+      dateInSecs,
+      $settings.dateFormat,
+      $settings.clockTimeFormat
+    )
   }
 
   function lastStatusDate() {
-    return new Date(timeOnChange * 1000)
+    return getFormatedDateTime(
+      timeOnChange,
+      $settings.dateFormat,
+      $settings.clockTimeFormat
+    )
   }
 
   function remove() {
@@ -200,7 +206,7 @@
       {/if}
     </span>
 
-    <span class="finishPrediction {status}" class:mobile={$device.isMobile}>
+    <span class="finishPrediction {status} {type}" class:mobile={$device.isMobile}>
       {#if status === 'finished' || (status === 'pending' && type === 'blocked')}
         at: <span class="finishTime">{lastStatusDate().toLocaleString()}</span>
       {/if}
@@ -411,7 +417,8 @@
     color: var(--bg-primary-4-text-2);
   }
 
-  .finishPrediction.pauzed .finishTime {
+  .finishPrediction.pauzed .finishTime,
+  .finishPrediction.pending:not(.blocked) .finishTime {
     color: var(--bg-primary-4-text-3);
   }
 
