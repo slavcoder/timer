@@ -10,7 +10,11 @@
   let value = ''
   let name = ''
   $: filled = value.length
-  $: valueToSec = stringToSec(value, $settings.dateFormat, $settings.clockTimeFormat)
+  $: valueToSec = stringToSec(
+    value,
+    $settings.dateFormat,
+    $settings.clockTimeFormat
+  )
 
   function clearForm() {
     value = ''
@@ -18,16 +22,22 @@
   }
 
   function addNewCounter() {
-    if (valueToSec.error) return
+    const newCounter = stringToSec(
+      value,
+      $settings.dateFormat,
+      $settings.clockTimeFormat
+    )
+    if (newCounter.error) return
 
     $counters = [
       {
-        name: name,
+        name,
         id: uuid(),
-        secs: valueToSec.secs,
-        status: 'pending',
+        secs: newCounter.secs,
+        status: newCounter.blocked ? 'active' : 'pending',
         timeOnChange: Math.floor(Date.now() / 1000),
-        secsLeftOnChange: valueToSec.secs,
+        secsLeftOnChange: newCounter.secs,
+        type: newCounter.blocked ? 'blocked' : 'normal',
       },
       ...$counters,
     ]
@@ -38,14 +48,19 @@
   }
 
   function save() {
-    if (valueToSec.error) return
+    const newSave = stringToSec(
+      value,
+      $settings.dateFormat,
+      $settings.clockTimeFormat
+    )
+    if (newSave.error) return
 
     $saved = [
       ...$saved,
       {
         name: name,
         id: uuid(),
-        secs: valueToSec.secs,
+        secs: newSave.secs,
       },
     ]
 
@@ -69,8 +84,8 @@
       {:else}
         <button
           in:fade|local={{ duration: 200 }}
-          disabled={valueToSec.error}
-          class:active={!valueToSec.error}
+          disabled={valueToSec.error || valueToSec.blocked}
+          class:active={!valueToSec.error && !valueToSec.blocked}
           on:click|preventDefault={save}
           class="save">save</button
         >
@@ -119,7 +134,7 @@
   .time:focus {
     outline: none;
   }
-  
+
   .time {
     background-color: var(--bg-primary-4);
     color: var(--bg-primary-4-text-1);
@@ -184,5 +199,4 @@
   .add.active:focus {
     background-color: var(--bg-primary-2);
   }
-
 </style>

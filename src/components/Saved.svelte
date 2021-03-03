@@ -29,6 +29,7 @@
         status: 'pending',
         timeOnChange: Math.floor(Date.now() / 1000),
         secsLeftOnChange: secs,
+        type: 'normal'
       },
       ...$counters,
     ]

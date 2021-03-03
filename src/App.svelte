@@ -1,11 +1,11 @@
 <script>
   import { device } from './stores/device.js'
   import { modal } from './stores/modal.js'
+  import Storage from './components/Storage.svelte'
   import Head from './components/Head.svelte'
   import CookiesInfo from './components/CookiesInfo.svelte'
   import LayoutMobile from './components/LayoutMobile.svelte'
   import LayoutDesktop from './components/LayoutDesktop.svelte'
-  import Storage from './components/Storage.svelte'
   import Wrapper from './components/Wrapper.svelte'
   import Settings from './components/Settings.svelte'
   import History from './components/History.svelte'

@@ -16,6 +16,7 @@
   export let id
   export let secs
   export let status
+  export let type = 'normal'
   export let secsLeftOnChange
   export let timeOnChange
   let playAlarm = false
@@ -23,8 +24,20 @@
   const showActions = () => (actionsActive = true)
   const hideActions = () => (actionsActive = false)
   const nowInSecs = () => Math.floor(Date.now() / 1000)
+  const getFinishDatePrediction = () => {
+    return new Date((nowInSecs() + counting.secs) * 1000)
+  }
   const timeObj = secsToObj(secs)
   $: timeLeftObj = secsToObj(counting.secs)
+  let finishDatePrediction
+
+  function updateFinishDatePrediction() {
+    finishDatePrediction = getFinishDatePrediction()
+  }
+
+  function lastStatusDate() {
+    return new Date(timeOnChange * 1000)
+  }
 
   function remove() {
     $counters = $counters.filter(el => el.id != id)
@@ -46,6 +59,7 @@
     status = newStatus
     secsLeftOnChange = counting.secs
     timeOnChange = nowInSecs()
+    updateFinishDatePrediction()
   }
 
   const counting = {
@@ -68,8 +82,9 @@
     },
     init: {
       pending: () => {
-        counting.secs = secs
+        if (type !== 'blocked') counting.secs = secs
         counting.setProgress('lastKnown')
+        counting.interval = setInterval(updateFinishDatePrediction, 1000)
       },
       active: () => {
         counting.secs = counting.getSecsLeft()
@@ -79,6 +94,7 @@
       pauzed: () => {
         counting.secs = secsLeftOnChange
         counting.setProgress('lastKnown')
+        counting.interval = setInterval(updateFinishDatePrediction, 1000)
       },
       finished: () => {
         counting.secs = 0
@@ -91,24 +107,31 @@
       if (counting.secs <= 0) counting.finish()
     },
     start: () => {
+      clearInterval(counting.interval)
       updateStatus('active')
       counting.interval = setInterval(counting.count, 1000)
       counting.setProgress('start')
     },
     stop: () => {
+      if (type === 'blocked') return
       clearInterval(counting.interval)
+      counting.interval = setInterval(updateFinishDatePrediction, 1000)
       updateStatus('pauzed')
       counting.setProgress('stop')
     },
     reset: () => {
       playAlarm = false
       clearInterval(counting.interval)
-      counting.secs = secs
+      counting.interval = setInterval(updateFinishDatePrediction, 1000)
       updateStatus('pending')
-      counting.setProgress('reset')
+
+      if (type !== 'blocked') {
+        counting.secs = secs
+        counting.setProgress('reset')
+      }
     },
     toggle: {
-      pending: () => counting.start(),
+      pending: () => type !== 'blocked' && counting.start(),
       active: () => counting.stop(),
       pauzed: () => counting.start(),
       finished: () => counting.reset(),
@@ -137,6 +160,7 @@
 
   const progress = tweened(0, { duration: 0 })
   counting.init[status]()
+  updateFinishDatePrediction()
   onDestroy(() => clearInterval(counting.interval))
 </script>
 
@@ -149,22 +173,46 @@
   on:mouseleave={hideActions}
 >
   <button
-    class="toggle"
+    class="toggle {type} {status}"
     on:focus={showActions}
     on:blur={hideActions}
     on:click={counting.toggle[status]}
   >
     <span class="time">
       <Time {timeObj} variant={$settings.timeVariant} />
+      {#if type === 'blocked'}
+        <span class="lockIcon" title="this counter is blocked"
+          ><Icon name="lock" /></span
+        >
+      {/if}
     </span>
 
     <span class="timeLeft {status}">
-      <Time
-        name="timeLeft"
-        bind:timeObj={timeLeftObj}
-        variant={$settings.timeVariant}
-      />
-      {#if $settings.timeVariant === 1 && status === 'finished'}0{/if}
+      {#if type === 'blocked' && status === 'pending'}
+        finished
+      {:else}
+        <Time
+          name="timeLeft"
+          bind:timeObj={timeLeftObj}
+          variant={$settings.timeVariant}
+        />
+        {#if $settings.timeVariant === 1 && status === 'finished'}0{/if}
+      {/if}
+    </span>
+
+    <span class="finishPrediction {status}" class:mobile={$device.isMobile}>
+      {#if status === 'finished' || (status === 'pending' && type === 'blocked')}
+        at: <span class="finishTime">{lastStatusDate().toLocaleString()}</span>
+      {/if}
+      {#if status === 'active'}
+        will be finished at: <span class="finishTime"
+          >{finishDatePrediction.toLocaleString()}</span
+        >
+      {:else if type !== 'blocked' && status !== 'finished'}
+        start now, finish at: <span class="finishTime"
+          >{finishDatePrediction.toLocaleString()}</span
+        >
+      {/if}
     </span>
 
     <span class="name {status}">
@@ -192,7 +240,7 @@
       <Icon name="delete" />
     </button>
 
-    {#if status !== 'pending'}
+    {#if status !== 'pending' && type !== 'blocked'}
       <button
         transition:fly={{ x: 50, duration: 200 }}
         class="button reset"
@@ -240,6 +288,14 @@
     background-color: var(--bg-primary-4);
   }
 
+  .toggle.blocked {
+    cursor: default;
+  }
+
+  .toggle.blocked.finished {
+    cursor: pointer;
+  }
+
   .toggle:hover,
   .toggle:focus {
     background-color: var(--bg-primary-6);
@@ -256,7 +312,7 @@
     width: 50px;
     height: 100%;
     top: 0;
-    transition: .2s;
+    transition: 0.2s;
     padding: 5px 12px;
   }
 
@@ -296,7 +352,7 @@
     text-align: right;
     color: var(--bg-primary-4-text-1);
     transition: 0.2s;
-    margin-bottom: 0.4em;
+    margin-bottom: 0;
   }
 
   .time,
@@ -314,16 +370,49 @@
     color: var(--bg-primary-4-text-3);
   }
 
-  .name {
+  .name,
+  .finishPrediction {
     color: var(--bg-primary-4-text-1);
     width: 100%;
     word-wrap: anywhere;
     text-align: right;
   }
 
+  .name {
+    font-size: 1.4em;
+  }
+
   .timeLeft.finished,
+  .finishPrediction.finished,
   .name.finished {
     opacity: 0;
+  }
+
+  .finishPrediction {
+    opacity: 0;
+    transition: 0.2s;
+  }
+
+  .finishPrediction.mobile {
+    opacity: 1;
+  }
+
+  .toggle:hover .finishPrediction,
+  .toggle:focus .finishPrediction {
+    opacity: 1;
+  }
+
+  .toggle.finished:hover .finishPrediction,
+  .toggle.finished:focus .finishPrediction {
+    opacity: 0;
+  }
+
+  .finishTime {
+    color: var(--bg-primary-4-text-2);
+  }
+
+  .finishPrediction.pauzed .finishTime {
+    color: var(--bg-primary-4-text-3);
   }
 
   .progress {
@@ -383,5 +472,22 @@
   .timeAgo {
     color: var(--bg-primary-4-text-2);
     font-weight: bold;
+  }
+
+  .lockIcon {
+    width: 1em;
+    transform-origin: center center;
+    transform: scale(0.9);
+    margin-left: 0.5em;
+    transition: 0.2s;
+  }
+
+  .toggle:hover .lockIcon {
+    color: var(--bg-primary-4-text-3);
+  }
+
+  .time {
+    display: flex;
+    justify-content: space-between;
   }
 </style>

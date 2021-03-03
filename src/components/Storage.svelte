@@ -11,10 +11,10 @@
   $: storage.set('history', $history)
 
   function update() {
-    $settings = storage.get('settings')
-    $counters = storage.get('counters')
-    $saved = storage.get('saved')
-    $history = storage.get('history')
+    $settings = storage.get('settings', $settings)
+    $counters = storage.get('counters', $counters)
+    $saved = storage.get('saved', $saved)
+    $history = storage.get('history', $history)
   }
 </script>
 

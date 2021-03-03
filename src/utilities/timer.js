@@ -83,9 +83,9 @@ function validateClockTime(item, clockTimeFormat) {
   }
 
   const arr = item.split(':')
-  if (arr.length !== 2) return false
+  if (arr.length > 2) return false
   let hours = Number(arr[0])
-  const minutes = Number(arr[1])
+  const minutes = arr[1] ? Number(arr[1]) : 0
   if (hours !== Math.floor(hours)) return false
   if (minutes !== Math.floor(minutes)) return false
   if (isNaN(hours) || isNaN(minutes)) return false
@@ -106,6 +106,7 @@ export function stringToSec(str, dateFormat, clockTimeFormat) {
   str = str.trim()
   let secs = 0
   let error = false
+  let blocked = false
   let errorMessage = ''
   const arr = str.split(' ').filter(el => el.trim().length)
   const arrLength = arr.length
@@ -116,9 +117,14 @@ export function stringToSec(str, dateFormat, clockTimeFormat) {
     const time = validateTime(item)
     const clockTime = validateClockTime(item, clockTimeFormat)
 
+    if (item === 'b' || item === 'block') {
+      blocked = true
+      continue
+    }
+
     if (date) {
       const nowInSecs = Date.now() / 1000
-      secs += Math.floor(date.secs - nowInSecs)
+      secs += date.secs - nowInSecs
       continue
     }
 
@@ -135,7 +141,7 @@ export function stringToSec(str, dateFormat, clockTimeFormat) {
       date.setSeconds(0)
       const dateInSecs = date.getTime() / 1000
       const diff = dateInSecs - nowInSecs > 0 ? 0 : timeInSec.d
-      secs += Math.abs(Math.floor(dateInSecs - nowInSecs + diff))
+      secs += dateInSecs - nowInSecs + diff
       continue
     }
 
@@ -155,9 +161,10 @@ export function stringToSec(str, dateFormat, clockTimeFormat) {
   }
 
   return {
-    error: error,
-    errorMessage: errorMessage,
+    error,
+    errorMessage,
     secs: Math.round(secs),
+    blocked
   }
 }
 
