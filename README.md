@@ -14,7 +14,7 @@ You can create as many counters as you want and run them in the same time. Neces
     
 In main form you can use special letters `d,h,m,s` to add new counter
 (or save it to have quick access). The value can't be lower than 1 second and
-higher than 9,999 days.
+higher than 9 999 days.
 
 As a simple example `5d 3h 20m 50s` will create a counter with 5
 days, 3 hours, 20 minutes and 50 seconds.
@@ -51,7 +51,7 @@ To calculate time up to given date you need write it in choosen format (check ou
 - `02/2030` equals time from now up to February 1, 2030 00:00
 - `2030` equals time from now up to January 1, 2030 00:00
 - `2010` is invalid, because it gives negative number (2010 is in past)
-- `20/02/2030 13/05/2025` is valid, it will calculate time up to both dates and sum it up (remember about the limit 9,999 days)
+- `20/02/2030 13/05/2025` is valid, it will calculate time up to both dates and sum it up (remember about the limit 9 999 days)
       
 ### Specific hour
 To calculate time up to given hour you need write it in choosen format (default format is "24h").
@@ -75,8 +75,7 @@ If you want to get time up to specific date and specific hour at that date you c
 ### Blocked counter
 Counter can be blocked which means it can't be pauzed, reset or even saved to quick access. Blocked counter starts immediately and it can be only deleted. It have a lock icon in right corner to quickly regonize them. To create one you have to use keyword `block` or it's short version `b`. 
 
-This is very useful to create a counter up to a specific date or hour when you don't want to stop it by any missclick or
-have to run it after you create it which can couse time move as the real time won't stop to wait for your click.
+This is very useful to create a counter up to a specific date or hour when you don't want to stop it by any missclick. For example for counting down time up to an exam or up to holidays, new year, deadline or other event you are waiting for. 
 
 - `13:00 b` or `13:00 block` equals time from now up to the nearest 13:00 (if you use 24h time format), the counter is blocked because of used keyword 'b' or 'block'      
 - `01/02/2025 10d b` equals time from now up to 01/02/2025, plus 10 days (so the result is time up to 11/02/2025), the counter is blocked because of used keyword 'b'
@@ -85,7 +84,7 @@ have to run it after you create it which can couse time move as the real time wo
 You can combine all those elements to build more complex counter.
     
 - `2d 03/08/2032 20d -5h 333m 5000s .3d` is valid time (try it out if you don't believe me)
-- `08/2010 10000d` even though the limit is 9,999 days and there is `10000d` the result is less than 9,999 days because of given past date which makes it a valid value.
+- `08/2010 10000d` even though the limit is 9 999 days and there is `10000d` the result is less than 9 999 days because of given past date which makes it a valid value.
 - `10.5d 22222s 3333m -1000s` equals 13 days, 1 hour, 26 minutes and 42 seconds
 - `05/2033_22:00 .5d 30s 5m -10h b` equals time up to 01/05/2033 22:00 plus 12 hours, plus 30 seconds, plus 5 minutes, minus 5 hours and it is a blocked counter (using time format "24h" and date format "dd/mm/yyyy")
 

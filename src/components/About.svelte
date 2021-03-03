@@ -23,7 +23,7 @@
     <p>
       In main form you can use special letters <mark>d,h,m,s</mark> to add new counter
       (or save it to have quick access). The value can't be lower than 1 second and
-      higher than 9,999 days.
+      higher than 9 999 days.
     </p>
     <p>
       As a simple example <mark>5d 3h 20m 50s</mark> will create a counter with 5
@@ -87,7 +87,7 @@
       </li>
       <li>
         <mark>20/02/2030 13/05/2025</mark> is valid, it will calculate time up to
-        both dates and sum it up (remember about the limit 9,999 days)
+        both dates and sum it up (remember about the limit 9 999 days)
       </li>
     </ul>
 
@@ -157,9 +157,9 @@
     </p>
     <p>
       This is very useful to create a counter up to a specific date or hour when
-      you don't want to stop it by any missclick or have to run it after you
-      create it which can couse time move as the real time won't stop to wait
-      for your click.
+      you don't want to stop it by any missclick. For example for counting down
+      time up to an exam or up to holidays, new year, deadline or other event
+      you are waiting for.
     </p>
     <ul>
       <li>
@@ -182,8 +182,8 @@
         out if you don't believe me)
       </li>
       <li>
-        <mark>08/2010 10000d</mark> even though the limit is 9,999 days and
-        there is <mark>10000d</mark> the result is less than 9,999 days because of
+        <mark>08/2010 10000d</mark> even though the limit is 9 999 days and
+        there is <mark>10000d</mark> the result is less than 9 999 days because of
         given past date which makes it a valid value.
       </li>
       <li>

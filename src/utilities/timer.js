@@ -59,9 +59,17 @@ function validateDate(el, format, clockTimeFormat) {
     clockTime.minutes = newClockTime.minutes
   }
 
-  const dateFormat = changeDateFormat(arr[0], format)
-  if (!Boolean(Date.parse(dateFormat))) return false
-  const date = new Date(dateFormat)
+  const dateFormated = changeDateFormat(arr[0], format)
+  const dateFormatedArr = dateFormated.split('-')
+
+  for (let i = 0; i < dateFormatedArr.length; i++) {
+    const item = dateFormatedArr[i]
+    if (i === 0 && item.length !== 4) return false
+    if ((i === 1 || i === 2) && item.length !== 2) return false
+  }
+
+  if (!Boolean(Date.parse(dateFormated))) return false
+  const date = new Date(dateFormated)
   date.setHours(clockTime.hours)
   date.setMinutes(clockTime.minutes)
   const secs = date.getTime() / 1000
@@ -157,7 +165,7 @@ export function stringToSec(str, dateFormat, clockTimeFormat) {
 
   if (!error && secs > timeInSec.d * 9999) {
     error = true
-    errorMessage = '9,999 days is max time'
+    errorMessage = '9 999 days is max time'
   }
 
   return {
